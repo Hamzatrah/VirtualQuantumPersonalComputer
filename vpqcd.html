@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html>
 <head>
   <title>Virtual Quantum Chatbot</title>
   <style>
@@ -27,9 +25,7 @@
     .quantumBit {
       position: absolute;
       width: 20px;
-      height: 20px;
-      text-align: center;
-      line-height: 20px;
+@@ -18,6 +33,7 @@
       font-size: 18px;
       transform-origin: 250px 250px; /* Center of the container */
     }
@@ -37,22 +33,11 @@
     .innerRing {
       background-color: black;
       border-radius: 50%;
-      position: absolute;
-      width: 200px;
-      height: 200px;
-      top: 150px; /* (Container Height - Ring Height) / 2 */
-      left: 150px; /* (Container Width - Ring Width) / 2 */
-    }
-  </style>
-</head>
-<body>
-
-  <div id="container">
-    <h1>Virtual Quantum Chatbot</h1>
+@@ -36,67 +52,16 @@ <h1>Virtual Quantum Chatbot</h1>
     <input type="text" id="user_input" placeholder="Type your query...">
     <button onclick="getResponse()">Ask</button>
   </div>
-  
+
   <div id="quantumFieldContainer">
     <div class="innerRing"></div> <!-- Inner dark black ring -->
   </div>
@@ -60,6 +45,61 @@
   <div id="quantumClockContainer">Quantum Clock: </div>
 
   <script>
+    let audioContext = new AudioContext();
+    let currentTime = audioContext.currentTime;
+
+    function rollQuantumDie() {
+      const faces = ['0', '1', '2'];
+      return faces[Math.floor(Math.random() * 3)];
+    }
+
+    function generateMelody(quantumField) {
+      let frequencies = [];
+      ['01', '12', '00'].forEach(pattern => {
+        const count = (quantumField.match(new RegExp(pattern, 'g')) || []).length;
+        frequencies.push(200 + count * 10);
+      });
+      frequencies.forEach((freq, index) => {
+        const oscillator = audioContext.createOscillator();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(freq, currentTime);
+        oscillator.connect(audioContext.destination);
+        oscillator.start(currentTime);
+        oscillator.stop(currentTime + 1);
+        currentTime += 1;
+      });
+    }
+
+    function updateQuantumClock() {
+      // Your existing code for the quantum clock
+    }
+
+    function getResponse() {
+      let quantumField = '';
+      let i = 0;
+      const container = document.getElementById('quantumFieldContainer');
+      container.innerHTML = '<div class="innerRing"></div>';  // Reset container with inner ring
+
+      const interval = setInterval(function() {
+        if (i >= 4000) {
+          clearInterval(interval);
+        } else {
+          const quantumBit = rollQuantumDie();
+          quantumField += quantumBit;
+          const angle = (i / 4000) * 360;
+          const div = document.createElement('div');
+          div.className = 'quantumBit';
+          div.innerText = quantumBit;
+          div.style.transform = `rotate(${angle}deg)`;
+          container.appendChild(div);
+          generateMelody(quantumField);
+        }
+        i++;
+      }, 50);
+      setInterval(updateQuantumClock, 1000);
+    }
+
+    updateQuantumClock();
     // Your existing JavaScript code
     // ...
   </script>
