@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Virtual Quantum Chatbot</title>
+  <style>
+    /* Your existing styles here */
+  </style>
+</head>
+<body>
+
+  <div id="container">
+    <h1>Virtual Quantum Chatbot</h1>
+    <input type="text" id="user_input" placeholder="Type your query...">
+    <button onclick="getResponse()">Ask</button>
+  </div>
+  <div id="quantumFieldContainer"></div>
+  <div id="quantumClockContainer">Quantum Clock: </div>
+
+  <script>
+    let audioContext = new AudioContext();
+    let currentTime = audioContext.currentTime;
+
+    function rollQuantumDie() {
+      const faces = ['0', '1', '2'];
+      return faces[Math.floor(Math.random() * 3)];
+    }
+
+    function generateMelody(quantumField) {
+      let frequencies = [];
+      ['01', '12', '00'].forEach(pattern => {
+        const count = (quantumField.match(new RegExp(pattern, 'g')) || []).length;
+        frequencies.push(200 + count * 10);
+      });
+      frequencies.forEach((freq, index) => {
+        const oscillator = audioContext.createOscillator();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(freq, currentTime);
+        oscillator.connect(audioContext.destination);
+        oscillator.start(currentTime);
+        oscillator.stop(currentTime + 1);
+        currentTime += 1;
+      });
+    }
+
+    function updateQuantumClock() {
+      // Your existing code for the quantum clock
+    }
+
+    function getResponse() {
+      let quantumField = '';
+      let i = 0;
+      const interval = setInterval(function() {
+        if (i >= 4000) {
+          clearInterval(interval);
+        } else {
+          quantumField += rollQuantumDie();
+          document.getElementById('quantumFieldContainer').innerText = quantumField;
+          generateMelody(quantumField);  // Move generateMelody call here
+        }
+        i++;
+      }, 50);
+      setInterval(updateQuantumClock, 1000);
+    }
+
+    updateQuantumClock();
+  </script>
+</body>
+</html>
