@@ -4,19 +4,28 @@
   <title>Virtual Quantum Chatbot</title>
   <style>
     #quantumFieldContainer {
-      width: 300px;
-      height: 300px;
+      width: 500px;
+      height: 500px;
       position: relative;
       margin: auto;
     }
-
     .quantumBit {
       position: absolute;
-      width: 16px;
-      height: 16px;
+      width: 20px;
+      height: 20px;
       text-align: center;
-      line-height: 16px;
-      transform-origin: 150px 150px;
+      line-height: 20px;
+      font-size: 18px;
+      transform-origin: 250px 250px; /* Center of the container */
+    }
+    .innerRing {
+      background-color: black;
+      border-radius: 50%;
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      top: 150px; /* (Container Height - Ring Height) / 2 */
+      left: 150px; /* (Container Width - Ring Width) / 2 */
     }
   </style>
 </head>
@@ -27,42 +36,34 @@
     <input type="text" id="user_input" placeholder="Type your query...">
     <button onclick="getResponse()">Ask</button>
   </div>
-  <div id="quantumFieldContainer"></div>
+  <div id="quantumFieldContainer">
+    <div class="innerRing"></div> <!-- Inner dark black ring -->
+  </div>
   <div id="quantumClockContainer">Quantum Clock: </div>
 
   <script>
+    let audioContext = new AudioContext();
+    let currentTime = audioContext.currentTime;
+
     function rollQuantumDie() {
       const faces = ['0', '1', '2'];
       return faces[Math.floor(Math.random() * 3)];
     }
 
-    function copyToClipboard(text) {
-      const textarea = document.createElement("textarea");
-      textarea.textContent = text;
-      document.body.append(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      textarea.remove();
-    }
-
     function generateMelody(quantumField) {
-      const audioContext = new AudioContext();
-      let currentTime = audioContext.currentTime;
       let frequencies = [];
-
       ['01', '12', '00'].forEach(pattern => {
         const count = (quantumField.match(new RegExp(pattern, 'g')) || []).length;
         frequencies.push(200 + count * 10);
       });
-
       frequencies.forEach((freq, index) => {
         const oscillator = audioContext.createOscillator();
         oscillator.type = 'sine';
         oscillator.frequency.setValueAtTime(freq, currentTime);
         oscillator.connect(audioContext.destination);
         oscillator.start(currentTime);
-        oscillator.stop(currentTime + 5);
-        currentTime += 5;
+        oscillator.stop(currentTime + 1);
+        currentTime += 1;
       });
     }
 
@@ -74,26 +75,24 @@
       let quantumField = '';
       let i = 0;
       const container = document.getElementById('quantumFieldContainer');
-      container.innerHTML = ''; // Clear previous content
+      container.innerHTML = '<div class="innerRing"></div>';  // Reset container with inner ring
 
       const interval = setInterval(function() {
         if (i >= 4000) {
           clearInterval(interval);
-          copyToClipboard(quantumField);
-          generateMelody(quantumField);
         } else {
           const quantumBit = rollQuantumDie();
           quantumField += quantumBit;
           const angle = (i / 4000) * 360;
-          const div = document.createElement("div");
+          const div = document.createElement('div');
           div.className = 'quantumBit';
           div.innerText = quantumBit;
           div.style.transform = `rotate(${angle}deg)`;
           container.appendChild(div);
+          generateMelody(quantumField);
         }
         i++;
       }, 50);
-
       setInterval(updateQuantumClock, 1000);
     }
 
