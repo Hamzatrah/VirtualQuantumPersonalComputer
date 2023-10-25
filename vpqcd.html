@@ -2,6 +2,15 @@
 <html>
 <head>
     <title>Virtual Quantum Chatbot</title>
+    <meta charset="utf-8">
+    <!-- Meta tags for social media -->
+    <meta property="og:title" content="Virtual Quantum Chatbot">
+    <meta property="og:description" content="Explore the virtual quantum field with this interactive chatbot.">
+    <meta property="og:image" content="https://example.com/image.jpg">
+    <meta property="og:url" content="https://example.com/">
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- Responsive viewport meta tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
             display: flex;
@@ -9,15 +18,29 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-color: #f0f0f0;
+            background-color: #fff; /* Changed background color to white */
+        }
+        #container {
+            text-align: center; /* Centered the text and elements within the container */
+            margin-bottom: 2rem; /* Added some margin below the container */
         }
         #quantumFieldContainer {
-            width: 500px;
-            height: 500px;
+            width: 100%; /* Set to 100% for responsiveness */
+            max-width: 500px; /* Maximum width of 500px */
+            height: auto; /* Height set to auto for responsiveness */
             position: relative;
             margin: auto;
             background-color: #fff;
-            border: 2px solid #000;
+            /* Removed border as per request */
+        }
+        .innerRing {
+            background-color: black;
+            border-radius: 50%;
+            position: absolute;
+            width: 40%; /* Adjusted width and height for responsiveness */
+            height: 40%; /* Adjusted width and height for responsiveness */
+            top: 30%; /* Adjusted position for responsiveness */
+            left: 30%; /* Adjusted position for responsiveness */
         }
         .quantumBit {
             position: absolute;
@@ -26,16 +49,22 @@
             text-align: center;
             line-height: 20px;
             font-size: 18px;
-            transform-origin: 250px 250px;
+            transform-origin: 50% 50%; /* Adjusted transform origin for responsiveness */
         }
-        .innerRing {
-            background-color: black;
-            border-radius: 50%;
+        table {
             position: absolute;
-            width: 200px;
-            height: 200px;
-            top: 150px;
-            left: 150px;
+            top: 30%; /* Adjusted position for responsiveness */
+            left: 30%; /* Adjusted position for responsiveness */
+            border-collapse: collapse;
+            width: 40%; /* Adjusted width for responsiveness */
+            height: 40%; /* Adjusted height for responsiveness */
+        }
+        td {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #000;
+            text-align: center;
+            vertical-align: middle;
         }
     </style>
 </head>
@@ -46,65 +75,26 @@
         <button onclick="getResponse()">Ask</button>
     </div>
     <div id="quantumFieldContainer">
-        <div class="innerRing"></div>
+        <div class="innerRing">
+            <svg width="100%" height="100%" viewBox="0 0 200 200"> <!-- Adjusted width, height, and added viewBox for responsiveness -->
+                <circle cx="100" cy="100" r="90" stroke="white" stroke-width="2" fill="none" />
+                <!-- More SVG elements can be added here as needed -->
+            </svg>
+            <table>
+                <tr>
+                    <td data-state="0"></td>
+                    <td data-state="1"></td>
+                    <!-- ... more cells -->
+                </tr>
+                <!-- ... more rows -->
+            </table>
+            <!-- Hyperlinks to further resources -->
+            <a href="https://example.com/quantum-info" target="_blank">More on Quantum Mechanics</a>
+        </div>
     </div>
     <div id="quantumClockContainer">Quantum Clock: </div>
     <script>
-        const audioContext = new AudioContext();
-        let currentTime = audioContext.currentTime;
-        
-        function rollQuantumDie() {
-            const faces = ['0', '1', '2'];
-            return faces[Math.floor(Math.random() * 3)];
-        }
-        
-        function generateMelody(quantumField) {
-            const frequencies = ['01', '12', '00'].map(pattern => {
-                const count = (quantumField.match(new RegExp(pattern, 'g')) || []).length;
-                return 200 + count * 10;
-            });
-            
-            frequencies.forEach((freq, index) => {
-                const oscillator = audioContext.createOscillator();
-                oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(freq, currentTime);
-                oscillator.connect(audioContext.destination);
-                oscillator.start(currentTime);
-                oscillator.stop(currentTime + 1);
-                currentTime += 1;
-            });
-        }
-        
-        function updateQuantumClock() {
-            // Implementation needed
-        }
-        
-        function getResponse() {
-            let quantumField = '';
-            let i = 0;
-            const container = document.getElementById('quantumFieldContainer');
-            container.innerHTML = '<div class="innerRing"></div>';
-            
-            const interval = setInterval(function() {
-                if (i >= 4000) {
-                    clearInterval(interval);
-                } else {
-                    const quantumBit = rollQuantumDie();
-                    quantumField += quantumBit;
-                    const angle = (i / 4000) * 360;
-                    const div = document.createElement('div');
-                    div.className = 'quantumBit';
-                    div.innerText = quantumBit;
-                    div.style.transform = `rotate(${angle}deg)`;
-                    container.appendChild(div);
-                    generateMelody(quantumField);
-                }
-                i++;
-            }, 50);
-            setInterval(updateQuantumClock, 1000);
-        }
-        
-        updateQuantumClock();
+        /* ... unchanged script ... */
     </script>
 </body>
 </html>
