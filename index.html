@@ -17,10 +17,10 @@
       position: fixed;
       top: 30%;
       width: 100%;
+      height: 60%;
+      overflow: auto;  /* Scrollable */
       overflow-wrap: break-word;
       white-space: pre-wrap;
-      overflow-y: scroll; /* Scrollable */
-      max-height: 400px;
       z-index: 1;
     }
   </style>
@@ -28,7 +28,7 @@
 <body>
 
   <div id="container">
-    <h1>Virtual Quantum Chatbot</h1>
+    <h1>Virtual Quantum Chatbot with Schrödinger's Cat</h1>
     <input type="text" id="user_input" placeholder="Type your query...">
     <button onclick="getResponse()">Ask</button>
     <div id="output">Quantum Field</div>
@@ -36,53 +36,64 @@
   <div id="quantumFieldContainer"></div>
 
   <script>
-    function isCatAlive() {
-      return Math.random() > 0.5;
+    function nanoCompiler(quantumField) {
+      return quantumField.replace(/[O12]/g, match => match === 'O' ? '1' : match === '1' ? '2' : 'O');
     }
 
-    function playSound(note) {
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      const oscillator = audioContext.createOscillator();
-      oscillator.frequency.setValueAtTime(note, audioContext.currentTime);
-      oscillator.connect(audioContext.destination);
-      oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + 0.05);
+    function virtualQuantumHumanVoiceEmulator(text) {
+      const speechSynthesis = window.speechSynthesis;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = Math.random() + 0.5;
+      utterance.pitch = Math.random() * 2;
+      speechSynthesis.speak(utterance);
     }
 
     function rollQuantumDie() {
-      const faces = ['H', '𝕏', '+'];
+      const faces = ['O', '1', '2'];
       return faces[Math.floor(Math.random() * 3)];
     }
 
-    function fusionProcessor(face) {
-      return face.split("").sort().join("");
-    }
-
-    function nanoCompiler(face) {
-      const scale = { 'H': 262, '𝕏': 294, '+': 330 }; // C4, D4, E4 frequencies
-      return scale[face];
+    function fusionProcessor(quantumField) {
+      return quantumField.split("").sort().join("");
     }
 
     function getResponse() {
+      const user_input = document.getElementById('user_input').value;
       let asciiArt = '';
       let i = 0;
+      let catAliveCounter = 0;
+      let catDeadCounter = 0;
 
       const interval = setInterval(function() {
-        const face = rollQuantumDie();
-        asciiArt += face;
+        // Check cat's status 4000 times
+        const isCatAlive = Math.random() > 0.5;
+        isCatAlive ? catAliveCounter++ : catDeadCounter++;
 
-        if (isCatAlive()) {
+        if (i >= 4000) {
+          const catStatus = catAliveCounter > catDeadCounter ? "Alive" : "Dead";
+          document.getElementById('output').innerText = `Quantum Field and Schrödinger's Cat is ${catStatus}`;
+
+          // Run the fusion processor after checking 4000 times
           asciiArt = fusionProcessor(asciiArt);
+          virtualQuantumHumanVoiceEmulator(asciiArt);
         } else {
-          const note = nanoCompiler(face);
-          playSound(note);
+          asciiArt += rollQuantumDie();
+          const processedField = nanoCompiler(asciiArt);
+          document.getElementById('quantumFieldContainer').innerText = processedField;
+
+          // Store in Virtual Quantum Storage (localStorage)
+          localStorage.setItem('quantumField', processedField);
         }
 
-        document.getElementById('quantumFieldContainer').innerText = asciiArt;
-        
         i++;
-        if (i >= 4000) clearInterval(interval);
+        if (i >= 8000) clearInterval(interval);
       }, 50);
+    }
+
+    // Retrieve from Virtual Quantum Storage and display if exists
+    if (localStorage.getItem('quantumField') && localStorage.getItem('catStatus')) {
+      document.getElementById('quantumFieldContainer').innerText = localStorage.getItem('quantumField');
+      document.getElementById('output').innerText = `Last Session: Quantum Field and Schrödinger's Cat was ${localStorage.getItem('catStatus')}`;
     }
   </script>
 </body>
