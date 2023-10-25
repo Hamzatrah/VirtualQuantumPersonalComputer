@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Virtual Quantum Chatbot</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+  }
+  #container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  #user_input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  #quantumFieldContainer, #quantumClockContainer {
+    margin-top: 20px;
+    white-space: pre-wrap; /* Ensures text wraps and retains spaces */
+  }
+</style>
+</head>
+<body>
+
+<div id="container">
+  <h1>Virtual Quantum Chatbot</h1>
+  <input type="text" id="user_input" placeholder="Type your query...">
+  <button onclick="getResponse()">Ask</button>
+  <div id="quantumFieldContainer"></div>
+  <div id="quantumClockContainer">Quantum Clock: </div>
+</div>
+
+<script>
+  function rollQuantumDie() {
+    const faces = ['0', '1', '2'];
+    return faces[Math.floor(Math.random() * 3)];
+  }
+
+  function copyToClipboard(text) {
+    const textarea = document.createElement("textarea");
+    textarea.textContent = text;
+    document.body.append(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    textarea.remove();
+  }
+
+  function generateMelody(quantumField) {
+    const audioContext = new AudioContext();
+    let currentTime = audioContext.currentTime;
+    let frequencies = [];
+
+    ['01', '12', '00'].forEach(pattern => {
+      const count = (quantumField.match(new RegExp(pattern, 'g')) || []).length;
+      frequencies.push(200 + count * 10);
+    });
+
+    frequencies.forEach((freq, index) => {
+      const oscillator = audioContext.createOscillator();
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(freq, currentTime);
+      oscillator.connect(audioContext.destination);
+      oscillator.start(currentTime);
+      oscillator.stop(currentTime + 1);
+      currentTime += 1;
+    });
+  }
+
+  function updateQuantumClock() {
+    // Your existing code for the quantum clock
+  }
+
+  function getResponse() {
+    try {
+      let quantumField = '';
+      let i = 0;
+      const interval = setInterval(function() {
+        if (i >= 4000) {
+          clearInterval(interval);
+          copyToClipboard(quantumField);
+          generateMelody(quantumField);
+        } else {
+          quantumField += rollQuantumDie();
+          document.getElementById('quantumFieldContainer').innerText = quantumField;
+        }
+        i++;
+      }, 50);
+
+      setInterval(updateQuantumClock, 1000);
+    } catch (error) {
+      console.error(error);
+      alert('An error occurred: ' + error.message);
+    }
+  }
+
+  updateQuantumClock();
+</script>
+
+</body>
+</html>
