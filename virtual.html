@@ -142,4 +142,141 @@
     </script>
 </body>
 </html>
+---//
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Quantum Chatbot</title>
+    <style>
+        body, input, h1 {
+            font-family: 'Times New Roman', serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #fff;
+            margin: 0;
+        }
+        #container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        #user_input {
+            width: 80%;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #quantumFieldContainer {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 1px solid #000;
+            margin-top: 2rem;
+            animation: spin 10s linear infinite;
+        }
+        .innerSphere {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #000;
+        }
+        .quantumBit {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            transform-origin: 100px 100px;
+            text-align: center;
+            line-height: 30px;
+            font-size: 20px;
+            color: #000;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Virtual Quantum Chatbot</h1>
+        <input type="text" id="user_input" placeholder="Type your query and hit Enter..." onkeypress="handleKeyPress(event)">
+    </div>
+    <div id="quantumFieldContainer">
+        <div class="innerSphere" id="innerSphere"></div>
+    </div>
+    <script>
+        const audioContext = new AudioContext();
+        const charToNote = { 'O': 261.63, '1': 293.66, '2': 329.63, 'H': 349.23, '𝕏': 392.00, '+': 440.00, '0': 493.88 };
+        const rollQuantumDie = () => ['H', '𝕏', '+'][Math.floor(Math.random() * 3)];
+        const virtualSchrodingersCat = () => Math.random() < 0.5 ? '0' : '1';
+        const virtualHamzatsCat = () => ['O', '1', '2'][Math.floor(Math.random() * 3)];
+
+        function playNote(frequency, delay) {
+            const oscillator = audioContext.createOscillator();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime + delay);
+            oscillator.connect(audioContext.destination);
+            oscillator.start(audioContext.currentTime + delay);
+            oscillator.stop(audioContext.currentTime + delay + 0.5);
+        }
+
+        function getResponse() {
+            let quantumDieField = '';
+            let schrodingersCatField = '';
+            let hamzatsCatField = '';
+            let i = 0;
+            const container = document.getElementById('quantumFieldContainer');
+            const innerSphere = document.getElementById('innerSphere');
+            const interval = setInterval(() => {
+                if (i >= 4000) {
+                    clearInterval(interval);
+                } else {
+                    const quantumBit = rollQuantumDie();
+                    const schrodingersCat = virtualSchrodingersCat();
+                    const hamzatsCat = virtualHamzatsCat();
+                    quantumDieField += quantumBit;
+                    schrodingersCatField += schrodingersCat;
+                    hamzatsCatField += hamzatsCat;
+                    const angle = (i / 4000) * 360;
+                    const div = document.createElement('div');
+                    div.className = 'quantumBit';
+                    div.innerText = (i % 2 === 0) ? quantumBit : (i % 3 === 0) ? schrodingersCat : hamzatsCat;
+                    div.style.transform = `rotate(${angle}deg)`;
+                    container.appendChild(div);
+                    if (hamzatsCat === '1') {
+                        innerSphere.style.backgroundColor = '#000';
+
+if (hamzatsCat === 'O') {
+                        innerSphere.style.backgroundColor = '#000';
+
+                    } else {
+                        innerSphere.style.backgroundColor = '';
+                    }
+                    const char = (i % 2 === 0) ? quantumBit : (i % 3 === 0) ? schrodingersCat : hamzatsCat;
+                    playNote(charToNote[char], i * 0.0125);
+                }
+                i++;
+            }, 50);
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                getResponse();
+                event.preventDefault();
+
+    </script>
+</body>
+</html>
 
