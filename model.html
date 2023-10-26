@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Quantum Chatbot</title>
+    <style>
+        :root {
+            --spin-duration: 1s;
+            --pulsate-duration: 0.3s;
+        }
+        body, input, h1 {
+            font-family: 'Times New Roman', serif;
+        }
+        #quantumFieldContainer {
+            animation: spin var(--spin-duration) linear infinite;
+            transform-style: preserve-3d;
+        }
+        .innerSphere {
+            animation: glow var(--pulsate-duration) infinite alternate;
+        }
+        .quantumBit {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Virtual Quantum Chatbot</h1>
+        <input type="text" id="user_input" placeholder="Type your query and hit Enter..." onkeypress="handleKeyPress(event)">
+    </div>
+    <div id="quantumFieldContainer">
+        <div class="innerSphere" id="innerSphere"></div>
+    </div>
+    <script>
+        class QuantumBit extends HTMLElement {
+            connectedCallback() {
+                this.addEventListener('mouseover', () => {
+                    randomPosition(this);
+                });
+                this.addEventListener('touchstart', () => {
+                    randomPosition(this);
+                });
+            }
+        }
+        customElements.define('quantum-bit', QuantumBit);
+        function randomPosition(element) {
+            element.style.left = `${Math.random() * 100}%`;
+            element.style.top = `${Math.random() * 100}%`;
+        }
+        function getResponse() {
+            const div = document.createElement('quantum-bit');
+            container.appendChild(div);
+        }
+    </script>
+</body>
+</html>
