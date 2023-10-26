@@ -141,7 +141,12 @@ document.getElementById('quantumFieldContainer').style.animation = 'spin3D 10s l
         }
 
         function handleKeyPress(event) {
-            if (event.key === 'Enter') {
+    console.log("Key pressed:", event.key);  // Add this line for debugging
+    if (event.key === 'Enter') {
+        document.getElementById('quantumFieldContainer').style.animation = 'spin3D 10s linear infinite';
+        getResponse();
+    }
+}
            document.getElementById('quantumFieldContainer').style.animation = 'spin3D 10s linear infinite';
         getResponse();
     }
@@ -149,5 +154,4 @@ document.getElementById('quantumFieldContainer').style.animation = 'spin3D 10s l
     </script>
 </body>
 </html>
-
 
