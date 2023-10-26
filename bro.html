@@ -72,15 +72,11 @@
         <div class="innerSphere" id="innerSphere"></div>
     </div>
     <script>
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const audioContext = new AudioContext();
         const charToNote = { 'O': 261.63, '1': 293.66, '2': 329.63, 'H': 349.23, '𝕏': 392.00, '+': 440.00, '0': 493.88 };
         const rollQuantumDie = () => ['H', '𝕏', '+'][Math.floor(Math.random() * 3)];
         const virtualSchrodingersCat = () => Math.random() < 0.5 ? '0' : '1';
         const virtualHamzatsCat = () => ['O', '1', '2'][Math.floor(Math.random() * 3)];
-
-        function generateMelody(quantumField) {
-            [...quantumField].forEach((char, i) => playNote(charToNote[char], i * 0.5));
-        }
 
         function playNote(frequency, delay) {
             const oscillator = audioContext.createOscillator();
@@ -91,10 +87,7 @@
             oscillator.stop(audioContext.currentTime + delay + 0.5);
         }
 
-        async function getResponse() {
-            // Ensure the audio context is resumed
-            await audioContext.resume();
-            
+        function getResponse() {
             let quantumDieField = '';
             let schrodingersCatField = '';
             let hamzatsCatField = '';
@@ -104,7 +97,6 @@
             const interval = setInterval(() => {
                 if (i >= 4000) {
                     clearInterval(interval);
-                    generateMelody(quantumDieField + schrodingersCatField + hamzatsCatField);
                 } else {
                     const quantumBit = rollQuantumDie();
                     const schrodingersCat = virtualSchrodingersCat();
@@ -119,6 +111,8 @@
                     div.style.transform = `rotate(${angle}deg)`;
                     container.appendChild(div);
                     innerSphere.innerText = hamzatsCat;
+                    const char = (i % 2 === 0) ? quantumBit : (i % 3 === 0) ? schrodingersCat : hamzatsCat;
+                    playNote(charToNote[char], i * 0.0125);
                 }
                 i++;
             }, 50);
