@@ -35,7 +35,7 @@
             border-radius: 50%;
             border: 1px solid #000;
             margin-top: 2rem;
-            animation: spin3D 10s linear infinite;
+            /* animation: spin3D 10s linear infinite; */
             transform-style: preserve-3d;
         }
         .innerSphere {
@@ -47,7 +47,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: #000;
-            animation: pulsate 3s infinite alternate;
+           /* animation: pulsate 3s infinite alternate; */
         }
         .quantumBit {
             position: absolute;
@@ -57,7 +57,7 @@
             text-align: center;
             line-height: 60px;
             font-size: 30px;
-            color: #ff0000;
+            color: #000;
             cursor: pointer;
         }
         @keyframes spin3D {
@@ -100,6 +100,9 @@
         }
 
         function getResponse() {
+
+document.getElementById('quantumFieldContainer').style.animation = 'spin3D 10s linear infinite';
+
             let quantumDieField = '';
             let schrodingersCatField = '';
             let hamzatsCatField = '';
@@ -128,23 +131,23 @@
                     container.appendChild(div);
 
                     if (hamzatsCat === '1') {
-                        innerSphere.style.backgroundColor = '#000';
-                    } else {
-                        innerSphere.style.backgroundColor = '';
-                    }
-
-                    const char = (i % 2 === 0) ? quantumBit : (i % 3 === 0) ? schrodingersCat : hamzatsCat;
-                    playNote(charToNote[char], i * 0.01);
-                    i++;
+                         innerSphere.style.backgroundColor = '#000';
+            innerSphere.style.animation = 'pulsate 3s infinite alternate';
+        } else {
+            innerSphere.style.backgroundColor = '';
+            innerSphere.style.animation = '';
                 }
             }, 10);
         }
 
         function handleKeyPress(event) {
             if (event.keyCode === 13) {
-                getResponse();
-            }
-        }
+           document.getElementById('quantumFieldContainer').style.animation = 'spin3D 10s linear infinite';
+        getResponse();
+    }
+}
     </script>
 </body>
 </html>
+
+
