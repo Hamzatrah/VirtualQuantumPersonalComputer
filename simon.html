@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Quantum Chatbot</title>
     <style>
+        body, input, h1 {
+            font-family: 'Times New Roman', serif;
+        }
         body {
             display: flex;
             flex-direction: column;
@@ -13,14 +16,11 @@
             height: 100vh;
             background-color: #fff;
             margin: 0;
-            font-family: Arial, sans-serif;
         }
-
         #container {
             text-align: center;
             margin-bottom: 2rem;
         }
-
         #user_input {
             width: 80%;
             padding: 0.5rem;
@@ -28,7 +28,6 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-
         #quantumFieldContainer {
             position: relative;
             width: 200px;
@@ -38,28 +37,29 @@
             margin-top: 2rem;
             animation: spin 10s linear infinite;
         }
-
-        .innerSphere {
+        .innerSphere, .quantumBit {
             position: absolute;
+            border-radius: 50%;
+            text-align: center;
+            color: #000;
+        }
+        .innerSphere {
             width: 50px;
             height: 50px;
-            border-radius: 50%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
-
         .quantumBit {
-            position: absolute;
             width: 10px;
             height: 10px;
-            border-radius: 50%;
             transform-origin: 100px 100px;
+            line-height: 10px;
+            font-size: 10px;
         }
-
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -68,11 +68,9 @@
         <h1>Virtual Quantum Chatbot</h1>
         <input type="text" id="user_input" placeholder="Type your query and hit Enter..." onkeypress="handleKeyPress(event)">
     </div>
-
     <div id="quantumFieldContainer">
         <div class="innerSphere" id="innerSphere"></div>
     </div>
-
     <script>
         const audioContext = new AudioContext();
         const charToNote = { 'O': 261.63, '1': 293.66, '2': 329.63, 'H': 349.23, '𝕏': 392.00, '+': 440.00, '0': 493.88 };
@@ -82,7 +80,7 @@
         const virtualHamzatsCat = () => ['O', '1', '2'][Math.floor(Math.random() * 3)];
 
         function generateMelody(quantumField) {
-            [...quantumField].forEach((char, i) => playNote(charToNote[char], i * 0.5 + 1));  
+            [...quantumField].forEach((char, i) => playNote(charToNote[char], i * 0.5));
         }
 
         function playNote(frequency, delay) {
@@ -112,28 +110,26 @@
                     quantumDieField += quantumBit;
                     schrodingersCatField += schrodingersCat;
                     hamzatsCatField += hamzatsCat;
-                    const angle = (i / 4000) * 360;
-                    const div = document.createElement('div');
-                    div.className = 'quantumBit';
-                    div.style.transform = `rotate(${angle}deg)`;
-                    div.style.backgroundColor = getColor(quantumBit);
-                    container.appendChild(div);
-                    innerSphere.style.backgroundColor = getColor(hamzatsCat);
+                    createQuantumBitDisplay(quantumBit, schrodingersCat, hamzatsCat, i);
                 }
                 i++;
             }, 50);
-        }
+        }    function createQuantumBitDisplay(quantumBit, schrodingersCat, hamzatsCat, i) {
+        const angle = (i / 4000) * 360;
+        const div = document.createElement('div');
+        div.className = 'quantumBit';
+        div.innerText = (i % 2 === 0) ? quantumBit : (i % 3 === 0) ? schrodingersCat : hamzatsCat;
+        div.style.transform = `rotate(${angle}deg)`;
+        document.getElementById('quantumFieldContainer').appendChild(div);
+        document.getElementById('innerSphere').innerText = hamzatsCat;
+    }
 
-        function getColor(char) {
-            return char === '0' || char === '1' || char === 'H' || char === '𝕏' ? '#000' : '#fff';
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            getResponse();
+            event.preventDefault();
         }
-
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                getResponse();
-                event.preventDefault();
-            }
-        }
-    </script>
+    }
+</script>
 </body>
 </html>
