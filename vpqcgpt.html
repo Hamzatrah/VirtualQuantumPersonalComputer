@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Quantum Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        #quantumFieldContainer {
+            margin-top: 20px;
+            width: 200px;
+            height: 200px;
+            position: relative;
+            border: 2px solid #000;
+            border-radius: 50%;
+            animation: spin3D 10s linear infinite;
+            transform-style: preserve-3d;
+        }
+        .innerSphere {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 255, 0.5);
+            animation: pulsate 3s infinite alternate;
+        }
+        .quantumBit {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            background-color: red;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        @keyframes spin3D {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+        @keyframes pulsate {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Virtual Quantum Chatbot</h1>
+        <input type="text" id="user_input" placeholder="Type your query and hit Enter..." onkeypress="handleKeyPress(event)">
+    </div>
+    <div id="quantumFieldContainer">
+        <div class="innerSphere" id="innerSphere"></div>
+        <!-- Example quantum bits -->
+        <div class="quantumBit" id="qbit1" style="top: 50%; left: 50%;"></div>
+        <div class="quantumBit" id="qbit2" style="top: 30%; left: 30%;"></div>
+    </div>
+    <script>
+        function handleKeyPress(event) {
+            if (event.keyCode === 13) {
+                getResponse();
+            }
+        }
+
+        function randomPosition(element) {
+            element.style.left = `${Math.random() * 100}%`;
+            element.style.top = `${Math.random() * 100}%`;
+        }
+
+        function getResponse() {
+            const userInput = document.getElementById('user_input').value;
+            const responseDiv = document.createElement('div');
+            responseDiv.textContent = `Response to: ${userInput}`;
+            responseDiv.onmouseover = function() {
+                randomPosition(responseDiv);
+            };
+            document.getElementById('container').appendChild(responseDiv);
+        }
+
+        document.querySelectorAll('.quantumBit').forEach(qbit => {
+            qbit.addEventListener('click', () => {
+                randomPosition(qbit);
+            });
+        });
+    </script>
+</body>
+</html>
