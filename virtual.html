@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Quantum Chatbot</title>
-    <style>
+     <style>
         body, input, h1 {
             font-family: 'Times New Roman', serif;
             margin: 0;
@@ -78,60 +77,69 @@
     </div>
     <script>
         const audioContext = new AudioContext();
-        const charToNote = { 'O': 261.63, '1': 293.66, '2': 329.63, 'H': 349.23, '𝕏': 392.00, '+': 440.00, '0': 493.88 };
-        const rollQuantumDie = () => ['H', '𝕏', '+'][Math.floor(Math.random() * 3)];
-        const virtualSchrodingersCat = () => Math.random() < 0.5 ? '0' : '1';
-        const virtualHamzatsCat = () => ['O', '1', '2'][Math.floor(Math.random() * 3)];
+        let songString = "";
+
         function playNote(frequency, delay) {
             const oscillator = audioContext.createOscillator();
             oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime + delay);
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
             oscillator.connect(audioContext.destination);
-            oscillator.start(audioContext.currentTime + delay);
-            oscillator.stop(audioContext.currentTime + delay + 0.5);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + delay);
         }
-        function randomPosition(element) {
-            element.style.left = `${Math.random() * 100}%`;
-            element.style.top = `${Math.random() * 100}%`;
+
+        function virtualSchrodingersCat() {
+            const state = Math.random() < 0.5 ? '0' : '1';
+            if (state === '1') {
+                document.getElementById('innerSphere').style.animation = 'pulsate 1s infinite alternate';
+            } else {
+                document.getElementById('innerSphere').style.animation = 'none';
+            }
+            return state;
         }
+
+        function virtualHamzatsCat() {
+            return Math.random() < 0.5 ? 'O' : (Math.random() < 0.5 ? '1' : '2');
+        }
+
+        function rollQuantumDie() {
+            const possibilities = ['H', '𝕏', '+'];
+            return possibilities[Math.floor(Math.random() * possibilities.length)];
+        }
+
+        function fusionProcessor(fields) {
+            songString = fields.join("");
+            playNote(440, 1);
+        }
+
         function getResponse() {
-            document.getElementById('quantumFieldContainer').style.animation = 'spin3D 10s linear infinite';
+            const userInput = document.getElementById('user_input').value;
+            let schrodingersCatField = '';
+            let hamzatsCatField = '';
+            let quantumDieField = '';
             let i = 0;
-            const container = document.getElementById('quantumFieldContainer');
-            const innerSphere = document.getElementById('innerSphere');
+
             const interval = setInterval(() => {
                 if (i >= 4000) {
                     clearInterval(interval);
+                    fusionProcessor([schrodingersCatField, hamzatsCatField, quantumDieField]);
                 } else {
-                    const quantumBit = rollQuantumDie();
-                    const angle = (i / (4000 / 3)) * 360;
-                    const div = document.createElement('div');
-                    div.className = 'quantumBit';
-                    div.innerText = (i % 2 === 0) ? quantumBit : (i % 3 === 0) ? virtualSchrodingersCat() : virtualHamzatsCat();
-                    const zPosition = Math.sin((i / 4000) * 2 * Math.PI) * 50;
-                    div.style.transform = `rotate(${angle}deg) translateZ(${zPosition}px)`;
-                    div.onmouseover = function () {
-                        randomPosition(div);
-                    };
-                    container.appendChild(div);
-                    if (virtualHamzatsCat() === '1') {
-                        innerSphere.style.backgroundColor = '#000';
-                        innerSphere.style.animation = 'pulsate 3s infinite alternate';
-                    } else {
-                        innerSphere.style.backgroundColor = '';
-                        innerSphere.style.animation = '';
-                    }
+                    schrodingersCatField += virtualSchrodingersCat();
+                    hamzatsCatField += virtualHamzatsCat();
+                    quantumDieField += rollQuantumDie();
                 }
                 i++;
             }, 10);
         }
+
         function handleKeyPress(event) {
             if (event.key === 'Enter') {
                 getResponse();
             }
         }
+        
         document.getElementById('quantumFieldContainer').style.animation = 'spin3D 10s linear infinite';
-        getResponse();
     </script>
 </body>
 </html>
+
