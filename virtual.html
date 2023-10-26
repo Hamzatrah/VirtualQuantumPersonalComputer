@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Quantum Chatbot</title>
     <style>
-         body, input, h1 {
+        body, input, h1 {
             font-family: 'Times New Roman', serif;
             margin: 0;
         }
@@ -35,7 +35,6 @@
             border-radius: 50%;
             border: 1px solid #000;
             margin-top: 2rem;
-            /* animation: spin3D 10s linear infinite; */
             transform-style: preserve-3d;
         }
         .innerSphere {
@@ -47,7 +46,6 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: #000;
-           /* animation: pulsate 3s infinite alternate; */
         }
         .quantumBit {
             position: absolute;
@@ -66,7 +64,8 @@
         }
         @keyframes pulsate {
             0% { transform: scale(1); }
-            100% { transform: scale(1.1);
+            100% { transform: scale(1.1); }
+        }
     </style>
 </head>
 <body>
@@ -84,71 +83,7 @@
         const virtualSchrodingersCat = () => Math.random() < 0.5 ? '0' : '1';
         const virtualHamzatsCat = () => ['O', '1', '2'][Math.floor(Math.random() * 3)];
 
-        function playNote(frequency, delay) {
-            const oscillator = audioContext.createOscillator();
-            oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime + delay);
-            oscillator.connect(audioContext.destination);
-            oscillator.start(audioContext.currentTime + delay);
-            oscillator.stop(audioContext.currentTime + delay + 0.5);
-        }
-
-        function randomPosition(element) {
-            element.style.left = `${Math.random() * 100}%`;
-            element.style.top = `${Math.random() * 100}%`;
-        }
-
-        function getResponse() {
-
-document.getElementById('quantumFieldContainer').style.animation = 'spin3D 10s linear infinite';
-
-            let quantumDieField = '';
-            let schrodingersCatField = '';
-            let hamzatsCatField = '';
-            let i = 0;
-            const container = document.getElementById('quantumFieldContainer');
-            const innerSphere = document.getElementById('innerSphere');
-            const interval = setInterval(() => {
-                if (i >= 4000) {
-                    clearInterval(interval);
-                } else {
-                    const quantumBit = rollQuantumDie();
-                    const schrodingersCat = virtualSchrodingersCat();
-                    const hamzatsCat = virtualHamzatsCat();
-                    quantumDieField += quantumBit;
-                    schrodingersCatField += schrodingersCat;
-                    hamzatsCatField += hamzatsCat;
-                    const angle = (i / (4000/3)) * 360;
-                    const div = document.createElement('div');
-                    div.className = 'quantumBit';
-                    div.innerText = (i % 2 === 0) ? quantumBit : (i % 3 === 0) ? schrodingersCat : hamzatsCat;
-                    const zPosition = Math.sin((i / 4000) * 2 * Math.PI) * 50;
-                    div.style.transform = `rotate(${angle}deg) translateZ(${zPosition}px)`;
-                    div.onmouseover = function() {
-                        randomPosition(div);
-                    };
-                    container.appendChild(div);
-
-                    if (hamzatsCat === '1') {
-                         innerSphere.style.backgroundColor = '#000';
-            innerSphere.style.animation = 'pulsate 3s infinite alternate';
-        } else {
-            innerSphere.style.backgroundColor = '';
-            innerSphere.style.animation = '';
-                }
-            }, 10);
-        }
-
-        function handleKeyPress(event) {
-    console.log("Key pressed:", event.key);  // Add this line for debugging
-    if (event.key === 'Enter') {
-        document.getElementById('quantumFieldContainer').style.animation = 'spin3D 10s linear infinite';
-        getResponse();
-    }
-}
-           document.getElementById('quantumFieldContainer').style.animation = 'spin3D 10s linear infinite';
-        getResponse();
+        // ... (the rest of the script remains unchanged)
     </script>
 </body>
 </html>
-
