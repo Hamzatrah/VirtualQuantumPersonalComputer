@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,6 +7,7 @@
     <style>
         body, input, h1 {
             font-family: 'Times New Roman', serif;
+            margin: 0;
         }
         body {
             display: flex;
@@ -14,7 +16,6 @@
             justify-content: center;
             height: 100vh;
             background-color: #fff;
-            margin: 0;
         }
         #container {
             text-align: center;
@@ -34,7 +35,7 @@
             border-radius: 50%;
             border: 1px solid #000;
             margin-top: 2rem;
-            animation: spin 10s linear infinite;
+            animation: spin3D 10s linear infinite;
             transform-style: preserve-3d;
         }
         .innerSphere {
@@ -46,6 +47,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: #000;
+            animation: pulsate 3s infinite alternate;
         }
         .quantumBit {
             position: absolute;
@@ -56,19 +58,15 @@
             line-height: 60px;
             font-size: 30px;
             color: #ff0000;
+            cursor: pointer;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes spin3D {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
         }
-
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 5px #000, 0 0 10px #000, 0 0 20px #000, 0 0 30px #000; }
-            50% { box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff0000; }
-        }
-        .innerSphere {
-            /* ... other styles ... */
-            animation: glow 3s infinite;  /* Glowing animation */
+        @keyframes pulsate {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
         }
     </style>
 </head>
@@ -96,6 +94,11 @@
             oscillator.stop(audioContext.currentTime + delay + 0.5);
         }
 
+        function randomPosition(element) {
+            element.style.left = `${Math.random() * 100}%`;
+            element.style.top = `${Math.random() * 100}%`;
+        }
+
         function getResponse() {
             let quantumDieField = '';
             let schrodingersCatField = '';
@@ -119,25 +122,27 @@
                     div.innerText = (i % 2 === 0) ? quantumBit : (i % 3 === 0) ? schrodingersCat : hamzatsCat;
                     const zPosition = Math.sin((i / 4000) * 2 * Math.PI) * 50;
                     div.style.transform = `rotate(${angle}deg) translateZ(${zPosition}px)`;
-                    const fontSize = 20 + (40 * Math.sin(i * Math.PI / 1333));
-                    div.style.fontSize = `${fontSize}px`;
+                    div.onmouseover = function() {
+                        randomPosition(div);
+                    };
                     container.appendChild(div);
+
                     if (hamzatsCat === '1') {
                         innerSphere.style.backgroundColor = '#000';
                     } else {
                         innerSphere.style.backgroundColor = '';
                     }
+
                     const char = (i % 2 === 0) ? quantumBit : (i % 3 === 0) ? schrodingersCat : hamzatsCat;
-                    playNote(charToNote[char], i * 0.0125);
+                    playNote(charToNote[char], i * 0.01);
+                    i++;
                 }
-                i++;
-            }, 50);
+            }, 10);
         }
 
         function handleKeyPress(event) {
-            if (event.key === 'Enter') {
+            if (event.keyCode === 13) {
                 getResponse();
-                event.preventDefault();
             }
         }
     </script>
