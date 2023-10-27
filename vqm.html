@@ -18,13 +18,16 @@
       height: 50%;
       position: relative;
       transform-style: preserve-3d;
+      touch-action: none; /* Disables default touch behaviors */
     }
     .quantumOrbit {
       position: absolute;
       text-align: center;
       width: 100%;
       top: 50%;
+      padding: 20px;  /* Added padding for more space */
       transform-origin: 50% 0;
+      font-size: larger;  /* Increased font size */
     }
   </style>
 </head>
@@ -33,6 +36,19 @@
   <div id="cdInterface"></div>
 
   <script>
+    let lastTouchX = 0;
+
+    document.addEventListener('touchstart', function(event) {
+      lastTouchX = event.touches[0].clientX;
+    }, false);
+
+    document.addEventListener('touchmove', function(event) {
+      let touchX = event.touches[0].clientX;
+      let deltaX = lastTouchX - touchX;
+      document.getElementById('cdInterface').style.transform += `rotateY(${deltaX}deg)`;
+      lastTouchX = touchX;
+    }, false);
+
     function rollQuantumDie() {
       const outcomes = ['H', '𝕏', '+'];
       return outcomes[Math.floor(Math.random() * outcomes.length)];
@@ -42,18 +58,20 @@
       const cdInterface = document.getElementById('cdInterface');
       let results = [];
 
-      for(let i = 0; i < 4000; i++) {
+      for(let i = 0; i < 102; i++) {
         results.push(rollQuantumDie());
       }
 
       results.forEach((result, index) => {
-        const quantumOrbit = document.createElement('div');
-        quantumOrbit.className = 'quantumOrbit';
-        quantumOrbit.innerHTML = result;
-        let rotationX = Math.sin(index * 0.001) * 90;
-        let rotationZ = index * 0.09;
-        quantumOrbit.style.transform = `rotateX(${rotationX}deg) rotateZ(${rotationZ}deg)`;
-        cdInterface.appendChild(quantumOrbit);
+        setTimeout(() => {
+          const quantumOrbit = document.createElement('div');
+          quantumOrbit.className = 'quantumOrbit';
+          quantumOrbit.innerHTML = result;
+          let rotationX = Math.sin(index * 0.06) * 90;
+          let rotationZ = index * 3.53;
+          quantumOrbit.style.transform = `rotateX(${rotationX}deg) rotateZ(${rotationZ}deg)`;
+          cdInterface.appendChild(quantumOrbit);
+        }, index * 1000);
       });
     }
 
