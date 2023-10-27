@@ -42,18 +42,6 @@
       particleCount++;
       document.getElementById('count').innerHTML = `Particles Generated: ${particleCount}`;
     }
-
-    function queryField() {
-      let response;
-      if (particleCount === 0) {
-        response = "The quantum field is empty.";
-      } else if (particleCount < 5) {
-        response = "The quantum field is forming.";
-      } else {
-        response = "The quantum field is active.";
-      }
-      document.getElementById('chatOutput').innerHTML = `Chatbot: ${response}`;
-    }
   </script>
 </head>
 <body onload="canvas.width=window.innerWidth;canvas.height=window.innerHeight;">
@@ -63,9 +51,7 @@
   </header>
 
   <button onclick="generateField()">Generate Virtual Quantum Field</button>
-  <button onclick="queryField()">Query Quantum Field</button>
   <div id="count">Particles Generated: 0</div>
-  <div id="chatOutput">Chatbot: Ready to query.</div>
 
 </body>
 </html>
