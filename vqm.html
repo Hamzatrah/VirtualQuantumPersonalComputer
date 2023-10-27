@@ -1,62 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Virtual Quantum Mechanics</title>
-    <style>
-        #cdInterface {
-            border: 5px solid black;
-            border-radius: 50%;
-            width: 200px;
-            height: 200px;
-            position: relative;
-        }
-        .quantumLine {
-            position: absolute;
-            width: 100%;
-            height: 1px;
-            background-color: red;
-            top: 50%;
-        }
-    </style>
+  <title>Virtual Quantum Mechanics</title>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #cdInterface {
+      border: 5px solid black;
+      border-radius: 50%;
+      width: 50%;
+      height: 50%;
+      position: relative;
+    }
+    .quantumLine {
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      background-color: red;
+      top: 50%;
+    }
+    .quantumOrbit {
+      position: absolute;
+      text-align: center;
+      width: 100%;
+      top: 50%;
+      transform-origin: 50% 0;
+    }
+  </style>
 </head>
 <body>
 
-    <div id="cdInterface">
-        <div class="quantumLine"></div>
-    </div>
+  <div id="cdInterface"></div>
 
-    <div id="chatBot">
-        <!-- Chatbot Interface -->
-    </div>
+  <script>
+    function rollQuantumDie() {
+      const outcomes = ['H', '𝕏', '+'];
+      return outcomes[Math.floor(Math.random() * outcomes.length)];
+    }
 
-    <script>
-        // Emulate Quantum Die
-        function rollQuantumDie() {
-            const outcomes = ['H', 'X', '+'];
-            const result = outcomes[Math.floor(Math.random() * outcomes.length)];
-            return result;
-        }
+    function generateQuantumOrbit() {
+      const cdInterface = document.getElementById('cdInterface');
+      let results = [];
 
-        // Generate quantum data lines around CD
-        function generateQuantumLines() {
-            const cdInterface = document.getElementById('cdInterface');
-            const quantumLine = document.createElement('div');
-            quantumLine.className = 'quantumLine';
-            quantumLine.style.transform = `rotate(${Math.random() * 360}deg)`;
-            cdInterface.appendChild(quantumLine);
-        }
+      for(let i = 0; i < 4000; i++) {
+        results.push(rollQuantumDie());
+      }
 
-        // On page load, generate quantum lines and set quantum die logic
-        window.onload = function() {
-                for(let i = 0; i < 4000; i++) {
-        const result = rollQuantumDie();
-            generateQuantumLines();
-            setInterval(() => {
-                const result = rollQuantumDie();
-                // Do something with the quantum die result
-            }, 1000);
-        };
-    </script>
+      results.forEach((result, index) => {
+        const quantumOrbit = document.createElement('div');
+        quantumOrbit.className = 'quantumOrbit';
+        quantumOrbit.innerHTML = result;
+        quantumOrbit.style.transform = `rotate(${index * 0.09}deg)`;
+        cdInterface.appendChild(quantumOrbit);
+      });
+    }
+
+    window.onload = generateQuantumOrbit;
+  </script>
 
 </body>
 </html>
