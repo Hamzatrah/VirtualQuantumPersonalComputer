@@ -48,6 +48,8 @@
 
         // On page load, generate quantum lines and set quantum die logic
         window.onload = function() {
+                for(let i = 0; i < 4000; i++) {
+        const result = rollQuantumDie();
             generateQuantumLines();
             setInterval(() => {
                 const result = rollQuantumDie();
