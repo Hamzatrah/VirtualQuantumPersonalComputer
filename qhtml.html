@@ -12,32 +12,43 @@
     <script>
         var audioContext = new (window.AudioContext || window.webkitAudioContext)();
         var quantumLoop;
+        var modulationFactor = 1;
+
         function startQuantumFlute() {
-            quantumLoop = setInterval(runQuantumEmulation, 1000);
+            clearInterval(quantumLoop);
+            quantumLoop = setInterval(runQuantumEmulation, 2000);
         }
+
         function runQuantumEmulation() {
             var quantumStates = Array.from({length: 16}, (_, i) => Math.floor(Math.random() * 3));
             displayQuantumOutput(quantumStates);
             playQuantumSound(quantumStates);
         }
+
         function displayQuantumOutput(states) {
             var outputElement = document.getElementById('quantum-output');
             var asciiArt = states.map(state => state === 0 ? '1' : state === 1 ? '2' : '0');
             outputElement.textContent = asciiArt.join(' ');
         }
+
         function playQuantumSound(states) {
             states.forEach((state, index) => {
                 var oscillator = audioContext.createOscillator();
-                oscillator.frequency.setValueAtTime(440 + state * 110, audioContext.currentTime);
+                oscillator.frequency.setValueAtTime((440 + state * 110) * modulationFactor, audioContext.currentTime);
                 oscillator.connect(audioContext.destination);
-                oscillator.start(audioContext.currentTime + index * 0.2);
-                oscillator.stop(audioContext.currentTime + index * 0.2 + 0.2);
+                oscillator.start(audioContext.currentTime + index * 0.4);
+                oscillator.stop(audioContext.currentTime + index * 0.4 + 0.4);
             });
+        }
+
+        function updateModulation(value) {
+            modulationFactor = value;
         }
     </script>
 </head>
 <body>
     <button onclick="startQuantumFlute()">Play Quantum Flute</button>
+    <input type="range" min="0.5" max="1.5" step="0.01" value="1" oninput="updateModulation(this.value)" style="width: 50%;" />
     <pre id="quantum-output"></pre>
 </body>
 </html>
