@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Virtual Quantum Mechanics</title>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      perspective: 1000px;
+    }
+    #cdInterface {
+      border: 5px solid black;
+      border-radius: 50%;
+      width: 50%;
+      height: 50%;
+      position: relative;
+      transform-style: preserve-3d;
+      touch-action: none;
+    }
+    #innerSphere {
+      background: rgba(255,255,255,0.5);
+      border-radius: 50%;
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      width: 50%;
+      height: 50%;
+    }
+    .quantumOrbit {
+      position: absolute;
+      text-align: center;
+      width: 100%;
+      top: 50%;
+      padding: 20px;
+      transform-origin: 50% 0;
+      font-size: larger;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cdInterface">
+    <div id="innerSphere"></div>
+  </div>
+
+  <script>
+    // ... (Same JavaScript as before)
+  </script>
+
+</body>
+</html>
