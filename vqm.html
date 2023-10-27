@@ -18,7 +18,6 @@
       height: 50%;
       position: relative;
       transform-style: preserve-3d;
-      animation: rotate 20s infinite linear;
     }
     .quantumOrbit {
       position: absolute;
@@ -51,27 +50,14 @@
         const quantumOrbit = document.createElement('div');
         quantumOrbit.className = 'quantumOrbit';
         quantumOrbit.innerHTML = result;
-        quantumOrbit.style.transform = `rotate(${index * 0.09}deg) rotateX(${Math.random() * 360}deg)`;
+        let rotationX = Math.sin(index * 0.001) * 90;
+        let rotationZ = index * 0.09;
+        quantumOrbit.style.transform = `rotateX(${rotationX}deg) rotateZ(${rotationZ}deg)`;
         cdInterface.appendChild(quantumOrbit);
       });
     }
 
     window.onload = generateQuantumOrbit;
-
-    document.addEventListener('DOMContentLoaded', function() {
-      let style = document.createElement('style');
-      style.innerHTML = `
-        @keyframes rotate {
-          from {
-            transform: rotateY(0deg);
-          }
-          to {
-            transform: rotateY(360deg);
-          }
-        }
-      `;
-      document.head.appendChild(style);
-    });
   </script>
 
 </body>
