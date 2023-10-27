@@ -9,6 +9,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      perspective: 1000px;
     }
     #cdInterface {
       border: 5px solid black;
@@ -16,13 +17,8 @@
       width: 50%;
       height: 50%;
       position: relative;
-    }
-    .quantumLine {
-      position: absolute;
-      width: 100%;
-      height: 1px;
-      background-color: red;
-      top: 50%;
+      transform-style: preserve-3d;
+      animation: rotate 20s infinite linear;
     }
     .quantumOrbit {
       position: absolute;
@@ -55,12 +51,27 @@
         const quantumOrbit = document.createElement('div');
         quantumOrbit.className = 'quantumOrbit';
         quantumOrbit.innerHTML = result;
-        quantumOrbit.style.transform = `rotate(${index * 0.09}deg)`;
+        quantumOrbit.style.transform = `rotate(${index * 0.09}deg) rotateX(${Math.random() * 360}deg)`;
         cdInterface.appendChild(quantumOrbit);
       });
     }
 
     window.onload = generateQuantumOrbit;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      let style = document.createElement('style');
+      style.innerHTML = `
+        @keyframes rotate {
+          from {
+            transform: rotateY(0deg);
+          }
+          to {
+            transform: rotateY(360deg);
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    });
   </script>
 
 </body>
