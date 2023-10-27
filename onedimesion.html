@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>1D Space</title>
+  <style>
+    #oneDLine {
+      width: 100%;
+      height: 2px;
+      background-color: black;
+      position: relative;
+    }
+    .point {
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="oneDLine"></div>
+
+  <audio id="audio1" src="audio1.mp3"></audio>
+  <audio id="audio2" src="audio2.mp3"></audio>
+
+  <script>
+    const oneDLine = document.getElementById('oneDLine');
+
+    for(let i = 0; i <= 100; i += 10) {
+      const point = document.createElement('div');
+      point.className = 'point';
+      point.style.left = `${i}%`;
+
+      point.addEventListener('click', function() {
+        if (i <= 50) {
+          document.getElementById('audio1').play();
+        } else {
+          document.getElementById('audio2').play();
+        }
+      });
+
+      oneDLine.appendChild(point);
+    }
+  </script>
+
+</body>
+</html>
