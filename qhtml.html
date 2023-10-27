@@ -15,12 +15,12 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            padding: 10px; /* Padding for smaller screens */
+            padding: 10px;
         }
 
         button {
             padding: 15px 30px;
-            min-width: 200px; /* Ensure a minimum size for tappability */
+            min-width: 200px;
             background-color: #ffffff;
             border: 1px solid #000000;
             color: #000000;
@@ -42,11 +42,21 @@
             font-size: 1.1em;
             border: 1px solid #000000;
             padding: 10px;
-            max-width: 90%; /* Limit the width on larger screens */
-            word-wrap: break-word; /* Ensure long sequences don't overflow */
+            max-width: 90%;
+            word-wrap: break-word;
+            animation: shimmer 1.5s infinite alternate;
         }
 
-        /* Responsive adjustments for smaller screens */
+        /* Shimmering effect */
+        @keyframes shimmer {
+            from {
+                color: #888888;
+            }
+            to {
+                color: #000000;
+            }
+        }
+
         @media (max-width: 480px) {
             button {
                 font-size: 1em;
@@ -59,7 +69,7 @@
         }
     </style>
     <script>
-                function runQuantumEmulation() {
+        function runQuantumEmulation() {
             var quantumStates = Array.from({length: 16}, (_, i) => Math.floor(Math.random() * 3));
             displayQuantumOutput(quantumStates);
             playQuantumSound(quantumStates);
@@ -67,7 +77,15 @@
 
         function displayQuantumOutput(states) {
             var outputElement = document.getElementById('quantum-output');
-            outputElement.textContent = states.join(', ');
+            var asciiArt = states.map(state => {
+                switch (state) {
+                    case 0: return '•';  // Dot for state 0
+                    case 1: return '■';  // Square for state 1
+                    case 2: return '▲';  // Triangle for state 2
+                    default: return ' ';
+                }
+            });
+            outputElement.textContent = asciiArt.join(' ');
         }
 
         function playQuantumSound(states) {
