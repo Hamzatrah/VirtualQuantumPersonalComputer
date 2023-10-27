@@ -18,50 +18,61 @@
       height: 50%;
       position: relative;
       transform-style: preserve-3d;
-      touch-action: none; /* Disables default touch behaviors */
+      touch-action: none;
+    }
+    #innerSphere {
+      background: rgba(255,255,255,0.5);
+      border-radius: 50%;
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      width: 50%;
+      height: 50%;
     }
     .quantumOrbit {
       position: absolute;
       text-align: center;
       width: 100%;
       top: 50%;
-      padding: 20px;  /* Added padding for more space */
+      padding: 20px;
       transform-origin: 50% 0;
-      font-size: larger;  /* Increased font size */
+      font-size: larger;
     }
   </style>
 </head>
 <body>
-
-  <div id="cdInterface"></div>
-
+  <div id="cdInterface">
+    <div id="innerSphere"></div>
+  </div>
   <script>
     let lastTouchX = 0;
-
     document.addEventListener('touchstart', function(event) {
       lastTouchX = event.touches[0].clientX;
     }, false);
-
     document.addEventListener('touchmove', function(event) {
       let touchX = event.touches[0].clientX;
       let deltaX = lastTouchX - touchX;
       document.getElementById('cdInterface').style.transform += `rotateY(${deltaX}deg)`;
       lastTouchX = touchX;
     }, false);
-
     function rollQuantumDie() {
       const outcomes = ['H', '𝕏', '+'];
       return outcomes[Math.floor(Math.random() * outcomes.length)];
     }
-
+    function changeSphereColor(result) {
+      const colorMap = {
+        'H': '#FF0000',
+        '𝕏': '#00FF00',
+        '+': '#0000FF'
+      };
+      document.getElementById('innerSphere').style.background = colorMap[result];
+    }
     function generateQuantumOrbit() {
       const cdInterface = document.getElementById('cdInterface');
       let results = [];
-
       for(let i = 0; i < 102; i++) {
         results.push(rollQuantumDie());
       }
-
       results.forEach((result, index) => {
         setTimeout(() => {
           const quantumOrbit = document.createElement('div');
@@ -71,12 +82,11 @@
           let rotationZ = index * 3.53;
           quantumOrbit.style.transform = `rotateX(${rotationX}deg) rotateZ(${rotationZ}deg)`;
           cdInterface.appendChild(quantumOrbit);
+          changeSphereColor(result);
         }, index * 1000);
       });
     }
-
     window.onload = generateQuantumOrbit;
   </script>
-
 </body>
 </html>
