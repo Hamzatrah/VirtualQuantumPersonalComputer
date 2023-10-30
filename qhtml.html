@@ -11,10 +11,12 @@
     </style>
     <script>
         var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        var gainNode = audioContext.createGain();
         var quantumLoop;
         var modulationFactor = 1;
 
         function startQuantumFlute() {
+            gainNode.connect(audioContext.destination);
             clearInterval(quantumLoop);
             quantumLoop = setInterval(runQuantumEmulation, 2000);
         }
@@ -35,7 +37,7 @@
             states.forEach((state, index) => {
                 var oscillator = audioContext.createOscillator();
                 oscillator.frequency.setValueAtTime((440 + state * 110) * modulationFactor, audioContext.currentTime);
-                oscillator.connect(audioContext.destination);
+                oscillator.connect(gainNode);
                 oscillator.start(audioContext.currentTime + index * 0.4);
                 oscillator.stop(audioContext.currentTime + index * 0.4 + 0.4);
             });
@@ -43,6 +45,7 @@
 
         function updateModulation(value) {
             modulationFactor = value;
+            gainNode.gain.value = Math.exp(value - 1);  // Exponential volume control
         }
     </script>
 </head>
