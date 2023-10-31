@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Flute</title>
+    <title>Quantum Flute Chatbot</title>
     <style>
         body {
             font-family: 'Times New Roman', serif;
@@ -17,6 +17,13 @@
             margin: 0;
             padding: 10px;
         }
+        #controls input[type="text"] {
+            width: 50%;
+            margin-bottom: 10px;
+        }
+        #controls input[type="range"] {
+            width: 50%;
+        }
         pre {
             margin-top: 20px;
             font-size: 1.1em;
@@ -24,20 +31,12 @@
             padding: 10px;
             max-width: 90%;
             word-wrap: break-word;
-            animation: shimmer 1.5s infinite alternate;
-        }
-        #controls input[type="range"] {
-            width: 50%;
-        }
-        @keyframes shimmer {
-            from {color: #888888;}
-            to {color: #000000;}
         }
     </style>
 </head>
 <body>
     <div id="controls">
-        <button onclick="startQuantumFlute()">Play Quantum Flute</button>
+        <input type="text" id="user-query" placeholder="Query the Quantum Flute Chatbot" onkeydown="if(event.keyCode === 13) processQuery(this.value)">
         <input type="range" min="0.5" max="1.5" step="0.01" value="1" oninput="updateModulation(this.value)" role="slider" aria-label="Modulation Factor" />
     </div>
     <pre id="quantum-output"></pre>
@@ -50,19 +49,17 @@
 
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
             const gainNode = audioContext.createGain();
-            let quantumLoop;
             let modulationFactor = 1;
 
-            window.startQuantumFlute = function() {
+            window.processQuery = function(query) {
                 gainNode.connect(audioContext.destination);
-                clearInterval(quantumLoop);
-                quantumLoop = setInterval(runQuantumEmulation, 2000);
-            }
-
-            function runQuantumEmulation() {
-                const quantumStates = Array.from({length: 16}, (_, i) => Math.floor(Math.random() * 3));
+                const quantumStates = mapQueryToQuantumStates(query);
                 displayQuantumOutput(quantumStates);
                 playQuantumSound(quantumStates);
+            }
+
+            function mapQueryToQuantumStates(query) {
+                return Array.from(query, char => char.charCodeAt(0) % 3);
             }
 
             function displayQuantumOutput(states) {
