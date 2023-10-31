@@ -1,68 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Virtual Quantum Chatbot</title>
-  <style>
-    /* Your existing styles here */
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Flute Chatbot</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #ffffff;
+            color: #000000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 10px;
+        }
+        #controls input[type="text"] {
+            width: 50%;
+            margin-bottom: 10px;
+        }
+        #controls input[type="range"] {
+            width: 50%;
+        }
+        pre {
+            margin-top: 20px;
+            font-size: 1.1em;
+            border: 1px solid #000000;
+            padding: 10px;
+            max-width: 90%;
+            word-wrap: break-word;
+        }
+    </style>
 </head>
 <body>
+    <div id="controls">
+        <input type="text" id="user-query" placeholder="Query the Quantum Flute Chatbot" onkeydown="if(event.keyCode === 13) processQuery(this.value)">
+        <input type="range" min="0.5" max="1.5" step="0.01" value="1" oninput="updateModulation(this.value)" role="slider" aria-label="Modulation Factor" />
+    </div>
+    <pre id="quantum-output"></pre>
+    <script>
+        (function() {
+            if (!window.AudioContext && !window.webkitAudioContext) {
+                alert('Your browser does not support the Web Audio API');
+                return;
+            }
 
-  <div id="container">
-    <h1>Virtual Quantum Chatbot</h1>
-    <input type="text" id="user_input" placeholder="Type your query...">
-    <button onclick="getResponse()">Ask</button>
-  </div>
-  <div id="quantumFieldContainer"></div>
-  <div id="quantumClockContainer">Quantum Clock: </div>
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const gainNode = audioContext.createGain();
+            let modulationFactor = 1;
 
-  <script>
-    let audioContext = new AudioContext();
-    let currentTime = audioContext.currentTime;
+            window.processQuery = function(query) {
+                gainNode.connect(audioContext.destination);
+                const quantumStates = mapQueryToQuantumStates(query);
+                displayQuantumOutput(quantumStates);
+                playQuantumSound(quantumStates);
+            }
 
-    function rollQuantumDie() {
-      const faces = ['0', '1', '2'];
-      return faces[Math.floor(Math.random() * 3)];
-    }
+            function mapQueryToQuantumStates(query) {
+                return Array.from(query, char => char.charCodeAt(0) % 3);
+            }
 
-    function generateMelody(quantumField) {
-      let frequencies = [];
-      ['01', '12', '00'].forEach(pattern => {
-        const count = (quantumField.match(new RegExp(pattern, 'g')) || []).length;
-        frequencies.push(200 + count * 10);
-      });
-      frequencies.forEach((freq, index) => {
-        const oscillator = audioContext.createOscillator();
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(freq, currentTime);
-        oscillator.connect(audioContext.destination);
-        oscillator.start(currentTime);
-        oscillator.stop(currentTime + 1);
-        currentTime += 1;
-      });
-    }
+            function displayQuantumOutput(states) {
+                const outputElement = document.getElementById('quantum-output');
+                const asciiArt = states.map(state => state === 0 ? '1' : state === 1 ? '2' : '0');
+                outputElement.textContent = asciiArt.join(' ');
+            }
 
-    function updateQuantumClock() {
-      // Your existing code for the quantum clock
-    }
+            function playQuantumSound(states) {
+                states.forEach((state, index) => {
+                    const oscillator = audioContext.createOscillator();
+                    oscillator.frequency.setValueAtTime((440 + state * 110) * modulationFactor, audioContext.currentTime);
+                    oscillator.connect(gainNode);
+                    oscillator.start(audioContext.currentTime + index * 0.4);
+                    oscillator.stop(audioContext.currentTime + index * 0.4 + 0.4);
+                });
+            }
 
-    function getResponse() {
-      let quantumField = '';
-      let i = 0;
-      const interval = setInterval(function() {
-        if (i >= 4000) {
-          clearInterval(interval);
-        } else {
-          quantumField += rollQuantumDie();
-          document.getElementById('quantumFieldContainer').innerText = quantumField;
-          generateMelody(quantumField);  // Move generateMelody call here
-        }
-        i++;
-      }, 50);
-      setInterval(updateQuantumClock, 1000);
-    }
-
-    updateQuantumClock();
-  </script>
+            window.updateModulation = function(value) {
+                modulationFactor = value;
+                gainNode.gain.value = Math.exp(value - 1);  // Exponential volume control
+            }
+        })();
+    </script>
 </body>
 </html>
