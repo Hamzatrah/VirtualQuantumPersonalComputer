@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Flute</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: #ffffff;
+            color: #000000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 10px;
+        }
+        pre {
+            margin-top: 20px;
+            font-size: 1.1em;
+            border: 1px solid #000000;
+            padding: 10px;
+            max-width: 90%;
+            word-wrap: break-word;
+            animation: shimmer 1.5s infinite alternate;
+        }
+        #controls input[type="range"] {
+            width: 50%;
+        }
+        @keyframes shimmer {
+            from {color: #888888;}
+            to {color: #000000;}
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <button onclick="startQuantumFlute()">Play Quantum Flute</button>
+        <input type="range" min="0.5" max="1.5" step="0.01" value="1" oninput="updateModulation(this.value)" role="slider" aria-label="Modulation Factor" />
+    </div>
+    <pre id="quantum-output"></pre>
+    <script>
+        (function() {
+            if (!window.AudioContext && !window.webkitAudioContext) {
+                alert('Your browser does not support the Web Audio API');
+                return;
+            }
+
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const gainNode = audioContext.createGain();
+            let quantumLoop;
+            let modulationFactor = 1;
+
+            window.startQuantumFlute = function() {
+                gainNode.connect(audioContext.destination);
+                clearInterval(quantumLoop);
+                quantumLoop = setInterval(runQuantumEmulation, 2000);
+            }
+
+            function runQuantumEmulation() {
+                const quantumStates = Array.from({length: 16}, (_, i) => Math.floor(Math.random() * 3));
+                displayQuantumOutput(quantumStates);
+                playQuantumSound(quantumStates);
+            }
+
+            function displayQuantumOutput(states) {
+                const outputElement = document.getElementById('quantum-output');
+                const asciiArt = states.map(state => state === 0 ? '1' : state === 1 ? '2' : '0');
+                outputElement.textContent = asciiArt.join(' ');
+            }
+
+            function playQuantumSound(states) {
+                states.forEach((state, index) => {
+                    const oscillator = audioContext.createOscillator();
+                    oscillator.frequency.setValueAtTime((440 + state * 110) * modulationFactor, audioContext.currentTime);
+                    oscillator.connect(gainNode);
+                    oscillator.start(audioContext.currentTime + index * 0.4);
+                    oscillator.stop(audioContext.currentTime + index * 0.4 + 0.4);
+                });
+            }
+
+            window.updateModulation = function(value) {
+                modulationFactor = value;
+                gainNode.gain.value = Math.exp(value - 1);  // Exponential volume control
+            }
+        })();
+    </script>
+</body>
+</html>
