@@ -1,0 +1,54 @@
+Copy code
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unique Six-Faced Die in 3D</title>
+    <style>
+        body {
+            perspective: 1000px;
+        }
+
+        .cube {
+            position: relative;
+            width: 200px;
+            transform-style: preserve-3d;
+            transform: rotateX(-30deg) rotateY(-45deg);
+            margin: 100px auto;
+            animation: rotate 5s infinite linear;
+        }
+
+        .cube div {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: white;
+            border: 1px solid black;
+            line-height: 200px;
+            font-size: 40px;
+            text-align: center;
+        }
+
+        .front  { transform: translateZ(100px); }
+        .back   { transform: rotateY(180deg) translateZ(100px); }
+        .right  { transform: rotateY(90deg) translateZ(100px); }
+        .left   { transform: rotateY(-90deg) translateZ(100px); }
+        .top    { transform: rotateX(90deg) translateZ(100px); }
+        .bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+        @keyframes rotate {
+            from { transform: rotateX(-30deg) rotateY(-45deg); }
+            to { transform: rotateX(-30deg) rotateY(315deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="cube">
+        <div class="front">Face 1: H</div>
+        <div class="back">Face 2: H</div>
+        <div class="right">Face 3: X</div>
+        <div class="left">Face 4: X</div>
+        <div class="top">Face 5: +</div>
+        <div class="bottom">Face 6: +</div>
+    </div>
+</body>
+</html>
