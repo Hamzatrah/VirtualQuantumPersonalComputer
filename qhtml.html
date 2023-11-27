@@ -17,15 +17,20 @@
             margin: 0;
             padding: 10px;
         }
-        pre {
+        #quantum-output {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(20px, auto)); /* Adjust for grid layout */
+            gap: 2px;
+            font-family: monospace;
+            font-size: 14px; /* Adjust font size for visibility */
             margin-top: 20px;
-            font-size: 1.1em;
-            border: 1px solid #000000;
-            padding: 10px;
             max-width: 90%;
-            word-wrap: break-word;
-            animation: shimmer 1.5s infinite alternate;
+            padding: 10px;
+            border: 1px solid #000000;
         }
+        .state-0 { color: blue; }
+        .state-1 { color: green; }
+        .state-2 { color: red; }
         #controls input[type="range"] {
             width: 50%;
         }
@@ -40,53 +45,56 @@
         <button onclick="startQuantumFlute()">Play Quantum Flute</button>
         <input type="range" min="0.5" max="1.5" step="0.01" value="1" oninput="updateModulation(this.value)" role="slider" aria-label="Modulation Factor" />
     </div>
-    <pre id="quantum-output"></pre>
+    <div id="quantum-output"></div>
     <script>
         (function() {
-    if (!window.AudioContext && !window.webkitAudioContext) {
-        alert('Your browser does not support the Web Audio API');
-        return;
-    }
+            if (!window.AudioContext && !window.webkitAudioContext) {
+                alert('Your browser does not support the Web Audio API');
+                return;
+            }
 
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const gainNode = audioContext.createGain();
-    let quantumLoop;
-    let modulationFactor = 1;
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const gainNode = audioContext.createGain();
+            let quantumLoop;
+            let modulationFactor = 1;
 
-    window.startQuantumFlute = function() {
-        gainNode.connect(audioContext.destination);
-        clearInterval(quantumLoop);
-        quantumLoop = setInterval(runQuantumEmulation, 2000);
-    }
+            window.startQuantumFlute = function() {
+                gainNode.connect(audioContext.destination);
+                clearInterval(quantumLoop);
+                quantumLoop = setInterval(runQuantumEmulation, 2000);
+            }
 
-    function runQuantumEmulation() {
-        const quantumStates = Array.from({length: 16}, (_, i) => Math.floor(Math.random() * 3));
-        displayQuantumOutput(quantumStates);
-        playQuantumSound(quantumStates);
-    }
+            function runQuantumEmulation() {
+                const quantumStates = Array.from({length: 16}, (_, i) => Math.floor(Math.random() * 3));
+                displayQuantumOutput(quantumStates);
+                playQuantumSound(quantumStates);
+            }
 
-    function displayQuantumOutput(states) {
-        const outputElement = document.getElementById('quantum-output');
-        const asciiArt = states.map(state => state === 0 ? '1' : state === 1 ? '2' : '0');
-        outputElement.textContent = asciiArt.join(' ');
-    }
+            function displayQuantumOutput(states) {
+                const outputElement = document.getElementById('quantum-output');
+                outputElement.innerHTML = states.map(state => {
+                    const className = `state-${state}`;
+                    return `<span class="${className}">${state === 0 ? '1' : state === 1 ? '2' : '0'}</span>`;
+                }).join('');
+            }
 
-    function playQuantumSound(states) {
-        states.forEach((state, index) => {
-            const oscillator = audioContext.createOscillator();
-            oscillator.type = state === 0 ? 'sine' : state === 1 ? 'square' : 'triangle';
-            oscillator.frequency.setValueAtTime((440 + state * 110) * modulationFactor, audioContext.currentTime);
-            oscillator.connect(gainNode);
-            oscillator.start(audioContext.currentTime + index * 0.4);
-            oscillator.stop(audioContext.currentTime + index * 0.4 + 0.4);
-        });
-    }
+            function playQuantumSound(states) {
+                states.forEach((state, index) => {
+                    const oscillator = audioContext.createOscillator();
+                    oscillator.type = state === 0 ? 'sine' : state === 1 ? 'square' : 'triangle';
+                    oscillator.frequency.setValueAtTime((440 + state * 110) * modulationFactor, audioContext.currentTime);
+                    oscillator.connect(gainNode);
+                    oscillator.start(audioContext.currentTime + index * 0.4);
+                    oscillator.stop(audioContext.currentTime + index * 0.4 + 0.4);
+                });
+            }
 
-    window.updateModulation = function(value) {
-        modulationFactor = value;
-        gainNode.gain.value = Math.exp(value - 1);  // Exponential volume control
-    }
-})();
+            window.updateModulation = function(value) {
+                modulationFactor = value;
+                gainNode.gain.value = Math.exp(value - 1);
+            }
+        })();
     </script>
 </body>
 </html>
+prompted by Hamzat Incorporated generated by ChatGpt4+Q*
