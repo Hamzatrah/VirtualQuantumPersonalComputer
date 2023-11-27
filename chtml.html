@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Virtual Quantum Flute</title>
+    <title>Virtual Quantum Flute</title>
     <style>
         body {
             font-family: 'Times New Roman', serif;
@@ -17,28 +17,19 @@
             margin: 0;
             padding: 10px;
         }
-        pre {
-            margin-top: 20px;
-            font-size: 1.1em;
-            border: 1px solid #000000;
-            padding: 10px;
+        #quantum-output {
+            display: grid;
+            grid-template-columns: repeat(50, auto); /* Adjust the number of columns as needed */
+            gap: 5px;
+            font-family: monospace;
+            font-size: 14px; /* Adjust font size for visibility */
             max-width: 90%;
             word-wrap: break-word;
-            animation: shimmer 1.5s infinite alternate;
-        }
-        #controls input[type="range"] {
-            width: 50%;
-        }
-        .quantum-state {
-            font-family: monospace;
-            font-size: 24px;
-            line-height: 40px;
         }
         .state-0 { color: blue; }
         .state-1 { color: green; }
-        @keyframes shimmer {
-            from {color: #888888;}
-            to {color: #000000;}
+        #controls input[type="range"] {
+            width: 50%;
         }
     </style>
 </head>
@@ -47,7 +38,7 @@
         <button onclick="startQuantumFlute()">Play Quantum Flute</button>
         <input type="range" min="0.5" max="1.5" step="0.01" value="1" oninput="updateModulation(this.value)" role="slider" aria-label="Modulation Factor" />
     </div>
-    <pre id="quantum-output" class="quantum-state"></pre>
+    <div id="quantum-output"></div>
     <script>
         (function() {
             if (!window.AudioContext && !window.webkitAudioContext) {
@@ -67,7 +58,7 @@
             }
 
             function runQuantumEmulation() {
-                const quantumStates = Array.from({length: 16}, () => Math.floor(Math.random() * 2));
+                const quantumStates = Array.from({length: 4000}, () => Math.floor(Math.random() * 2)); // Increased to 4000 characters
                 displayQuantumOutput(quantumStates);
                 playQuantumSound(quantumStates);
             }
@@ -77,7 +68,7 @@
                 outputElement.innerHTML = states.map(state => {
                     const className = `state-${state}`;
                     return `<span class="${className}">${state}</span>`;
-                }).join(' ');
+                }).join('');
             }
 
             function playQuantumSound(states) {
@@ -86,14 +77,14 @@
                     oscillator.type = state === 0 ? 'sine' : 'square';
                     oscillator.frequency.setValueAtTime((440 + state * 110) * modulationFactor, audioContext.currentTime);
                     oscillator.connect(gainNode);
-                    oscillator.start(audioContext.currentTime + index * 0.4);
-                    oscillator.stop(audioContext.currentTime + index * 0.4 + 0.4);
+                    oscillator.start(audioContext.currentTime + index * 0.1); // Adjust time as needed
+                    oscillator.stop(audioContext.currentTime + index * 0.1 + 0.1); // Adjust time as needed
                 });
             }
 
             window.updateModulation = function(value) {
                 modulationFactor = value;
-                gainNode.gain.value = Math.exp(value - 1);  // Exponential volume control
+                gainNode.gain.value = Math.exp(value - 1);
             }
         })();
     </script>
