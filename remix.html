@@ -34,13 +34,8 @@
     </div>
     <canvas id="quantum-canvas"></canvas>
     <script>
-        if (!window.AudioContext && !window.webkitAudioContext) {
-            alert('Your browser does not support the Web Audio API');
-            return;
-        }
-
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const gainNode = audioContext.createGain();
+        let audioContext;
+        let gainNode;
         let quantumLoop;
         let modulationFactor = 1;
         let quantumStates = [];
@@ -48,8 +43,16 @@
         const ctx = canvas.getContext('2d');
         const widthPerState = canvas.width / 4000;
 
-        window.startQuantumFlute = function() {
+        function initializeAudioContext() {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            gainNode = audioContext.createGain();
             gainNode.connect(audioContext.destination);
+        }
+
+        window.startQuantumFlute = function() {
+            if (!audioContext) {
+                initializeAudioContext();
+            }
             clearInterval(quantumLoop);
             quantumLoop = setInterval(runQuantumEmulation, 200);
         }
@@ -75,6 +78,9 @@
         }
 
         function playQuantumSound(state) {
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
             const oscillator = audioContext.createOscillator();
             oscillator.type = state === 0 ? 'sine' : state === 1 ? 'square' : 'triangle';
             oscillator.frequency.setValueAtTime((440 + state * 110) * modulationFactor, audioContext.currentTime);
