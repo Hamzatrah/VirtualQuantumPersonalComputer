@@ -59,85 +59,86 @@
     <div id="waveform-container">
         <canvas id="waveform"></canvas>
     </div>
-    <script>
-        let audioContext;
-        let gainNode;
-        const canvas = document.getElementById('waveform');
-        const ctx = canvas.getContext('2d');
-        let quantumLoop;
-        let modulationFactor = 1;
-        let quantumStates = [];
+  <script>
+    let audioContext;
+    let gainNode;
+    const canvas = document.getElementById('waveform');
+    const ctx = canvas.getContext('2d');
+    let quantumLoop;
+    let modulationFactor = 1;
+    let quantumStates = [];
 
-        function initAudioContext() {
-            try {
-                window.AudioContext = window.AudioContext || window.webkitAudioContext;
-                audioContext = new AudioContext();
-                gainNode = audioContext.createGain();
-                gainNode.connect(audioContext.destination);
-            } catch (e) {
-                alert('Web Audio API is not supported in this browser');
-            }
+    function initAudioContext() {
+        try {
+            window.AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioContext = new AudioContext();
+            gainNode = audioContext.createGain();
+            gainNode.connect(audioContext.destination);
+        } catch (e) {
+            alert('Web Audio API is not supported in this browser');
         }
+    }
 
-        function startQuantumDie() {
-            if (!audioContext) {
-                initAudioContext();
-            }
-            clearInterval(quantumLoop);
-            quantumStates = [];
-            quantumLoop = setInterval(runQuantumDie, 200);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+    function startQuantumDie() {
+        if (!audioContext) {
+            initAudioContext();
         }
+        clearInterval(quantumLoop);
+        quantumStates = [];
+        quantumLoop = setInterval(runQuantumDie, 200);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
 
-        function runQuantumDie() {
-            if (quantumStates.length >= 4000) {
-                quantumStates.shift();
-            }
-            const outcome = Math.floor(Math.random() * 3);
-            quantumStates.push(outcome);
-            displayQuantumOutput();
-            playQuantumSound(outcome);
-            drawCanvas();
+    function runQuantumDie() {
+        if (quantumStates.length >= 4000) {
+            quantumStates.shift();
         }
+        const outcome = Math.floor(Math.random() * 3);
+        quantumStates.push(outcome);
+        displayQuantumOutput();
+        playQuantumSound(outcome);
+        drawCanvas();
+    }
 
-        function displayQuantumOutput() {
-            const outputElement = document.getElementById('die-output');
-            const className = ['state-H', 'state-𝕏', 'state-plus'];
-            const displayChar = ['H', '𝕏', '+'];
-            const newSpan = document.createElement('span');
-            newSpan.className = className[quantumStates[quantumStates.length - 1]];
-            newSpan.textContent = displayChar[quantumStates[quantumStates.length - 1]];
-            outputElement.appendChild(newSpan);
-            outputElement.scrollTop = outputElement.scrollHeight;
-        }
+    function displayQuantumOutput() {
+        const outputElement = document.getElementById('die-output');
+        const className = ['state-H', 'state-𝕏', 'state-plus'];
+        const displayChar = ['H', '𝕏', '+'];
+        const newSpan = document.createElement('span');
+        newSpan.className = className[quantumStates[quantumStates.length - 1]];
+        newSpan.textContent = displayChar[quantumStates[quantumStates.length - 1]];
+        outputElement.appendChild(newSpan);
+        outputElement.scrollTop = outputElement.scrollHeight;
+    }
 
-        function playQuantumSound(state) {
-            const oscillator = audioContext.createOscillator();
-            oscillator.type = state === 0 ? 'sine' : state === 1 ? 'triangle' : 'square';
-            oscillator.frequency.setValueAtTime((440 + state * 110) * modulationFactor, audioContext.currentTime);
-            oscillator.connect(gainNode);
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.2);
-        }
-                function drawCanvas() {
-        const stateWidth = 2; // Constant width for each state
+    function playQuantumSound(state) {
+        const oscillator = audioContext.createOscillator();
+        oscillator.type = state === 0 ? 'sine' : state === 1 ? 'triangle' : 'square';
+        oscillator.frequency.setValueAtTime((440 + state * 110) * modulationFactor, audioContext.currentTime);
+        oscillator.connect(gainNode);
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.2);
+    }
+
+    function drawCanvas() {
+        const stateWidth = 2;
         const canvasWidth = stateWidth * quantumStates.length;
-        canvas.width = canvasWidth; // Dynamically set the canvas width
+        canvas.width = canvasWidth;
         const midPoint = canvas.height / 2;
 
         ctx.clearRect(0, 0, canvasWidth, canvas.height);
         quantumStates.forEach((state, index) => {
             const height = state === 0 ? 50 : state === 1 ? 100 : 150;
             ctx.fillStyle = state === 0 ? 'blue' : state === 1 ? 'green' : 'red';
-
-            // Draw lines with the midpoint as the center
             ctx.fillRect(index * stateWidth, midPoint - height / 2, stateWidth, height);
         });
     }
-    }
-        function updateModulation(value) {
+
+    function updateModulation(value) {
         modulationFactor = value;
-        gainNode.gain.value = Math.exp(value - 1);
+        if (gainNode) {
+            gainNode.gain.value = Math.exp(value - 1);
+        }
     }
 </script>
     </body>
