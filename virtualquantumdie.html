@@ -87,15 +87,18 @@
         }
 
         function runQuantumDie() {
-            if (quantumStates.length >= 4000) {
-                quantumStates.shift();
-            }
-            const outcome = Math.floor(Math.random() * 3);
-            quantumStates.push(outcome);
-            displayQuantumOutput();
-            playQuantumSound(outcome);
-            drawCanvas();
-        }
+    if (quantumStates.length >= 4000) {
+        quantumStates.shift();
+    }
+    const array = new Uint8Array(1);
+    window.crypto.getRandomValues(array);
+    const outcome = array[0] % 3;
+    quantumStates.push(outcome);
+    displayQuantumOutput();
+    playQuantumSound(outcome);
+    drawCanvas();
+    updateCubeRotation(outcome);
+}
 
         function displayQuantumOutput() {
             const outputElement = document.getElementById('die-output');
