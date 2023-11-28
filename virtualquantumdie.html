@@ -128,7 +128,7 @@
 
         ctx.clearRect(0, 0, canvasWidth, canvas.height);
         quantumStates.forEach((state, index) => {
-            const height = state === 0 ? 50 : state === 1 ? 100 : 150;
+            const height = state === 0 ? 33 : state === 1 ? 33 : 33;
             ctx.fillStyle = state === 0 ? 'blue' : state === 1 ? 'green' : 'red';
             ctx.fillRect(index * stateWidth, midPoint - height / 2, stateWidth, height);
         });
