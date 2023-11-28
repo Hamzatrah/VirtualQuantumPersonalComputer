@@ -100,17 +100,35 @@
             function playQuantumSound(state) {
                 const oscillator = audioContext.createOscillator();
                 oscillator.type = state === 0 ? 'sine' : state === 1 ? 'square' : 'triangle';
-                oscillator.frequency.setValueAtTime((440 + state * 110) * modulationFactor, audioContext.currentTime);
+                const frequency = (440 + state * 110) * modulationFactor;
+                oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
                 oscillator.connect(gainNode);
+
+                generateAndLoadBuffer(frequency);
+
                 oscillator.start(audioContext.currentTime);
                 oscillator.stop(audioContext.currentTime + 0.4);
             }
 
+            function generateAndLoadBuffer(frequency) {
+                const length = audioContext.sampleRate * 0.4;
+                const buffer = audioContext.createBuffer(1, length, audioContext.sampleRate);
+                const data = buffer.getChannelData(0);
+
+                for (let i = 0; i < length; i++) {
+                    data[i] = Math.sin(2 * Math.PI * frequency * i / audioContext.sampleRate);
+                }
+
+                waveform.loadDecodedBuffer(buffer);
+            }
+
             window.updateModulation = function(value) {
                 modulationFactor = value;
-                gainNode.gain.value = Math.exp(value - 1);
-            }
-        })();
-    </script>
+               gainNode.gain.value = Math.exp(value - 1);
+}
+})();
+
+
 </body>
 </html>
+Hamzat Incorporated 𝕏 ChatGPT4+Q\mbox{*}
