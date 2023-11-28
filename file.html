@@ -116,7 +116,7 @@
                 waveformElement.innerHTML = waveformHTML;
             }
             function playQuantumSound(state) {
-                const oscillator = audioContext.create Oscillator();
+                const oscillator = audioContext.createOscillator();
                 oscillator.type = state === 0 ? 'sine' : state === 1 ? 'square' : 'triangle';
                 const frequency = (440 + state * 110) * modulationFactor;
                 oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
