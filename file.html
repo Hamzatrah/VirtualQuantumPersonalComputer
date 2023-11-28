@@ -36,6 +36,12 @@
         #controls input[type="range"] {
             width: 50%;
         }
+        #waveform {
+            width: 90%;
+            height: 150px;
+            margin-top: 20px;
+            border: 1px solid #000000;
+        }
     </style>
 </head>
 <body>
@@ -43,7 +49,9 @@
         <button onclick="startQuantumFlute()">Play Quantum Flute</button>
         <input type="range" min="0.5" max="1.5" step="0.01" value="1" oninput="updateModulation(this.value)" role="slider" aria-label="Modulation Factor" />
     </div>
+    <canvas id="waveform"></canvas>
     <div id="quantum-output"></div>
+    <script src="https://unpkg.com/wavesurfer.js"></script>
     <script>
         (function() {
             if (!window.AudioContext && !window.webkitAudioContext) {
@@ -57,6 +65,15 @@
             let modulationFactor = 1;
             let quantumStates = [];
 
+            const waveform = WaveSurfer.create({
+                container: '#waveform',
+                waveColor: 'violet',
+                progressColor: 'purple',
+                backend: 'WebAudio',
+                audioContext: audioContext,
+                audioScriptProcessor: gainNode,
+            });
+
             window.startQuantumFlute = function() {
                 gainNode.connect(audioContext.destination);
                 clearInterval(quantumLoop);
@@ -65,7 +82,7 @@
 
             function runQuantumEmulation() {
                 if (quantumStates.length >= 4000) {
-                    quantumStates.shift(); // Remove the oldest state
+                    quantumStates.shift();
                 }
                 quantumStates.push(Math.floor(Math.random() * 3));
                 displayQuantumOutput();
@@ -76,7 +93,7 @@
                 const outputElement = document.getElementById('quantum-output');
                 outputElement.innerHTML = quantumStates.map(state => {
                     const className = `state-${state}`;
-                    return `<span class="${className}">${state === 0 ? 'H' : state === 1 ? '𝕏' : '+'}</span>`;
+                    return `<span class="${className}">${state === 0 ? '1' : state === 1 ? '2' : '0'}</span>`;
                 }).join('');
             }
 
