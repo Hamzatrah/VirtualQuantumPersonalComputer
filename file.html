@@ -93,7 +93,7 @@
                 const outputElement = document.getElementById('quantum-output');
                 outputElement.innerHTML = quantumStates.map(state => {
                     const className = `state-${state}`;
-                    return `<span class="${className}">${state === 0 ? '1' : state === 1 ? '2' : '0'}</span>`;
+                    return `<span class="${className}">${state === 0 ? 'H' : state === 1 ? '𝕏' : '+'}</span>`;
                 }).join('');
             }
 
@@ -104,10 +104,9 @@
                 oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
                 oscillator.connect(gainNode);
 
-                generateAndLoadBuffer(frequency);
-
                 oscillator.start(audioContext.currentTime);
                 oscillator.stop(audioContext.currentTime + 0.4);
+                generateAndLoadBuffer(frequency);
             }
 
             function generateAndLoadBuffer(frequency) {
@@ -119,16 +118,17 @@
                     data[i] = Math.sin(2 * Math.PI * frequency * i / audioContext.sampleRate);
                 }
 
-                waveform.loadDecodedBuffer(buffer);
-            }
-
-            window.updateModulation = function(value) {
-                modulationFactor = value;
-               gainNode.gain.value = Math.exp(value - 1);
+                waveform.load
+                DecodedBuffer(buffer);
 }
-})();
 
+        window.updateModulation = function(value) {
+            modulationFactor = value;
+            gainNode.gain.value = Math.exp(value - 1);
+        }
+    })();
+</script>
 
 </body>
 </html>
-Hamzat Incorporated 𝕏 ChatGPT4+Q\mbox{*}
+Hamzat Incorporated 𝕏 ChatGPT4+Q-Star
