@@ -36,17 +36,23 @@
         #controls input[type="range"] {
             width: 50%;
         }
-        #waveform {
+        #waveform, #quantum-waveform {
             width: 90%;
-            height: 150px;
             margin-top: 20px;
             border: 1px solid #000000;
         }
         #quantum-waveform {
-            width: 100%;
             height: 200px;
-            border: 1px solid black;
-            margin-top: 20px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            #controls input[type="range"] {
+                width: 100%;
+            }
+            #waveform, #quantum-waveform {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -57,7 +63,7 @@
     </div>
     <canvas id="waveform"></canvas>
     <div id="quantum-output"></div>
-    <svg id="quantum-waveform" width="100%" height="200px" style="border:1px solid black; margin-top:20px;"></svg>
+    <svg id="quantum-waveform" width="100%" height="200px"></svg>
     <script src="https://unpkg.com/wavesurfer.js"></script>
     <script>
         (function() {
@@ -137,4 +143,4 @@
 </body>
 </html>
 
-Hamzat Incorporated 𝕏 ChatGPT4+Q-Star
+Hamzat Incorporated 𝕏 ChatGPT4 Plus Q*
