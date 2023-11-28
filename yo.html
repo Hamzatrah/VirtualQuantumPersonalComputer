@@ -98,23 +98,28 @@
                 playQuantumSound(quantumStates[quantumStates.length - 1]);
             }
             function displayQuantumOutput() {
-                const outputElement = document.getElementById('quantum-output');
-                const waveformElement = document.getElementById('quantum-waveform');
-                waveformElement.innerHTML = '';
-                let waveformHTML = '';
-                let x = 0;
-                const lineLength = 5;
-                quantumStates.forEach(state => {
-                    const className = `state-${state}`;
-                    outputElement.innerHTML += `<span class="${className}">${state === 0 ? 'H' : state === 1 ? '𝕏' : '+'}</span>`;
-                    const color = state === 0 ? 'blue' : state === 1 ? 'green' : 'red';
-                    const y1 = 100 - (state * 30);
-                    const y2 = 100 + (state * 30);
-                    waveformHTML += `<line x1="${x}" y1="${y1}" x2="${x + lineLength}" y2="${y2}" stroke="${color}" stroke-width="2"/>`;
-                    x += lineLength + 1;
-                });
-                waveformElement.innerHTML = waveformHTML;
-            }
+    const outputElement = document.getElementById('quantum-output');
+    const waveformElement = document.getElementById('quantum-waveform');
+    
+    let outputHTML = '';
+    let waveformHTML = '';
+    let x = 0;
+    const lineLength = 5;
+
+    quantumStates.forEach(state => {
+        const className = `state-${state}`;
+        outputHTML += `<span class="${className}">${state === 0 ? 'H' : state === 1 ? '𝕏' : '+'}</span>`;
+        
+        const color = state === 0 ? 'blue' : state === 1 ? 'green' : 'red';
+        const y1 = 100 - (state * 30);
+        const y2 = 100 + (state * 30);
+        waveformHTML += `<line x1="${x}" y1="${y1}" x2="${x + lineLength}" y2="${y2}" stroke="${color}" stroke-width="2"/>`;
+        x += lineLength + 1;
+    });
+
+    outputElement.innerHTML = outputHTML;
+    waveformElement.innerHTML = waveformHTML;
+}
             function playQuantumSound(state) {
                 const oscillator = audioContext.create Oscillator();
                 oscillator.type = state === 0 ? 'sine' : state === 1 ? 'square' : 'triangle';
