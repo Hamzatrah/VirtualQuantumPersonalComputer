@@ -17,15 +17,16 @@
             margin: 0;
             padding: 10px;
         }
-        #cube-container, #die-output, #waveform-container {
+        #cube-container {
+            width: 300px;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+        #die-output, #waveform-container {
             margin-top: 20px;
             border: 1px solid #000000;
             max-width: 90%;
             overflow-x: auto;
-        }
-        #cube-container {
-            width: 300px;
-            height: 300px;
         }
         #die-output {
             display: grid;
@@ -46,7 +47,7 @@
             max-height: 80vh;
         }
         #waveform {
-            width: 8000px;
+            width: 4000px;
             height: 300px;
         }
     </style>
@@ -123,12 +124,17 @@
         }
 
         function drawCanvas() {
-            const stateWidth = 2, canvasWidth = stateWidth * quantumStates.length, midPoint = canvas.height / 2;
+            const stateWidth = 1;
+            const canvasWidth = Math.max(4000, stateWidth * quantumStates.length);
+            const maxHeight = 100;
             canvas.width = canvasWidth;
+            const midPoint = canvas.height / 2;
+
             ctx.clearRect(0, 0, canvasWidth, canvas.height);
             quantumStates.forEach((state, index) => {
+                const lineLength = Math.random() * maxHeight;
                 ctx.fillStyle = ['blue', 'green', 'red'][state];
-                ctx.fillRect(index * stateWidth, midPoint - 33 / 2, stateWidth, 33);
+                ctx.fillRect(index * stateWidth, midPoint - lineLength / 2, stateWidth, lineLength);
             });
         }
 
@@ -155,22 +161,22 @@
         function loadCubeSymbols() {
             const loader = new THREE.FontLoader();
             loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', font => {
-                addTextToCube(font, 'H', -0.5, 0, 0.5);
-                addTextToCube(font, '𝕏', 0.5, 0, 0.5);
-                addTextToCube(font, '+', 0, 0.5, 0.5);
+                addTextToCube(font, 'H', -0.5, 0, 0.5, 0, Math.PI / 2, 0);
+                addTextToCube(font, '𝕏', 0.5, 0, 0.5, 0, -Math.PI / 2, 0);
+                addTextToCube(font, '+', 0, 0.5, 0.5, -Math.PI / 2, 0, 0);
             });
         }
 
-        function addTextToCube(font, text, x, y, z) {
-    const textGeometry = new THREE.TextGeometry(text, { font: font, size: 0.4, height: 0.1 });
-    textGeometry.computeBoundingBox();
-    const textWidth = textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x;
-    const textHeight = textGeometry.boundingBox.max.y - textGeometry.boundingBox.min.y;
-
-    const textMesh = new THREE.Mesh(textGeometry, new THREE.MeshBasicMaterial({ color: 0x000000 }));
-    textMesh.position.set(x - textWidth / 2, y - textHeight / 2, z);
-    cube.add(textMesh);
-}
+        function addTextToCube(font, text, x, y, z, rotationX, rotationY, rotationZ) {
+            const textGeometry = new THREE.TextGeometry(text, { font: font, size: 0.4, height: 0.1 });
+            textGeometry.computeBoundingBox();
+            const textWidth = textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x;
+            const textHeight = textGeometry.boundingBox.max.y - textGeometry.boundingBox.min.y;
+            const textMesh = new THREE.Mesh(textGeometry, new THREE.MeshBasicMaterial({ color: 0x000000 }));
+            textMesh.position.set(x - textWidth / 2, y - textHeight / 2, z);
+            textMesh.rotation.set(rotationX, rotationY, rotationZ);
+            cube.add(textMesh);
+        }
 
         function animateCube() {
             requestAnimationFrame(animateCube);
