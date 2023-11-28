@@ -42,6 +42,12 @@
             margin-top: 20px;
             border: 1px solid #000000;
         }
+        #quantum-waveform {
+            width: 100%;
+            height: 200px;
+            border: 1px solid black;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -51,6 +57,7 @@
     </div>
     <canvas id="waveform"></canvas>
     <div id="quantum-output"></div>
+    <svg id="quantum-waveform" width="100%" height="200px" style="border:1px solid black; margin-top:20px;"></svg>
     <script src="https://unpkg.com/wavesurfer.js"></script>
     <script>
         (function() {
@@ -58,13 +65,11 @@
                 alert('Your browser does not support the Web Audio API');
                 return;
             }
-
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
             const gainNode = audioContext.createGain();
             let quantumLoop;
             let modulationFactor = 1;
             let quantumStates = [];
-
             const waveform = WaveSurfer.create({
                 container: '#waveform',
                 waveColor: 'black',
@@ -73,13 +78,11 @@
                 audioContext: audioContext,
                 audioScriptProcessor: gainNode,
             });
-
             window.startQuantumFlute = function() {
                 gainNode.connect(audioContext.destination);
                 clearInterval(quantumLoop);
                 quantumLoop = setInterval(runQuantumEmulation, 200);
             }
-
             function runQuantumEmulation() {
                 if (quantumStates.length >= 4000) {
                     quantumStates.shift();
@@ -88,47 +91,50 @@
                 displayQuantumOutput();
                 playQuantumSound(quantumStates[quantumStates.length - 1]);
             }
-
             function displayQuantumOutput() {
                 const outputElement = document.getElementById('quantum-output');
-                outputElement.innerHTML = quantumStates.map(state => {
+                const waveformElement = document.getElementById('quantum-waveform');
+                waveformElement.innerHTML = '';
+                let waveformHTML = '';
+                let x = 0;
+                const lineLength = 5;
+                quantumStates.forEach(state => {
                     const className = `state-${state}`;
-                    return `<span class="${className}">${state === 0 ? 'H' : state === 1 ? '𝕏' : '+'}</span>`;
-                }).join('');
+                    outputElement.innerHTML += `<span class="${className}">${state === 0 ? 'H' : state === 1 ? '𝕏' : '+'}</span>`;
+                    const color = state === 0 ? 'blue' : state === 1 ? 'green' : 'red';
+                    const y1 = 100 - (state * 30);
+                    const y2 = 100 + (state * 30);
+                    waveformHTML += `<line x1="${x}" y1="${y1}" x2="${x + lineLength}" y2="${y2}" stroke="${color}" stroke-width="2"/>`;
+                    x += lineLength + 1;
+                });
+                waveformElement.innerHTML = waveformHTML;
             }
-
             function playQuantumSound(state) {
-                const oscillator = audioContext.createOscillator();
+                const oscillator = audioContext.create Oscillator();
                 oscillator.type = state === 0 ? 'sine' : state === 1 ? 'square' : 'triangle';
                 const frequency = (440 + state * 110) * modulationFactor;
                 oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
                 oscillator.connect(gainNode);
-
                 oscillator.start(audioContext.currentTime);
                 oscillator.stop(audioContext.currentTime + 0.4);
                 generateAndLoadBuffer(frequency);
             }
-
             function generateAndLoadBuffer(frequency) {
                 const length = audioContext.sampleRate * 0.4;
                 const buffer = audioContext.createBuffer(1, length, audioContext.sampleRate);
                 const data = buffer.getChannelData(0);
-
                 for (let i = 0; i < length; i++) {
                     data[i] = Math.sin(2 * Math.PI * frequency * i / audioContext.sampleRate);
                 }
-
-                waveform.load
-                DecodedBuffer(buffer);
-}
-
-        window.updateModulation = function(value) {
-            modulationFactor = value;
-            gainNode.gain.value = Math.exp(value - 1);
-        }
-    })();
-</script>
-
+                waveform.loadDecodedBuffer(buffer);
+            }
+            window.updateModulation = function(value) {
+                modulationFactor = value;
+                gainNode.gain.value = Math.exp(value - 1);
+            }
+        })();
+    </script>
 </body>
 </html>
+
 Hamzat Incorporated 𝕏 ChatGPT4+Q-Star
