@@ -162,11 +162,15 @@
         }
 
         function addTextToCube(font, text, x, y, z) {
-            const textGeometry = new THREE.TextGeometry(text, { font: font, size: 0.4, height: 0.1 });
-            const textMesh = new THREE.Mesh(textGeometry, new THREE.MeshBasicMaterial({ color: 0x000000 }));
-            textMesh.position.set(x, y, z);
-            cube.add(textMesh);
-        }
+    const textGeometry = new THREE.TextGeometry(text, { font: font, size: 0.4, height: 0.1 });
+    textGeometry.computeBoundingBox();
+    const textWidth = textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x;
+    const textHeight = textGeometry.boundingBox.max.y - textGeometry.boundingBox.min.y;
+
+    const textMesh = new THREE.Mesh(textGeometry, new THREE.MeshBasicMaterial({ color: 0x000000 }));
+    textMesh.position.set(x - textWidth / 2, y - textHeight / 2, z);
+    cube.add(textMesh);
+}
 
         function animateCube() {
             requestAnimationFrame(animateCube);
