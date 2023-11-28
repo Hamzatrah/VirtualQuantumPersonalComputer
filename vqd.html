@@ -5,51 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Quantum Die</title>
     <style>
-        body {
-            font-family: 'Times New Roman', serif;
-            background-color: #ffffff;
-            color: #000000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            padding: 10px;
-        }
-        #die-output, #waveform-container {
-            margin-top: 20px;
-            border: 1px solid #000000;
-            max-width: 90%;
-            overflow-x: auto;
-        }
-        #die-output {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
-            gap: 2px;
-            font-family: monospace;
-            font-size: 14px;
-            max-height: 80vh;
-            overflow: auto;
-        }
-        .state-H { color: blue; }
-        .state-𝕏 { color: green; }
-        .state-plus { color: red; }
-        #controls input[type="range"] {
-            width: 50%;
-        }
-        #waveform-container {
-        max-width: 90%; /* Adjusted to fit the viewport */
-        max-height: 80vh; /* Responsive height */
-        overflow-x: auto; /* Horizontal scrolling for wide canvas */
-        overflow-y: hidden; /* Prevent vertical scrolling */
+    body {
+        font-family: 'Times New Roman', serif;
+        background-color: #ffffff;
+        color: #000000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 10px;
+    }
+    #die-output, #waveform-container {
+        margin-top: 20px;
+        border: 1px solid #000000;
+        max-width: 90%;
+        overflow-x: auto;
+    }
+    #die-output {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+        gap: 2px;
+        font-family: monospace;
+        font-size: 14px;
+        max-height: 80vh;
+        overflow: auto;
+    }
+    .state-H { color: blue; }
+    .state-𝕏 { color: green; }
+    .state-plus { color: red; }
+    #controls input[type="range"] {
+        width: 50%;
+    }
+    #waveform-container {
+        max-width: 90%;
+        max-height: 80vh;
+        overflow-x: auto;
+        overflow-y: hidden;
     }
     #waveform {
-        width: 8000px; /* Set a large initial width */
-        height: 300px; /* Height to accommodate the tallest line centered */
+        width: 8000px;
+        height: 300px;
     }
-    /* ... */
-    </style>
+</style>
 </head>
 <body>
     <div id="controls">
