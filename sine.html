@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sine Function Visualization</title>
+    <title>Sine Function with Perspective</title>
     <style>
         svg {
             border: 1px solid black;
@@ -19,19 +19,19 @@
     </style>
 </head>
 <body>
-    <h1>Sine Function in 3D Space</h1>
+    <h1>Sine Function in Perspective</h1>
     <svg width="600" height="400">
         <!-- X Axis -->
-        <line class="axis" x1="50" y1="200" x2="550" y2="200" />
+        <line class="axis" x1="50" y1="300" x2="550" y2="100" />
         <!-- Y Axis -->
         <line class="axis" x1="300" y1="50" x2="300" y2="350" />
 
         <!-- Sine Wave -->
         <path class="sine-wave" d="
-            M 50,200
-            C 100,100 200,100 250,200
-              300,300 400,300 450,200
-              500,100 600,100 650,200
+            M 50,300
+            C 125,225 175,175 250,200
+              325,225 375,275 450,250
+              525,225 575,175 650,200
         " />
     </svg>
 </body>
