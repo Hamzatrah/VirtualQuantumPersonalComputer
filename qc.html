@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Concepts</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .particle {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin: 5px;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+        }
+        .state-0 { background-color: red; }
+        .state-1 { background-color: green; }
+        .state-2 { background-color: blue; }
+        #die-output {
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        #controls {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Quantum Die Roll</h2>
+    <div id="controls">
+        <button onclick="rollQuantumDie()">Roll</button>
+    </div>
+    <div id="die-output"></div>
+
+    <script>
+        let audioContext;
+
+        function rollQuantumDie() {
+            initAudioContext();
+            const array = new Uint8Array(1);
+            window.crypto.getRandomValues(array);
+            const outcome = array[0] % 3;
+            displayOutcome(outcome);
+            playSound(outcome);
+        }
+
+        function displayOutcome(outcome) {
+            const dieOutput = document.getElementById('die-output');
+            dieOutput.textContent = 'Outcome: ' + outcome;
+        }
+
+        function playSound(state) {
+            if (!audioContext) return;
+
+            const oscillator = audioContext.createOscillator();
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 220 + (state * 220); // Different frequency for each state
+            oscillator.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+
+        function initAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+    </script>
+</body>
+</html>
