@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quantum Concepts with Waveform</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .concept {
+            margin: 10px;
+        }
+        .slider {
+            width: 300px;
+        }
+        #die-output, #waveform-container {
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 14px;
+            color: #333;
+            max-width: 90%;
+            overflow-x: auto;
+        }
+        #waveform {
+            width: 100%;
+            height: 100px;
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <h2>Quantum Concepts</h2>
+    <!-- Quantum concept buttons and sliders -->
+      <div class="concept">
+        <button onclick="playSound(1)">Schrödinger's Cat</button>
+        <input type="range" class="slider" min="1" max="5" step="0.1" value="3" id="slider1">
+    </div>
+    <div class="concept">
+        <button onclick="playSound(2)">Parallelism</button>
+        <input type="range" class="slider" min="1" max="5" step="0.1" value="3" id="slider2">
+    </div>
+    <div class="concept">
+        <button onclick="playSound(3)">Spooky Action</button>
+        <input type="range" class="slider" min="1" max="5" step="0.1" value="3" id="slider3">
+    </div>
+    <div class="concept">
+        <button onclick="playSound(4)">Quantum Tunneling</button>
+        <input type="range" class="slider" min="1" max="5" step="0.1" value="3" id="slider4">
+    </div>
+    <div class="concept">
+        <button onclick="playSound(5)">Wave-Particle Duality</button>
+        <input type="range" class="slider" min="1" max="5" step="0.1" value="3" id="slider5">
+    </div>
+    <h2>Quantum Die Roll</h2>
+    <div class="concept">
+        <button onclick="rollQuantumDie()">Roll Quantum Die</button>
+        <div id="die-output"></div>
+    </div>
+
+    <div id="waveform-container">
+        <canvas id="waveform"></canvas>
+    </div>
+
+    <script>
+        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let analyser = audioContext.createAnalyser();
+        let dataArray, bufferLength;
+
+        function playSound(conceptId) {
+            // ... Sound generation logic
+            // Connect the oscillator to the analyser
+            oscillator.connect(analyser);
+            analyser.connect(audioContext.destination);
+            drawWaveform();
+        }
+
+        // Quantum die logic
+       function rollQuantumDie() {
+    const array = new Uint8Array(1);
+    window.crypto.getRandomValues(array);
+    const outcome = array[0] % 3; // 0, 1, or 2
+    document.getElementById('die-output').textContent = "Die Result: " + outcome;
+    playDieSound(outcome);
+}
+
+function playDieSound(outcome) {
+    let oscillator = audioContext.createOscillator();
+    oscillator.type = 'square';
+    oscillator.frequency.setValueAtTime(220 + outcome * 110, audioContext.currentTime);
+    oscillator.connect(analyser); // Connect to the analyser for waveform visualization
+    analyser.connect(audioContext.destination);
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + 0.5);
+    drawWaveform();
+}
+
+        function drawWaveform() {
+            const canvas = document.getElementById('waveform');
+            const ctx = canvas.getContext('2d');
+            bufferLength = analyser.frequencyBinCount;
+            dataArray = new Uint8Array(bufferLength);
+            analyser.getByteTimeDomainData(dataArray);
+
+            function draw() {
+                requestAnimationFrame(draw);
+                analyser.getByteTimeDomainData(dataArray);
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#333333';
+                ctx.beginPath();
+                var sliceWidth = canvas.width * 1.0 / bufferLength;
+                var x = 0;
+                for(var i = 0; i < bufferLength; i++) {
+                    var v = dataArray[i] / 128.0;
+                    var y = v * canvas.height/2;
+                    if(i === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                    x += sliceWidth;
+                }
+                ctx.lineTo(canvas.width, canvas.height/2);
+                ctx.stroke();
+            }
+
+            draw();
+        }
+    </script>
+</body>
+</html>
