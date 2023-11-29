@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Concept Sounds</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .concept {
+            margin: 10px;
+        }
+        .slider {
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Quantum Concept Sounds</h2>
+    <div class="concept">
+        <button onclick="playSound(1)">Schrödinger's Cat</button>
+        <input type="range" class="slider" min="1" max="5" step="0.1" value="3" id="slider1">
+    </div>
+    <div class="concept">
+        <button onclick="playSound(2)">Parallelism</button>
+        <input type="range" class="slider" min="1" max="5" step="0.1" value="3" id="slider2">
+    </div>
+    <div class="concept">
+        <button onclick="playSound(3)">Spooky Action</button>
+        <input type="range" class="slider" min="1" max="5" step="0.1" value="3" id="slider3">
+    </div>
+    <div class="concept">
+        <button onclick="playSound(4)">Quantum Tunneling</button>
+        <input type="range" class="slider" min="1" max="5" step="0.1" value="3" id="slider4">
+    </div>
+    <div class="concept">
+        <button onclick="playSound(5)">Wave-Particle Duality</button>
+        <input type="range" class="slider" min="1" max="5" step="0.1" value="3" id="slider5">
+    </div>
+
+    <script>
+        let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(conceptId) {
+            let frequency = calculateFrequency(conceptId);
+            let modulation = getModulation(conceptId);
+            let oscillator = audioContext.createOscillator();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(frequency * modulation, audioContext.currentTime);
+            oscillator.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+
+        function calculateFrequency(conceptId) {
+            // Each concept has a unique base frequency
+            const baseFrequencies = {1: 261.63, 2: 293.66, 3: 329.63, 4: 349.23, 5: 392.00};
+            return baseFrequencies[conceptId] || 440; // Default to 440 Hz (A note) if not found
+        }
+
+        function getModulation(conceptId) {
+            let slider = document.getElementById('slider' + conceptId);
+            return parseFloat(slider.value);
+        }
+    </script>
+</body>
+</html>
