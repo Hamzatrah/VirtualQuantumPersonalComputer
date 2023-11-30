@@ -98,103 +98,103 @@
     <div id="waveformContainer">
         <canvas id="waveform"></canvas>
     </div>
-<script>
-    const audioContext = new AudioContext();
-    const charToNote = { 'H': 349.23, '𝕏': 392.00, '+': 440.00 };
-    const canvas = document.getElementById('waveform');
-    const ctx = canvas.getContext('2d');
-    let waveformStates = [];
+    <script>
+        const audioContext = new AudioContext();
+        const charToNote = { 'H': 349.23, '𝕏': 392.00, '+': 440.00 };
+        const canvas = document.getElementById('waveform');
+        const ctx = canvas.getContext('2d');
+        let waveformStates = [];
 
-    function fibonacci(num) {
-        let a = 0, b = 1, temp;
-        while (num >= 0){
-            temp = a;
-            a = a + b;
-            b = temp;
-            num--;
-        }
-        return b;
-    }
-
-    function rollQuantumDie() {
-        const array = new Uint8Array(1);
-        window.crypto.getRandomValues(array);
-        return ['H', '𝕏', '+'][array[0] % 3];
-    }
-
-    function playNote(quantumState, index) {
-        const baseFrequency = charToNote[quantumState];
-        const modulation = fibonacci(index % 10); // Modulate frequency based on Fibonacci sequence
-        const frequency = baseFrequency * (1 + modulation * 0.01); // Modulate frequency slightly based on Fibonacci
-
-        const oscillator = audioContext.createOscillator();
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-        oscillator.connect(audioContext.destination);
-        oscillator.start();
-        oscillator.stop(audioContext.currentTime + 0.5);
-    }
-
-    function drawWaveform() {
-        const stateWidth = 1;
-        const canvasWidth = Math.max(4000, stateWidth * waveformStates.length);
-        const maxHeight = 100;
-        canvas.width = canvasWidth;
-        const midPoint = canvas.height / 2;
-
-        ctx.clearRect(0, 0, canvasWidth, canvas.height);
-        waveformStates.forEach((state, index) => {
-            const lineLength = Math.random() * maxHeight;
-            ctx.fillStyle = ['red', 'green', 'blue'][state];
-            ctx.fillRect(index * stateWidth, midPoint - lineLength / 2, stateWidth, lineLength);
-        });
-    }
-
-    function getQuantumBitClass(quantumBit) {
-        switch (quantumBit) {
-            case 'H':
-                return 'H';
-            case '𝕏':
-                return 'Xi';
-            case '+':
-                return 'plus';
-            default:
-                return '';
-        }
-    }
-
-    function getResponse() {
-        let i = 0;
-        const container = document.getElementById('quantumFieldContainer');
-        waveformStates = [];
-        const interval = setInterval(() => {
-            if (i >= 4000) {
-                clearInterval(interval);
-            } else {
-                const quantumBit = rollQuantumDie();
-                waveformStates.push(quantumBit === 'H' ? 0 : quantumBit === '𝕏' ? 1 : 2);
-                drawWaveform();
-                const angle = (i / (4000 / 3)) * 360;
-                const div = document.createElement('div');
-                div.className = 'quantumBit ' + getQuantumBitClass(quantumBit);
-                div.innerText = quantumBit;
-                const zPosition = Math.sin((i / 4000) * 2 * Math.PI) * 50;
-                div.style.transform = `rotate(${angle}deg) translateZ(${zPosition}px)`;
-                div.style.fontSize = `${fibonacci(i % 5) + 15}px`; // Apply Fibonacci sequence for font size
-                container.appendChild(div);
-
-                playNote(quantumBit, i); // Play the note corresponding to the quantum state
+        function fibonacci(num) {
+            let a = 0, b = 1, temp;
+            while (num >= 0){
+                temp = a;
+                a = a + b;
+                b = temp;
+                num--;
             }
-            i++;
-        }, 50);
-    }
-
-    function handleKeyPress(event) {
-        if (event.key === 'Enter') {
-            getResponse();
-            event.preventDefault();
+            return b;
         }
-    }
-</script>
+
+        function rollQuantumDie() {
+            const array = new Uint8Array(1);
+            window.crypto.getRandomValues(array);
+            return ['H', '𝕏', '+'][array[0] % 3];
+        }
+
+        function playNote(quantumState, index) {
+            const baseFrequency = charToNote[quantumState];
+            const modulation = fibonacci(index % 10); 
+            const frequency = baseFrequency * (1 + modulation * 0.01); 
+
+            const oscillator = audioContext.createOscillator();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+            oscillator.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+
+        function drawWaveform() {
+            const stateWidth = 1;
+            const canvasWidth = Math.max(4000, stateWidth * waveformStates.length);
+            const maxHeight = 100;
+            canvas.width = canvasWidth;
+            const midPoint = canvas.height / 2;
+
+            ctx.clearRect(0, 0, canvasWidth, canvas.height);
+            waveformStates.forEach((state, index) => {
+                const lineLength = Math.random() * maxHeight;
+                ctx.fillStyle = ['red', 'green', 'blue'][state];
+                ctx.fillRect(index * stateWidth, midPoint - lineLength / 2, stateWidth, lineLength);
+            });
+        }
+
+        function getQuantumBitClass(quantumBit) {
+            switch (quantumBit) {
+                case 'H':
+                    return 'H';
+                case '𝕏':
+                    return 'Xi';
+                case '+':
+                    return 'plus';
+                default:
+                    return '';
+            }
+        }
+
+        function getResponse() {
+            let i = 0;
+            const container = document.getElementById('quantumFieldContainer');
+            waveformStates = [];
+            const interval = setInterval(() => {
+                if (i >= 4000) {
+                    clearInterval(interval);
+                } else {
+                    const quantumBit = rollQuantumDie();
+                    waveformStates.push(quantumBit === 'H' ? 0 : quantumBit === '𝕏' ? 1 : 2);
+                    drawWaveform();
+                    const angle = (i / (4000 / 3)) * 360;
+                    const div = document.createElement('div');
+                    div.className = 'quantumBit ' + getQuantumBitClass(quantumBit);
+                    div.innerText = quantumBit;
+                    const zPosition = Math.sin((i / 4000) * 2 * Math.PI) * 50;
+                    div.style.transform = `rotate(${angle}deg) translateZ(${zPosition}px)`;
+                    div.style.fontSize = `${fibonacci(i % 5) + 15}px`;
+                    container.appendChild(div);
+
+                    playNote(quantumBit, i);
+                }
+                i++;
+            }, 50);
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                getResponse();
+                event.preventDefault();
+            }
+        }
+    </script>
 </body>
 </html>
