@@ -57,8 +57,10 @@
             text-align: center;
             line-height: 60px;
             font-size: 30px;
-            color: #ff0000;
         }
+        .quantumBit.H { color: red; }
+        .quantumBit.Xi { color: green; }
+        .quantumBit.plus { color: blue; }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -140,39 +142,50 @@
         }
 
         function getResponse() {
-            let i = 0;
-            const container = document.getElementById('quantumFieldContainer');
-            const innerSphere = document.getElementById('innerSphere');
-            waveformStates = [];
-            const interval = setInterval(() => {
-                if (i >= 4000) {
-                    clearInterval(interval);
-                } else {
-                    const quantumBit = rollQuantumDie();
-                    const schrodingersCat = virtualSchrodingersCat();
-                    const hamzatsCat = virtualHamzatsCat();
-                    waveformStates.push(quantumBit === 'H' ? 0 : quantumBit === '𝕏' ? 1 : 2);
-                    drawWaveform();
-                    const angle = (i / (4000/3)) * 360;
-                    const div = document.createElement('div');
-                    div.className = 'quantumBit';
-                    div.innerText = (i % 2 === 0) ? quantumBit : (i % 3 === 0) ? schrodingersCat : hamzatsCat;
-                    const zPosition = Math.sin((i / 4000) * 2 * Math.PI) * 50;
-                    div.style.transform = `rotate(${angle}deg) translateZ(${zPosition}px)`;
-                    const fontSize = 20 + (40 * Math.sin(i * Math.PI / 1333));
-                    div.style.fontSize = `${fontSize}px`;
-                    container.appendChild(div);
-                    if (hamzatsCat === '1') {
-                        innerSphere.style.backgroundColor = '#000';
-                    } else {
-                        innerSphere.style.backgroundColor = '';
-                    }
-                    const char = (i % 2 === 0) ? quantumBit : (i % 3 === 0) ? schrodingersCat : hamzatsCat;
-                    playNote(charToNote[char], i * 0.0125);
-                }
-                i++;
-            }, 50);
+    let i = 0;
+    const container = document.getElementById('quantumFieldContainer');
+    const innerSphere = document.getElementById('innerSphere');
+    waveformStates = [];
+    const interval = setInterval(() => {
+        if (i >= 4000) {
+            clearInterval(interval);
+        } else {
+            const quantumBit = rollQuantumDie();
+            const schrodingersCat = virtualSchrodingersCat();
+            const hamzatsCat = virtualHamzatsCat();
+            waveformStates.push(quantumBit === 'H' ? 0 : quantumBit === '𝕏' ? 1 : 2);
+            drawWaveform();
+            const angle = (i / (4000/3)) * 360;
+            const div = document.createElement('div');
+            div.className = 'quantumBit ' + getQuantumBitClass(quantumBit);
+            div.innerText = (i % 2 === 0) ? quantumBit : (i % 3 === 0) ? schrodingersCat : hamzatsCat;
+            const zPosition = Math.sin((i / 4000) * 2 * Math.PI) * 50;
+            div.style.transform = `rotate(${angle}deg) translateZ(${zPosition}px)`;
+            const fontSize = 20 + (40 * Math.sin(i * Math.PI / 1333));
+            div.style.fontSize = `${fontSize}px`;
+            container.appendChild(div);
+            if (hamzatsCat === '1') {
+                innerSphere.style.backgroundColor = '#000';
+            } else {
+                innerSphere.style.backgroundColor = '';
+            }
+            const char = (i % 2 === 0) ? quantumBit : (i % 3 === 0) ? schrodingersCat : hamzatsCat;
+            playNote(charToNote[char], i * 0.0125);
         }
+        i++;
+    }, 50);
+}
+
+function getQuantumBitClass(quantumBit) {
+    if (quantumBit === 'H') {
+        return 'H';
+    } else if (quantumBit === '𝕏') {
+        return 'Xi'; // Use a distinct class for '𝕏'
+    } else if (quantumBit === '+') {
+        return 'plus';
+    }
+    return '';
+}
 
         function handleKeyPress(event) {
             if (event.key === 'Enter') {
