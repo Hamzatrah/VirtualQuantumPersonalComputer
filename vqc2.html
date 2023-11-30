@@ -177,14 +177,39 @@
 }
 
 function getQuantumBitClass(quantumBit) {
-    if (quantumBit === 'H') {
-        return 'H';
-    } else if (quantumBit === '𝕏') {
-        return 'Xi'; // Use a distinct class for '𝕏'
-    } else if (quantumBit === '+') {
-        return 'plus';
+    switch (quantumBit) {
+        case 'H':
+            return 'H';
+        case '𝕏':
+            return 'Xi'; // Distinct class for '𝕏'
+        case '+':
+            return 'plus';
+        default:
+            return '';
     }
-    return '';
+}
+
+function getResponse() {
+    let i = 0;
+    const container = document.getElementById('quantumFieldContainer');
+    waveformStates = [];
+    const interval = setInterval(() => {
+        if (i >= 4000) {
+            clearInterval(interval);
+        } else {
+            const quantumBit = rollQuantumDie();
+            waveformStates.push(quantumBit === 'H' ? 0 : quantumBit === '𝕏' ? 1 : 2);
+            drawWaveform();
+            const angle = (i / (4000 / 3)) * 360;
+            const div = document.createElement('div');
+            div.className = 'quantumBit ' + getQuantumBitClass(quantumBit);
+            div.innerText = quantumBit;
+            const zPosition = Math.sin((i / 4000) * 2 * Math.PI) * 50;
+            div.style.transform = `rotate(${angle}deg) translateZ(${zPosition}px)`;
+            container.appendChild(div);
+        }
+        i++;
+    }, 50);
 }
 
         function handleKeyPress(event) {
