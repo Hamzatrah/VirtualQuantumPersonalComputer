@@ -23,30 +23,27 @@
     <pre id="quantumField"></pre>
 
     <script>
-        function quantumRandom() {
-    // Superposition: Create a combination of states
-    let state1 = Math.random();
-    let state2 = Math.random();
-    let state3 = Math.random();
+       function quantumRandom() {
+    const states = [Math.random(), Math.random(), Math.random()];
 
-    // Entanglement: Link state4 to the combination of state1, state2, and state3
-    let entangledState = (state1 + state2 + state3) / 3;
+    // Calculate entangled state as the average of the three states
+    const entangledState = states.reduce((a, b) => a + b, 0) / states.length;
 
-    // Quantum Interference: States can interfere with each other
-    let interference = (state1 * state2 + state2 * state3 + state3 * state1) / 3;
+    // Calculate quantum interference
+    const interference = (states[0] * states[1] + states[1] * states[2] + states[2] * states[0]) / 3;
 
-    // Quantum Coherence: Maintain a fixed relationship between states
-    let coherenceFactor = Math.cos(Math.PI * interference);
+    // Quantum Coherence: using cosine function for coherence factor
+    const coherenceFactor = Math.cos(Math.PI * interference);
 
-    // Collapse: Choose a state based on a combined factor
-    let collapse = (state1 * coherenceFactor + entangledState + interference) / 3;
+    // Collapse: weighted average of the states, entanglement, and interference
+    const collapse = (states[0] * coherenceFactor + entangledState + interference) / 3;
 
-    // Enhance randomness with crypto.getRandomValues
-    let cryptoRandomBuffer = new Uint8Array(1);
-    window.crypto.getRandomValues(cryptoRandomBuffer);
-    let cryptoFactor = cryptoRandomBuffer[0] / 255;
+    // Enhance randomness with cryptographically secure randomness
+    const cryptoBuffer = new Uint8Array(1);
+    window.crypto.getRandomValues(cryptoBuffer);
+    const cryptoFactor = cryptoBuffer[0] / 255;
 
-    // Final collapse with cryptographic randomness
+    // Combine collapse with cryptographic randomness
     return (collapse + cryptoFactor) / 2;
 }
     </script>
