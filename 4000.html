@@ -9,43 +9,62 @@
             font-family: 'Times New Roman', Times, serif;
             text-align: center;
         }
-        #quantumField {
-            font-family: monospace;
-            white-space: pre;
-            text-align: left;
-            margin: auto;
+
+        canvas {
+            border: 1px solid black;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .shimmer {
+            animation: shimmer 2s infinite;
         }
     </style>
 </head>
 <body>
     <h1>Virtual Quantum Field Generator</h1>
-    <button onclick="generateField()">Generate Field</button>
-    <pre id="quantumField"></pre>
+    <canvas id="quantumCanvas"></canvas>
 
     <script>
-       function quantumRandom() {
-    const states = [Math.random(), Math.random(), Math.random()];
-
-    // Calculate entangled state as the average of the three states
-    const entangledState = states.reduce((a, b) => a + b, 0) / states.length;
-
-    // Calculate quantum interference
-    const interference = (states[0] * states[1] + states[1] * states[2] + states[2] * states[0]) / 3;
-
-    // Quantum Coherence: using cosine function for coherence factor
-    const coherenceFactor = Math.cos(Math.PI * interference);
-
-    // Collapse: weighted average of the states, entanglement, and interference
-    const collapse = (states[0] * coherenceFactor + entangledState + interference) / 3;
-
-    // Enhance randomness with cryptographically secure randomness
-    const cryptoBuffer = new Uint8Array(1);
-    window.crypto.getRandomValues(cryptoBuffer);
-    const cryptoFactor = cryptoBuffer[0] / 255;
-
-    // Combine collapse with cryptographic randomness
-    return (collapse + cryptoFactor) / 2;
+        function quantumRandom() {
+    // Quantum Random function implementation
+    let cryptoRandomBuffer = new Uint8Array(1);
+    window.crypto.getRandomValues(cryptoRandomBuffer);
+    return cryptoRandomBuffer[0] / 255;
 }
+
+function generateQutritField(ctx, rows, columns) {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.font = '16px Times New Roman';
+
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < columns; j++) {
+            let qutritState = Math.floor(quantumRandom() * 3); // 0, 1, or 2
+            let x = j * 10;
+            let y = i * 20;
+
+            // Shimmering effect based on quantumRandom
+            ctx.fillStyle = quantumRandom() > 0.95 ? '#f0f' : '#000';
+            ctx.fillText(qutritState, x, y);
+        }
+    }
+}
+
+function init() {
+    const canvas = document.getElementById('quantumCanvas');
+    canvas.width = 800;
+    canvas.height = 800;
+    const ctx = canvas.getContext('2d');
+
+    setInterval(() => {
+        generateQutritField(ctx, 40, 100); // Adjust rows and columns as needed
+    }, 200);
+}
+
+init();
     </script>
 </body>
 </html>
