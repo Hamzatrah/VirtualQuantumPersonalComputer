@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Observer Influence in Quantum Gravity</title>
     <style>
-          <style>
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f0f0f0;
@@ -34,31 +33,41 @@
             margin-top: 10px;
             font-family: monospace;
         }
-        .dropdown {
+        .collapsible-img {
             cursor: pointer;
-            padding: 10px;
+            padding: 5px;
             border: none;
-            text-align: left;
+            text-align: center;
             outline: none;
             font-size: 15px;
             transition: 0.4s;
         }
-        .dropdown.active, .dropdown:hover {
+        .collapsible-img:hover {
             background-color: #f1f1f1;
         }
-        .dropdown-content {
+        .collapsible-content {
             display: none;
-            padding: 15px;
+            padding: 5px;
+            overflow: hidden;
             background-color: #f9f9f9;
-            border-left: 3px solid #0056b3;
         }
-        .show { display: block; }
+        .responsive-img {
+            width: 100%;
+            height: auto;
+        }
+        .caption {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+        }
+        /* Responsive design */
+        @media screen and (max-width: 600px) {
+            .dropdown-content, .collapsible-content {
+                border-left: none;
+            }
+        }
     </style>
 </head>
-    <body>
-    <div id="image-container">
-    <img src="https://hamzat.xyz/IMG_5162.jpeg" alt="3 Sided Coin, Marble, 2015">
-</div> 
 <body>
     <h1>Revolutionizing Quantum Gravity</h1>
 
@@ -70,19 +79,11 @@
         </p>
     </section>
 
-    <!-- Dropdown Sections -->
-    <button class="dropdown" onclick="toggleDropdown('conceptualFramework')">Conceptual Framework</button>
-    <div class="dropdown-content" id="conceptualFramework">
-        <p>
-            The Observer Influence Tensor is a dynamic entity that encapsulates the observer's impact on spacetime and quantum states. Unlike static models, it evolves with real-time data, highlighting the fluid interplay between observation and quantum phenomena.
-        </p>
-    </div>
-
-    <button class="dropdown" onclick="toggleDropdown('methodology')">Methodology: Interactive Quantum Die Simulation</button>
-    <div class="dropdown-content" id="methodology">
-        <p>
-            Our Quantum Die simulation is an immersive tool that demonstrates the observer's influence in real-time. By interacting with this simulation, you directly shape the outcomes, providing live data that feeds into the Observer Influence Tensor.
-        </p>
+    <!-- Collapsible Image Section -->
+    <button class="collapsible-img" onclick="toggleCollapsible('quantumImage')">Toggle Quantum Image</button>
+    <div class="collapsible-content" id="quantumImage">
+        <img src="https://hamzat.xyz/IMG_5162.jpeg" alt="3 Sided Coin, Marble, 2015" class="responsive-img">
+        <p class="caption">Figure 1: 3 Sided Coin, Marble, 2015</p>
     </div>
 
     <!-- Observer Influence Equation Section -->
@@ -96,7 +97,16 @@
         <div id="tensorOutput"></div>
     </section>
 
-   <script>
+    <script>
+        function toggleCollapsible(id) {
+            var content = document.getElementById(id);
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        }
+
         function quantumRandom() {
             return Math.random();
         }
@@ -114,38 +124,32 @@
                 // Create a span for each result and add to the grid
                 const resultSpan = document.createElement('span');
                 resultSpan.textContent = outcome;
-                resultSpan.classList.add('dieResult');
-                dieGrid.appendChild(resultSpan);
-            }
-
-            updateTensor(dieResults);
+                resultSpan.classList.add('dieResult');            dieGrid.appendChild(resultSpan);
         }
 
-        function updateTensor(dieResults) {
-            const observerEffect = calculateObserverEffect(dieResults);
-            const tensor = createObserverInfluenceTensor(observerEffect);
-            document.getElementById('tensorOutput').textContent = 'Updated Tensor: ' + JSON.stringify(tensor);
-        }
+        updateTensor(dieResults);
+    }
 
-        function calculateObserverEffect(dieResults) {
-            const countH = (dieResults.match(/H/g) || []).length;
-            return countH / dieResults.length;
-        }
+    function updateTensor(dieResults) {
+        const observerEffect = calculateObserverEffect(dieResults);
+        const tensor = createObserverInfluenceTensor(observerEffect);
+        document.getElementById('tensorOutput').textContent = 'Updated Tensor: ' + JSON.stringify(tensor);
+    }
 
-        function createObserverInfluenceTensor(effect) {
-            return [
-                [effect, 0],
-                [0, effect]
-            ];
-        }
-        function toggleDropdown(id) {
-            var content = document.getElementById(id);
-            if (content.style.display === "block") {
-                content.style.display = "none";
-            } else {
-                content.style.display = "block";
-            }
-        }
-    </script>
+    function calculateObserverEffect(dieResults) {
+        const countH = (dieResults.match(/H/g) || []).length;
+        return countH / dieResults.length;
+    }
+
+    function createObserverInfluenceTensor(effect) {
+        return [
+            [effect, 0],
+            [0, effect]
+        ];
+    }
+</script>
 </body>
 </html>
+~<3
+
+
