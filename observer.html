@@ -18,9 +18,16 @@
         .content-section {
             margin-bottom: 20px;
         }
-        #dieResults {
+        #dieGrid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr); /* 10 columns grid */
+            gap: 5px;
             margin-top: 10px;
-            font-family: monospace;
+        }
+        .dieResult {
+            text-align: center;
+            padding: 5px;
+            border: 1px solid #ddd;
         }
         #tensorOutput {
             margin-top: 10px;
@@ -43,10 +50,10 @@
     <section class="content-section" id="observerInfluenceEquation">
         <h2>Observer Influence Equation</h2>
         <p>
-            The Observer Influence Tensor, represented as \( O_{\mu\nu} = \frac{1}{2}(g_{\mu\nu} + u_{\mu}u_{\nu}) \), mathematically models the impact of observation on quantum states and spacetime.
+            The Observer Influence Tensor, represented as O<sub>μν</sub> = ½(g<sub>μν</sub> + u<sub>μ</sub>u<sub>ν</sub>), mathematically models the impact of observation on quantum states and spacetime.
         </p>
         <button onclick="rollQuantumDie()">Roll Quantum Die</button>
-        <div id="dieResults"></div>
+        <div id="dieGrid"></div>
         <div id="tensorOutput"></div>
     </section>
 
@@ -56,13 +63,22 @@
         }
 
         function rollQuantumDie() {
+            let dieGrid = document.getElementById('dieGrid');
+            dieGrid.innerHTML = ''; // Clear previous results
+
             let dieResults = '';
             for (let i = 0; i < 100; i++) {
                 const result = quantumRandom();
                 const outcome = result < 1/3 ? 'H' : result < 2/3 ? '𝕏' : '+';
                 dieResults += outcome;
+
+                // Create a span for each result and add to the grid
+                const resultSpan = document.createElement('span');
+                resultSpan.textContent = outcome;
+                resultSpan.classList.add('dieResult');
+                dieGrid.appendChild(resultSpan);
             }
-            document.getElementById('dieResults').textContent = 'Die Results: ' + dieResults;
+
             updateTensor(dieResults);
         }
 
