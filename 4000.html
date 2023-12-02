@@ -29,42 +29,53 @@
     <canvas id="quantumCanvas"></canvas>
 
     <script>
+        // Quantum Random function
         function quantumRandom() {
-    // Quantum Random function implementation
-    let cryptoRandomBuffer = new Uint8Array(1);
-    window.crypto.getRandomValues(cryptoRandomBuffer);
-    return cryptoRandomBuffer[0] / 255;
-}
-
-function generateQutritField(ctx, rows, columns) {
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.font = '16px Times New Roman';
-
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < columns; j++) {
-            let qutritState = Math.floor(quantumRandom() * 3); // 0, 1, or 2
-            let x = j * 10;
-            let y = i * 20;
-
-            // Shimmering effect based on quantumRandom
-            ctx.fillStyle = quantumRandom() > 0.95 ? '#f0f' : '#000';
-            ctx.fillText(qutritState, x, y);
+            let cryptoRandomBuffer = new Uint8Array(1);
+            window.crypto.getRandomValues(cryptoRandomBuffer);
+            return cryptoRandomBuffer[0] / 255;
         }
-    }
-}
 
-function init() {
-    const canvas = document.getElementById('quantumCanvas');
-    canvas.width = 800;
-    canvas.height = 800;
-    const ctx = canvas.getContext('2d');
+        // Generate Qutrit Field
+        function generateQutritField(ctx, rows, columns) {
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            ctx.font = '16px Times New Roman';
 
-    setInterval(() => {
-        generateQutritField(ctx, 40, 100); // Adjust rows and columns as needed
-    }, 200);
-}
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < columns; j++) {
+                    let qutritState = Math.floor(quantumRandom() * 3); // 0, 1, or 2
+                    let x = j * 10;
+                    let y = i * 20;
 
-init();
+                    // Shimmering effect
+                    ctx.fillStyle = quantumRandom() > 0.95 ? '#f0f' : '#000';
+                    ctx.fillText(qutritState, x, y);
+                }
+            }
+        }
+
+        // Initialize Canvas and Vibration
+        function init() {
+            const canvas = document.getElementById('quantumCanvas');
+            canvas.width = 800;
+            canvas.height = 800;
+            const ctx = canvas.getContext('2d');
+
+            setInterval(() => {
+                generateQutritField(ctx, 40, 100); // Adjust rows and columns
+                triggerVibration(); // Trigger vibration
+            }, 200);
+        }
+
+        // Trigger Vibration
+        function triggerVibration() {
+            if ('vibrate' in navigator) {
+                // Vibration pattern [vibrate, pause, vibrate]
+                navigator.vibrate([100, 50, 100]);
+            }
+        }
+
+        init();
     </script>
 </body>
 </html>
