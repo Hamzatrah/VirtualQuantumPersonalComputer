@@ -60,7 +60,7 @@
     <button type="button" class="collapsible">Read Abstract</button>
     <div class="content">
         <p>
-            [Abstract from the paper]
+            This revised version of the paper explores the conceptual framework of integrating observer influence into quantum gravity, focusing on a reduced-dimensional model. By limiting the indices of the Observer Influence Tensor to 0, 1, and 2, we investigate the resulting implications on our theoretical model and its effects on the 'Virtual Quantum Die' simulation.
         </p>
     </div>
     <p>
@@ -80,25 +80,18 @@
 
     <script>
         function quantumRandom() {
-            // Quantum Random function details
+            const states = [Math.random(), Math.random(), Math.random()];
+            const entangledState = states.reduce((a, b) => a + b, 0) / states.length;
+            const interference = (states[0] * states[1] + states[1] * states[2] + states[2] * states[0]) / 3;
+            const coherenceFactor = Math.cos(Math.PI * interference);
+            const collapse = (states[0] * coherenceFactor + entangledState + interference) / 3;
+            const cryptoBuffer = new Uint8Array(1);
+            window.crypto.getRandomValues(cryptoBuffer);
+            const cryptoFactor = cryptoBuffer[0] / 255;
+            return (collapse + cryptoFactor) / 2;
         }
-        function rollQuantumDie() {
-            // Quantum Die roll function details
-        }
-        var coll = document.getElementsByClassName("collapsible");
-        var i;
 
-        for (i = 0; i < coll.length; i++) {
-            coll[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var content = this.nextElementSibling;
-                if (content.style.display === "block") {
-                    content.style.display = "none";
-                } else {
-                    content.style.display = "block";
-                }
-            });
-        }
-    </script>
-</body>
-</html>
+        function rollQuantumDie() {
+            const result = quantumRandom();
+            const outcome = result < 1/3 ? 'H' : result < 2/3 ? '𝕏' : '+';
+            document.getElementById('quantumDieResult').textContent = 'Quantum Die
