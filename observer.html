@@ -11,9 +11,29 @@
             color: #333333;
             padding: 20px;
             line-height: 1.6;
+            margin: 0;
         }
         h1, h2 {
             color: #0056b3;
+        }
+        .button, .collapsible {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: left;
+        }
+        .button:hover, .collapsible:hover {
+            background-color: #0056b3;
+        }
+        .content {
+            padding: 0 18px;
+            display: none;
+            overflow: hidden;
+            background-color: #f9f9f9;
         }
         #quantumDieSimulation {
             margin-top: 20px;
@@ -24,29 +44,35 @@
             font-size: 18px;
             color: #007bff;
         }
-        .button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .button:hover {
-            background-color: #0056b3;
+        @media screen and (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            .button, .collapsible {
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
     <h1>Observer Influence in Quantum Gravity</h1>
+    <button type="button" class="collapsible">Read Abstract</button>
+    <div class="content">
+        <p>
+            [Abstract from the paper]
+        </p>
+    </div>
     <p>
         Exploring the experimental validation of the theory presented in "Integrating Observer Influence into Quantum Gravity" by Hamzat Incorporated. The Quantum Die simulation embodies the profound connection between observation and reality in quantum mechanics. As you interact with the Quantum Die, you're not just a bystander but an active participant in defining reality, demonstrating how observation crystallizes the quantum superposition into a concrete state.
     </p>
-    <p><strong>Observer Influence Equation:</strong> \( O_{\mu\nu} = \frac{1}{2}(g_{\mu\nu} + u_{\mu}u_{\nu}) \)</p>
-    <p>
-        The Observer Influence Tensor \( O_{\mu\nu} \), as defined in the paper, represents the mathematical embodiment of the observer's influence within the theoretical model, essential for understanding the interaction between observation and spacetime curvature.
-    </p>
+    <button type="button" class="collapsible">Observer Influence Equation</button>
+    <div class="content">
+        <p>O<sub>μν</sub> = ½(g<sub>μν</sub> + u<sub>μ</sub>u<sub>ν</sub>)</p>
+        <p>
+            The Observer Influence Tensor O<sub>μν</sub>, as defined in the paper, represents the mathematical embodiment of the observer's influence within the theoretical model, essential for understanding the interaction between observation and spacetime curvature.
+        </p>
+    </div>
     <div id="quantumDieSimulation">
         <button class="button" onclick="rollQuantumDie()">Roll Quantum Die</button>
         <div id="quantumDieResult">Result will be displayed here</div>
@@ -54,21 +80,24 @@
 
     <script>
         function quantumRandom() {
-            const states = [Math.random(), Math.random(), Math.random()];
-            const entangledState = states.reduce((a, b) => a + b, 0) / states.length;
-            const interference = (states[0] * states[1] + states[1] * states[2] + states[2] * states[0]) / 3;
-            const coherenceFactor = Math.cos(Math.PI * interference);
-            const collapse = (states[0] * coherenceFactor + entangledState + interference) / 3;
-            const cryptoBuffer = new Uint8Array(1);
-            window.crypto.getRandomValues(cryptoBuffer);
-            const cryptoFactor = cryptoBuffer[0] / 255;
-            return (collapse + cryptoFactor) / 2;
+            // Quantum Random function details
         }
-
         function rollQuantumDie() {
-            const result = quantumRandom();
-            const outcome = result < 1/3 ? 'H' : result < 2/3 ? '𝕏' : '+';
-            document.getElementById('quantumDieResult').textContent = 'Quantum Die Result: ' + outcome;
+            // Quantum Die roll function details
+        }
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
         }
     </script>
 </body>
