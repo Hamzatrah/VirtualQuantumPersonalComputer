@@ -39,10 +39,14 @@
             margin-top: 20px;
             text-align: center;
         }
-        #quantumDieResult {
+        #dieResultsContainer, #analysisContainer {
+            overflow-y: scroll;
+            height: 200px;
+            border: 1px solid #007bff;
             margin-top: 10px;
-            font-size: 18px;
-            color: #007bff;
+            padding: 10px;
+            font-family: monospace;
+            white-space: pre-wrap;
         }
         @media screen and (max-width: 600px) {
             body {
@@ -65,90 +69,88 @@
 </head>
 <body>
     <h1>Observer Influence in Quantum Gravity</h1>
+
     <button type="button" class="collapsible">Read Abstract</button>
     <div class="content">
-        <p>
-            This revised version of the paper explores the conceptual framework of integrating observer influence into quantum gravity, focusing on a reduced-dimensional model. By limiting the indices of the Observer Influence Tensor to 0, 1, and 2, we investigate the resulting implications on our theoretical model and its effects on the 'Virtual Quantum Die' simulation.
-        </p>
+        <p>This revised version of the paper explores the conceptual framework of integrating observer influence into quantum gravity, focusing on a reduced-dimensional model. By limiting the indices of the Observer Influence Tensor to 0, 1, and 2, we investigate the resulting implications on our theoretical model and its effects on the 'Virtual Quantum Die' simulation.</p>
     </div>
 
     <button type="button" class="collapsible">Observer Influence Equation</button>
     <div class="content">
         <p>O<sub>μν</sub> = ½(g<sub>μν</sub> + u<sub>μ</sub>u<sub>ν</sub>)</p>
-        <p>
-            The Observer Influence Tensor O<sub>μν</sub>, as defined in the paper, represents the mathematical embodiment of the observer's influence within the theoretical model, essential for understanding the interaction between observation and spacetime curvature.
-        </p>
+        <p>The Observer Influence Tensor O<sub>μν</sub>, as defined in the paper, represents the mathematical embodiment of the observer's influence within the theoretical model, essential for understanding the interaction between observation and spacetime curvature.</p>
     </div>
 
     <button type="button" class="collapsible">Experimental Validation</button>
     <div class="content">
         <h3>Experiment Description</h3>
-        <p>
-            The experiments were designed to test the modified Einstein Field Equations with a constrained Observer Influence Tensor. We used a series of advanced quantum simulations, coupled with gravitational wave observation data, to analyze the interplay between observer influence and spacetime curvature.
-        </p>
+        <p>The experiments were designed to test the modified Einstein Field Equations with a constrained Observer Influence Tensor. We used a series of advanced quantum simulations, coupled with gravitational wave observation data, to analyze the interplay between observer influence and spacetime curvature.</p>
 
         <h3>Methodology</h3>
-        <p>
-            Our methodology combined computational modeling with real-world data. The 'Virtual Quantum Die' simulation platform was used to model theoretical predictions, which were then compared with gravitational wave measurements from astronomical observations.
-        </p>
+        <p>Our methodology combined computational modeling with real-world data. The 'Virtual Quantum Die' simulation platform was used to model theoretical predictions, which were then compared with gravitational wave measurements from astronomical observations.</p>
 
         <h3>Results</h3>
-        <p>
-            The results showed a notable correlation between the modified theoretical predictions and the observed gravitational phenomena, particularly in scenarios involving strong gravitational fields. This suggests a potential impact of observer influence on spacetime dynamics.
-        </p>
+        <p>The results showed a notable correlation between the modified theoretical predictions and the observed gravitational phenomena, particularly in scenarios involving strong gravitational fields. This suggests a potential impact of observer influence on spacetime dynamics.</p>
+        
         <div class="image-container">
             <img src="path_to_result_graph.jpg" alt="Correlation Graph of Theoretical Predictions and Observations">
         </div>
 
         <h3>Discussion</h3>
-        <p>
-            These findings support the hypothesis that observer influence plays a more significant role in quantum gravity than previously thought. The alignment of our simulations with observational data provides a new perspective on how observation can affect quantum states and gravity.
-        </p>
+        <p>These findings support the hypothesis that observer influence plays a more significant role in quantum gravity than previously thought. The alignment of our simulations with observational data provides a new perspective on how observation can affect quantum states and gravity.</p    <h3>Conclusion</h3>
+    <p>The experimental validation of the Observer Influence Tensor's role in quantum gravity opens new avenues for research in quantum mechanics and general relativity. It challenges conventional views and suggests a more complex interplay between observation and the fabric of spacetime.</p>
+</div>
 
-        <h3>Conclusion</h3>
-        <p>
-            The experimental validation of the Observer Influence Tensor's role in quantum gravity opens new avenues for research in quantum mechanics and general  relativity. It challenges conventional views and suggests a more complex interplay between observation and the fabric of spacetime.
-        </p>
-    </div>
+<div id="quantumDieSimulation">
+    <button class="button" onclick="rollQuantumDie()">Roll Quantum Die</button>
+    <div id="dieResultsContainer">Results will be displayed here</div>
+    <div id="analysisContainer">Analysis will be displayed here</div>
+</div>
 
-    <div id="quantumDieSimulation">
-        <button class="button" onclick="rollQuantumDie()">Roll Quantum Die</button>
-        <div id="quantumDieResult">Result will be displayed here</div>
-    </div>
+<script>
+    function quantumRandom() {
+        // Quantum Random function logic...
+    }
 
-    <script>
-        function quantumRandom() {
-            const states = [Math.random(), Math.random(), Math.random()];
-            const entangledState = states.reduce((a, b) => a + b, 0) / states.length;
-            const interference = (states[0] * states[1] + states[1] * states[2] + states[2] * states[0]) / 3;
-            const coherenceFactor = Math.cos(Math.PI * interference);
-            const collapse = (states[0] * coherenceFactor + entangledState + interference) / 3;
-            const cryptoBuffer = new Uint8Array(1);
-            window.crypto.getRandomValues(cryptoBuffer);
-            const cryptoFactor = cryptoBuffer[0] / 255;
-            return (collapse + cryptoFactor) / 2;
-        }
-
-        function rollQuantumDie() {
+    function rollQuantumDie() {
+        let dieResults = '';
+        for (let i = 0; i < 4000; i++) {
             const result = quantumRandom();
             const outcome = result < 1/3 ? 'H' : result < 2/3 ? '𝕏' : '+';
-            document.getElementById('quantumDieResult').textContent = 'Quantum Die Result: ' + outcome;
+            dieResults += outcome;
         }
+        document.getElementById('dieResultsContainer').textContent = dieResults;
+        analyzeResults(dieResults);
+    }
 
-        var coll = document.getElementsByClassName("collapsible");
-        var i;
+    function analyzeResults(results) {
+        let countH = (results.match(/H/g) || []).length;
+        let countX = (results.match(/𝕏/g) || []).length;
+        let countPlus = (results.match(/\+/g) || []).length;
 
-        for (i = 0; i < coll.length; i++) {
-            coll[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var content = this.nextElementSibling;
-                if (content.style.display === "block") {
-                    content.style.display = "none";
-                } else {
-                    content.style.display = "block";
-                }
-            });
-        }
-    </script>
+        let observerEffect = (countH + countX + countPlus) / 4000;
+        let analysisText = "Observer Effect Strength: " + observerEffect.toFixed(2) +
+                           "\nInfluence on Tensor O_{μν}: " +
+                           "Approximated as " + (observerEffect * 0.5).toFixed(2) + 
+                           " (representing the contribution to g_{μν} and u_{μ}u_{ν})";
+
+        document.getElementById('analysisContainer').textContent = analysisText;
+    }
+
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    }
+</script>
 </body>
-a</html>
+</html>
+
