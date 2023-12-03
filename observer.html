@@ -60,7 +60,30 @@
         <div id="dieGrid"></div>
         <div id="tensorOutput"></div>
     </section>
-
+    <section class="content-section" id="berghainPolicySimulation">
+    <h2>Berghain Door Policy Simulation</h2>
+    <p>
+        Explore how different factors might influence your 'quantum state' at the Berghain door. Each visitor is represented as a qutrit with three potential states.
+    </p>
+    <div>
+        <label for="appearance">Appearance:</label>
+        <select id="appearance" onchange="updateQutritState()">
+            <option value="0">Low Compatibility</option>
+            <option value="1">Medium Compatibility</option>
+            <option value="2" selected>High Compatibility</option>
+        </select>
+    </div>
+    <div>
+        <label for="knowledge">Club Culture Knowledge:</label>
+        <select id="knowledge" onchange="updateQutritState()">
+            <option value="0">Low</option>
+            <option value="1">Medium</option>
+            <option value="2" selected>High</option>
+        </select>
+    </div>
+    <button onclick="simulateEntryDecision()">Simulate Entry Decision</button>
+    <div id="simulationResult"></div>
+</section>
     <script>
         function toggleCollapsible(id) {
             var content = document.getElementById(id);
@@ -94,6 +117,20 @@
         function createObserverInfluenceTensor(effect) {
             return [[effect, 0], [0, effect]];
         }
+        function updateQutritState() {
+    // Logic to update the state of the qutrit based on user input
+}
+
+function simulateEntryDecision() {
+    let appearance = document.getElementById('appearance').value;
+    let knowledge = document.getElementById('knowledge').value;
+    
+    // Simplified logic to simulate entry decision
+    let result = (parseInt(appearance) + parseInt(knowledge)) % 3;
+    let decision = ["Entry Denied", "Maybe", "Entry Granted"][result];
+    
+    document.getElementById('simulationResult').textContent = "Simulation Result: " + decision;
+}
     </script>
 </body>
 </html>
