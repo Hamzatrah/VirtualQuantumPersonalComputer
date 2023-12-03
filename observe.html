@@ -170,28 +170,6 @@
             Entry Granted: ${results["Entry Granted"]}, 
             Maybe: ${results["Maybe"]}, 
             Entry Denied: ${results["Entry Denied"]}`;
-    }
-
-    const quantum = {
-        getRandom: function(min, mid, max) {
-            if (typeof min !== "number" || typeof mid !== "number" || typeof max !== "number") {
-                throw new Error("min, mid, and max must be numbers");
-            }
-            if (min >= mid || mid >= max) {
-                throw new Error("Values must be in order: min < mid < max");
-            }
-
-            const buffer = new Uint32Array(1);
-            window.crypto.getRandomValues(buffer);
-            const rand = buffer[0] / (0xFFFFFFFF + 1);
-
-            if (rand < 0.33) {
-                return min + Math.random() * (mid - min);
-            } else if (rand < 0.67) {
-                return mid + Math.random() * (max - mid) - (max - mid) / 2;
-            } else {
-                return mid + Math.random() * (max - mid);
-            }
         }
     };
 </script>
