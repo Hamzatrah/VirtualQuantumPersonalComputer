@@ -81,10 +81,21 @@
             <option value="2" selected>High</option>
         </select>
     </div>
+<!-- Age Selector -->
+<div>
+    <label for="age">Age Group:</label>
+    <select id="age" onchange="updateQutritState()">
+        <option value="0">Under 25</option>
+        <option value="1">25-35</option>
+        <option value="2">Over 35</option>
+    </select>
+</div>
+
+<!-- ... Remaining content ... -->
     <button onclick="simulateEntryDecision()">Simulate Entry Decision</button>
     <div id="simulationResult"></div>
 </section>
-    <script>
+ <script>
     function updateQutritState() {
         // Logic to update the state of the qutrit based on user input
         // This function can remain empty if you are not updating state elsewhere
@@ -93,11 +104,12 @@
     function simulateEntryDecision() {
         let appearance = document.getElementById('appearance').value;
         let knowledge = document.getElementById('knowledge').value;
-        
+        let age = document.getElementById('age').value;
+
         let results = { "Entry Denied": 0, "Maybe": 0, "Entry Granted": 0 };
 
         for (let i = 0; i < 4000; i++) {
-            let result = (parseInt(appearance) + parseInt(knowledge)) % 3;
+            let result = (parseInt(appearance) + parseInt(knowledge) + parseInt(age)) % 3;
             let decision = ["Entry Denied", "Maybe", "Entry Granted"][result];
             results[decision]++;
         }
