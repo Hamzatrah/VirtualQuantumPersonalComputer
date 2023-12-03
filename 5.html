@@ -126,7 +126,7 @@
         }
     };
 
-    function rollQuantumDie() {
+        function rollQuantumDie() {
         let dieGrid = document.getElementById('dieGrid');
         dieGrid.innerHTML = '';
 
@@ -142,11 +142,11 @@
     function quantumDieOutcome() {
         const result = quantum.getRandom(0, 1, 2);
         if (result < 1) {
-            return 'State 1';
+            return 'H';
         } else if (result < 2) {
-            return 'State 2';
+            return '𝕏';
         } else {
-            return 'State 3';
+            return '+';
         }
     }
 
