@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quantum Exploration</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: white;
+            color: #333;
+            padding: 20px;
+            line-height: 1.6;
+            text-align: justify;
+        }
+        h1, h2 {
+            color: #000;
+        }
+        .content-section {
+            margin-bottom: 20px;
+        }
+        .collapsible-img {
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+            outline: none;
+            font-size: 18px;
+            transition: 0.4s;
+            background-color: #f0f0f0;
+        }
+        .collapsible-img:hover {
+            background-color: #e0e0e0;
+        }
+        .collapsible-content {
+            display: none;
+            padding: 20px;
+            overflow: hidden;
+            background-color: #f9f9f9;
+        }
+        .responsive-img {
+            width: 100%;
+            height: auto;
+        }
+        .caption {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+        }
+        #dieGrid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .dieResult {
+            text-align: center;
+            padding: 5px;
+            border: 1px solid #ddd;
+        }
+        @media screen and (max-width: 600px) {
+            .dropdown-content, .collapsible-content {
+                border-left: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Interactive Quantum Exploration</h1>
+
+    <!-- Quantum Image Section -->
+    <section class="content-section" id="quantumImageSection">
+        <h2>Quantum Image</h2>
+        <button class="collapsible-img" onclick="toggleCollapsible('quantumImage')">Toggle Quantum Image</button>
+        <div class="collapsible-content" id="quantumImage">
+            <img src="path_to_your_image.jpg" alt="Quantum Image" class="responsive-img">
+            <p class="caption">Figure 1: Illustration of Quantum Phenomenon</p>
+        </div>
+    </section>
+
+    <!-- Quantum Die Roll Section -->
+    <section class="content-section" id="quantumDieRoll">
+        <h2>Quantum Die Roll</h2>
+        <button onclick="rollQuantumDie()">Roll Quantum Die</button>
+        <div id="dieGrid"></div>
+    </section>
+
+    <!-- Berghain Door Policy Simulation -->
+    <section class="content-section" id="berghainPolicySimulation">
+        <h2>Berghain Door Policy Simulation</h2>
+        <button onclick="simulateEntryDecision()">Simulate Entry Decision</button>
+        <div id="simulationResult"></div>
+    </section>
+
+    <!-- Reference Paper Section -->
+    <section class="content-section" id="referencePaper">
+        <h2>Reference Paper: Dynamic Observer Influence in Quantum Gravity</h2>
+        <p><strong>Authors:</strong> [Your Name], [Collaborators’ Names]</p>
+        <p><strong>Affiliations:</strong> [Your Institution], [Collaborators’ Institutions]</p>
+        <p><strong>Abstract:</strong> This paper presents a novel approach to studying quantum gravity by integrating the observer’s influence into a dynamic, real-time computational framework. Utilizing a web-based interactive Quantum Die simulation, we demonstrate how observer interactions can alter quantum states and spacetime dynamics. We introduce the Observer Influence Tensor, a live, evolving construct that captures these changes. The integration of TensorFlow for data analysis provides a groundbreaking method for understanding quantum gravity in a real-time, interactive context. This approach not only offers new theoretical insights but also serves as a powerful educational tool.</p>
+        <p><strong>1. Introduction:</strong> In this section, we introduce the concepts of quantum mechanics and general relativity, highlighting the need for a new approach to reconcile these theories. We discuss the traditional static models and the necessity for dynamic, real-time computational methods in understanding quantum gravity.</p>    <p><strong>2. Conceptual Framework:</strong> We introduce the Observer Influence Tensor, explaining its formulation and dynamic nature. We discuss how this tensor evolves with real-time data from the web-based Quantum Die simulation, challenging conventional static models in physics.</p>
+    <p><strong>3. Methodology:</strong> Here, we detail the Quantum Die simulation, focusing on its interactive and real-time aspects. We describe how user interactions on the website influence the simulation outcomes and the Observer Influence Tensor, outlining the technical infrastructure that supports this real-time computation.</p>
+    <p><strong>4. Results:</strong> We present a series of results obtained from the Quantum Die simulation, emphasizing their dynamic nature. This section includes case studies or snapshots demonstrating how the Observer Influence Tensor has evolved with ongoing user interactions.</p>
+    <p><strong>5. Discussion:</strong> This section explores the role of TensorFlow in analyzing the continuously updating data stream. We discuss the implications of these findings for quantum gravity theory and the potential of real-time data analysis in transforming theoretical physics research.</p>
+    <p><strong>6. Educational and Research Applications:</strong> We discuss the transformative educational and research potential of this approach. This section delves into how the real-time, interactive model provides an intuitive understanding of complex concepts in quantum gravity and its potential applications in other fields.</p>
+    <p><strong>7. Conclusion:</strong> We summarize the key findings and implications of our work, emphasizing the groundbreaking nature of this real-time, interactive approach in the study of quantum gravity. We highlight future research directions and the potential expansion of this methodology in other areas of physics.</p>
+    <p>For full paper, visit: <a href="link_to_full_paper">Dynamic Observer Influence in Quantum Gravity</a></p>
+</section>
+
+<script>
+    <script>
+    function toggleCollapsible(id) {
+        var content = document.getElementById(id);
+        content.style.display = content.style.display === "block" ? "none" : "block";
+    }
+
+    function rollQuantumDie() {
+        let dieGrid = document.getElementById('dieGrid');
+        dieGrid.innerHTML = '';
+
+        for (let i = 0; i < 100; i++) {
+            let outcome = quantumRandom();
+            let resultSpan = document.createElement('span');
+            resultSpan.textContent = outcome;
+            resultSpan.classList.add('dieResult');
+            dieGrid.appendChild(resultSpan);
+        }
+    }
+
+    function quantumRandom() {
+        const result = Math.random();
+        return result < 1/3 ? 'H' : result < 2/3 ? '𝕏' : '+';
+    }
+
+    function simulateEntryDecision() {
+        let results = { "Entry Denied": 0, "Maybe": 0, "Entry Granted": 0 };
+
+        for (let i = 0; i < 4000; i++) {
+            let decisionValue = quantum.getRandom(0, 1, 2);
+            let decisionIndex = Math.round(decisionValue) % 3;
+            let decision = ["Entry Denied", "Maybe", "Entry Granted"][decisionIndex];
+            results[decision]++;
+        }
+
+        let currentTime = new Date();
+        document.getElementById('simulationResult').textContent = `Simulation Results (Current Time: ${currentTime.toLocaleTimeString()}): 
+            Entry Granted: ${results["Entry Granted"]}, 
+            Maybe: ${results["Maybe"]}, 
+            Entry Denied: ${results["Entry Denied"]}`;
+    }
+
+    const quantum = {
+        getRandom: function(min, mid, max) {
+            if (typeof min !== "number" || typeof mid !== "number" || typeof max !== "number") {
+                throw new Error("min, mid, and max must be numbers");
+            }
+            if (min >= mid || mid >= max) {
+                throw new Error("Values must be in order: min < mid < max");
+            }
+
+            const buffer = new Uint32Array(1);
+            window.crypto.getRandomValues(buffer);
+            const rand = buffer[0] / (0xFFFFFFFF + 1);
+
+            if (rand < 0.33) {
+                return min + Math.random() * (mid - min);
+            } else if (rand < 0.67) {
+                return mid + Math.random() * (max - mid) - (max - mid) / 2;
+            } else {
+                return mid + Math.random() * (max - mid);
+            }
+        }
+    };
+</script>
+</script></body>
+</html>
+```
