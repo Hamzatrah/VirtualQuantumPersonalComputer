@@ -72,19 +72,31 @@
     </p>
 </section>
 
-   
-    <section class="content-section" id="berghainPolicySimulation">
-        <h2>Berghain Door Policy Simulation</h2>
-        <button onclick="simulateEntryDecision()">Simulate Entry Decision</button>
-        <div id="simulationResult"></div>
-    </section>
-
     <!-- Quantum Die Roll Section -->
     <section class="content-section" id="quantumDieRoll">
         <h2>Quantum Die Roll</h2>
         <button onclick="rollQuantumDie()">Roll Quantum Die</button>
         <div id="dieGrid"></div>
+     <!-- Berghain Door Policy Simulation Section -->
+    <section class="content-section" id="berghainPolicySimulation">
+        <h2>Berghain Door Policy Simulation</h2>
+        
+        <label for="appearance">Appearance (1-10):</label>
+        <input type="number" id="appearance" name="appearance" min="1" max="10"><br/>
+
+        <label for="knowledge">Music Knowledge (1-10):</label>
+        <input type="number" id="knowledge" name="knowledge" min="1" max="10"><br/>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" min="18" max="100"><br/>
+
+        <label for="bodyTemp">Body Temperature (1-3):</label>
+        <input type="number" id="bodyTemp" name="bodyTemp" min="1" max="3"><br/>
+
+        <button onclick="simulateEntryDecision()">Simulate Entry Decision</button>
+        <div id="simulationResult"></div>
     </section>
+
     </section>
  <!-- Conceptual Interpretation and Quantum Gravity Context -->
     <section class="content-section" id="conceptualInterpretation">
@@ -101,7 +113,32 @@
         <!-- Content for Reference Paper -->
         
         <!-- Berghain Door Policy Simulation Section -->    <script>
-        function rollQuantumDie() {
+       const quantum = {
+    getRandom: function(min, mid, max) {
+        if (typeof min !== "number" || typeof mid !== "number" || typeof max !== "number") {
+            throw new Error("min, mid, and max must be numbers");
+        }
+        if (min >= mid || mid >= max) {
+            throw new Error("Values must be in order: min < mid < max");
+        }
+
+        const buffer = new Uint32Array(1);
+        window.crypto.getRandomValues(buffer);
+        const rand = buffer[0] / (0xFFFFFFFF + 1); // Normalized random number between 0 and 1
+
+        if (rand < 0.33) {
+            // Lower third: generate near min
+            return min + Math.random() * (mid - min);
+        } else if (rand < 0.67) {
+            // Middle third: generate near mid
+            return mid + Math.random() * (max - mid) - (max - mid) / 2;
+        } else {
+            // Upper third: generate near max
+            return mid + Math.random() * (max - mid);
+        }
+    }
+};
+            function rollQuantumDie() {
             let dieGrid = document.getElementById('dieGrid');
             dieGrid.innerHTML = '';
 
@@ -118,26 +155,45 @@
             const result = Math.random();
             return result < 1/3 ? 'H' : result < 2/3 ? '𝕏' : '+';
         }
+     function simulateEntryDecision() {
+        let results = { "Entry Denied": 0, "Maybe": 0, "Entry Granted": 0 };
 
-        function simulateEntryDecision() {
-            let results = { "Entry Denied": 0, "Maybe": 0, "Entry Granted": 0 };
+        for (let i = 0; i < 4000; i++) {
+            let decisionValue = quantum.getRandom(0, 1, 2);
+            let decisionIndex = Math.round(decisionValue) % 3;
+            let decision = ["Entry Denied", "Maybe", "Entry Granted"][decisionIndex];
+            results[decision]++;
+        }
 
-            for (let i = 0; i < 4000; i++) {
-                let decisionValue = Math.random();
-                let decisionIndex = Math.floor(decisionValue * 3);
-                let decision = ["Entry Denied", "Maybe", "Entry Granted"][decisionIndex];
-                results[decision]++;
+        let currentTime = new Date();
+        document.getElementById('simulationResult').textContent = `Simulation Results (Current Time: ${currentTime.toLocaleTimeString()}): 
+            Entry Granted: ${results["Entry Granted"]}, 
+            Maybe: ${results["Maybe"]}, 
+            Entry Denied: ${results["Entry Denied"]}`;
+    }
+
+    const quantum = {
+        getRandom: function(min, mid, max) {
+            if (typeof min !== "number" || typeof mid !== "number" || typeof max !== "number") {
+                throw new Error("min, mid, and max must be numbers");
+            }
+            if (min >= mid || mid >= max) {
+                throw new Error("Values must be in order: min < mid < max");
             }
 
-            let currentTime = new Date();
-            document.getElementById('simulationResult').innerHTML = '';
-            for (const [decision, count] of Object.entries(results)) {
-                let decisionDiv = document.createElement('div');
-                decisionDiv.classList.add('entryDecision');
-                decisionDiv.textContent = `${decision}: ${count}`;
-                document.getElementById('simulationResult').appendChild(decisionDiv);
+            const buffer = new Uint32Array(1);
+            window.crypto.getRandomValues(buffer);
+            const rand = buffer[0] / (0xFFFFFFFF + 1);
+
+            if (rand < 0.33) {
+                return min + Math.random() * (mid - min);
+            } else if (rand < 0.67) {
+                return mid + Math.random() * (max - mid) - (max - mid) / 2;
+            } else {
+                return mid + Math.random() * (max - mid);
             }
         }
-    </script>
+    };
+</script>
 </body>
 </html>
