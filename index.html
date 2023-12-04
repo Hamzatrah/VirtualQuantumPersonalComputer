@@ -4,21 +4,19 @@
     <meta charset="UTF-8">
     <title>Quantum Game</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f0f0f0; text-align: center; }
-        .room-btn { margin: 10px; padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
-        .room-btn:hover { background-color: #45a049; }
-        #output { margin-top: 20px; padding: 10px; background-color: #ddd; border: 1px solid #ccc; }
+        /* Basic CSS */
+        body { font-family: Arial, sans-serif; }
+        .room-btn { margin: 5px; }
+        #output { margin-top: 20px; }
     </style>
 </head>
 <body>
     <h1>Quantum Mechanics Inspired Game</h1>
-    <div>
-        <button class="room-btn" onclick="checkRoom(1)">Check Room 1</button>
-        <button class="room-btn" onclick="checkRoom(2)">Check Room 2</button>
-        <button class="room-btn" onclick="checkRoom(3)">Check Room 3</button>
-        <button class="room-btn" onclick="checkRoom(4)">Check Room 4</button>
-        <button class="room-btn" onclick="checkRoom(5)">Check Room 5</button>
-    </div>
+    <button class="room-btn" onclick="checkRoom(1)">Check Room 1</button>
+    <button class="room-btn" onclick="checkRoom(2)">Check Room 2</button>
+    <button class="room-btn" onclick="checkRoom(3)">Check Room 3</button>
+    <button class="room-btn" onclick="checkRoom(4)">Check Room 4</button>
+    <button class="room-btn" onclick="checkRoom(5)">Check Room 5</button>
     <div id="output"></div>
 
     <script src="game.js"></script>
