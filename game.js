@@ -2,15 +2,11 @@ const STATES = ['alive', 'dead', 'asleep'];
 let presidentOffice = Math.floor(Math.random() * 5) + 1;
 let quantumStates = Array(5).fill(null).map(quantumDie);
 let observerEffectApplied = false;
+const RELATIVITY_ROOM = 4;  // Example room for relativity effects
+const PHOTON_BOX_ROOM = 5;  // Example room for photon box experiment
 
 function quantumDie() {
     return STATES[Math.floor(Math.random() * STATES.length)];
-}
-
-function applyEntanglement(roomNumber) {
-    if (roomNumber !== presidentOffice) {
-        quantumStates[presidentOffice] = quantumStates[roomNumber];
-    }
 }
 
 function applyObserverEffect() {
@@ -18,12 +14,29 @@ function applyObserverEffect() {
     quantumStates = quantumStates.map(state => (Math.random() < 0.5) ? state : quantumDie());
 }
 
+function relativityRoomEffect() {
+    // Simulate time dilation effect
+    let timeDilationFactor = Math.random() + 0.5; // Random factor between 0.5 and 1.5
+    return `Relativity Room: Time dilation factor applied is ${timeDilationFactor.toFixed(2)}.`;
+}
+
+function photonBoxExperiment() {
+    let energyState = Math.random() > 0.5 ? 'high' : 'low';
+    return `Photon Box: The photon's energy state is detected as ${energyState}.`;
+}
+
 function checkRoom(roomNumber) {
     if (!observerEffectApplied) applyObserverEffect();
 
-    applyEntanglement(roomNumber - 1);
     let catState = quantumStates[roomNumber - 1];
     let message = `You checked Room ${roomNumber}. The cat is ${catState}.`;
+
+    // Apply Einstein-themed logic
+    if (roomNumber === RELATIVITY_ROOM) {
+        message += `\n${relativityRoomEffect()}`;
+    } else if (roomNumber === PHOTON_BOX_ROOM) {
+        message += `\n${photonBoxExperiment()}`;
+    }
 
     if (roomNumber === presidentOffice) {
         message = `You found the cat in the President's Office (Room ${roomNumber}). It is ${catState}.`;
@@ -31,5 +44,3 @@ function checkRoom(roomNumber) {
 
     document.getElementById('output').innerText = message;
 }
-
-// Additional logic for quantum phenomena can be added here
