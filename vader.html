@@ -53,21 +53,17 @@
         let energy = 0.5; // Default energy
         let mass = 1; // Default mass
 
-        function rollQuantumDie() {
-            quantumState = Math.floor(Math.random() * 3);
-            console.log("Quantum State: " + quantumState);
+        function deutschJozsaEnhanced() {
+            const outcomes = ['constant', 'balanced', 'chaotic'];
+            const array = new Uint32Array(1);
+            window.crypto.getRandomValues(array);
+            return outcomes[array[0] % outcomes.length];
+        }
 
-            switch (quantumState) {
-                case 0: // Wave function amplitude
-                    amplitude = Math.random() * 2;
-                    break;
-                case 1: // Energy level
-                    energy = Math.random();
-                    break;
-                case 2: // Mass of the particle
-                    mass = Math.random() * 2;
-                    break;
-            }
+        function rollQuantumDie() {
+            const result = deutschJozsaEnhanced();
+            console.log("Quantum Die Result: " + result);
+            // You can add additional logic here based on the result of the quantum die
         }
 
         function setObserverType(type) {
