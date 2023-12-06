@@ -134,12 +134,33 @@ function drawAssemblyLine(progress) {
     drawSlits(); // Draw the slits each time before simulating particles
     for (let i = 0; i < 4000; i++) {
         let angle = Math.random() * 2 * Math.PI;
-        let distance = Math.random() * canvas.width / 4;
+        let distance = Math.random() * canvas.width / 4 + 25; // 25 is the minimum distance from the center
         let x = canvas.width / 2 + distance * Math.cos(angle);
         let y = canvas.height / 2 + distance * Math.sin(angle);
         let slit = chooseSlit(x, y, tritOutcome);
+
+        if (currentTime > 5 && slit !== 0) {
+            // After a certain time, move particles towards the slit
+            let target = getSlitCenter(slit);
+            x = lerp(x, target.x, 0.1);
+            y = lerp(y, target.y, 0.1);
+        }
+
         let waveFunction = calculateWaveFunction(x, y, currentTime, slit, tritOutcome);
         drawParticle(x, y, waveFunction, tritOutcome);
+    }
+}
+
+function lerp(start, end, amt) {
+    return (1 - amt) * start + amt * end;
+}
+
+function getSlitCenter(slitNumber) {
+    switch (slitNumber) {
+        case 1: return { x: canvas.width / 4, y: canvas.height / 2 };
+        case 2: return { x: canvas.width / 2, y: canvas.height / 2 };
+        case 3: return { x: 3 * canvas.width / 4, y: canvas.height / 2 };
+        default: return { x: canvas.width / 2, y: canvas.height / 2 };
     }
 }
 
