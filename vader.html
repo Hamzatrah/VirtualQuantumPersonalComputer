@@ -93,10 +93,26 @@
         }
 
         function assembleTrits(dieResult) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.font = "20px Arial";
-            ctx.fillText("Assembling Trits...", canvas.width / 2 - 100, canvas.height / 2);
+    let assemblyProgress = 0;
+    let assemblyInterval = setInterval(() => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawAssemblyLine(assemblyProgress);
+        assemblyProgress += 2; // Adjust this value to change the speed of assembly
+
+        if (assemblyProgress >= canvas.width) {
+            clearInterval(assemblyInterval);
         }
+    }, 20); // Time in milliseconds between updates
+}
+
+function drawAssemblyLine(progress) {
+    ctx.beginPath();
+    ctx.moveTo(canvas.width / 2 - progress / 2, canvas.height / 2);
+    ctx.lineTo(canvas.width / 2 + progress / 2, canvas.height / 2);
+    ctx.strokeStyle = 'blue';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+}
 
         function startExperiment() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
