@@ -132,23 +132,37 @@ function drawAssemblyLine(progress) {
     let tritOutcome = rollQuantumDie();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawSlits(); // Draw the slits each time before simulating particles
+
     for (let i = 0; i < 4000; i++) {
-        let angle = Math.random() * 2 * Math.PI;
-        let distance = Math.random() * canvas.width / 4 + 25; // 25 is the minimum distance from the center
-        let x = canvas.width / 2 + distance * Math.cos(angle);
-        let y = canvas.height / 2 + distance * Math.sin(angle);
+        // Assign a state to each particle
+        let particleState = tritOutcome[i % tritOutcome.length];
+        let { x, y } = getOrbitingPosition(particleState, i);
+
         let slit = chooseSlit(x, y, tritOutcome);
-
-        if (currentTime > 5 && slit !== 0) {
-            // After a certain time, move particles towards the slit
-            let target = getSlitCenter(slit);
-            x = lerp(x, target.x, 0.1);
-            y = lerp(y, target.y, 0.1);
-        }
-
         let waveFunction = calculateWaveFunction(x, y, currentTime, slit, tritOutcome);
         drawParticle(x, y, waveFunction, tritOutcome);
     }
+}
+
+function getOrbitingPosition(state, index) {
+    let angle = (index / 4000) * 2 * Math.PI;
+    let distance;
+    switch (state) {
+        case 'particle': // State 0
+            distance = 50 + 10 * Math.sin(5 * angle); // Example orbit pattern
+            break;
+        case 'wave': // State 1
+            distance = 70 + 10 * Math.cos(5 * angle); // Different orbit pattern
+            break;
+        case 'observer': // State 2
+            distance = 90 + 10 * Math.sin(10 * angle); // Another orbit pattern
+            break;
+        default:
+            distance = 50; // Default
+    }
+    let x = canvas.width / 2 + distance * Math.cos(angle);
+    let y = canvas.height / 2 + distance * Math.sin(angle);
+    return { x, y };
 }
 
 function lerp(start, end, amt) {
