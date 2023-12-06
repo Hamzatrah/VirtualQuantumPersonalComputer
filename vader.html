@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Virtual Double Slit Experiment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        #canvas {
+            border: 1px solid black;
+            margin-top: 20px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Virtual Double Slit Experiment</h1>
+    <button onclick="rollQuantumDie()">Roll Quantum Die</button>
+    <button onclick="startExperiment()">Start Experiment</button>
+    <canvas id="canvas" width="600" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        let quantumState = 0;
+        let currentTime = 0;
+
+        function rollQuantumDie() {
+            quantumState = Math.floor(Math.random() * 3);
+            console.log("Quantum State: " + quantumState);
+        }
+
+        function startExperiment() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            currentTime = 0;
+            requestAnimationFrame(updateExperiment);
+        }
+
+        function updateExperiment() {
+            currentTime += 0.05;
+            simulateParticles();
+            if (currentTime < 20) {
+                requestAnimationFrame(updateExperiment);
+            }
+        }
+
+        function simulateParticles() {
+            for (let y = 0; y < canvas.height; y += 4) {
+                let waveFunction = calculateWaveFunction(y, currentTime);
+                let x = canvas.width / 2 + waveFunction * 50;
+                drawParticle(x, y, waveFunction);
+            }
+        }
+
+        function calculateWaveFunction(y, time) {
+            let wave1 = Math.sin((y + time * 10) / 20);
+            let wave2 = Math.sin((y - time * 10) / 15);
+            return (wave1 + wave2) / 2;
+        }
+
+        function drawParticle(x, y, waveFunction) {
+            ctx.beginPath();
+            let colorIntensity = Math.floor((waveFunction + 1) * 128);
+            ctx.fillStyle = `rgb(${colorIntensity}, ${150 - colorIntensity}, 255)`;
+            ctx.arc(x, y, 3, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+    </script>
+</body>
+</html>
