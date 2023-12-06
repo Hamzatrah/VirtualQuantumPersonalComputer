@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Virtual Quantum 3 Slit Experiment</title>
     <style>
-        body {
+                body {
             font-family: 'Times', sans-serif;
             text-align: center;
             margin: 0;
@@ -29,6 +29,9 @@
             padding: 10px;
             font-size: 16px;
         }
+        #dieResult {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -36,12 +39,17 @@
     <div id="canvasContainer">
         <canvas id="canvas" width="400" height="400"></canvas>
     </div>
+    <div id="dieResult"></div>
+    <button onclick="initiateExperiment()">Start Experiment</button>
+    <br/>
+        </div>
     <button onclick="rollQuantumDie()">Roll Quantum Die</button>
     <button onclick="startExperiment()">Start Experiment</button>
     <br/>
     <button onclick="setObserverType('self-interested')">Self-Interested Observer</button>
     <button onclick="setObserverType('neutral')">Neutral Observer</button>
     <button onclick="setObserverType('selfless')">Selfless Observer</button>
+>
 
     <script>
         const canvas = document.getElementById('canvas');
@@ -71,6 +79,25 @@
             console.log("Observer Type: " + observerType);
         }
 
+        function initiateExperiment() {
+            const dieResult = rollQuantumDie();
+            displayDieResult(dieResult);
+            setTimeout(() => {
+                assembleTrits(dieResult);
+                setTimeout(startExperiment, 2000); // Delay to show trits assembling
+            }, 2000); // Delay to display die result
+        }
+
+        function displayDieResult(dieResult) {
+            document.getElementById('dieResult').innerText = "Quantum Die Rolled: " + dieResult.join(', ');
+        }
+
+        function assembleTrits(dieResult) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.font = "20px Arial";
+            ctx.fillText("Assembling Trits...", canvas.width / 2 - 100, canvas.height / 2);
+        }
+
         function startExperiment() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             currentTime = 0;
@@ -97,7 +124,7 @@
             }
         }
 
-        function chooseSlit(y, tritOutcome) {
+                function chooseSlit(y, tritOutcome) {
             let slit1Range = [canvas.height * 0.2, canvas.height * 0.3];
             let slit2Range = [canvas.height * 0.4, canvas.height * 0.5];
             let slit3Range = [canvas.height * 0.6, canvas.height * 0.7];
@@ -113,7 +140,7 @@
             }
         }
 
-        function calculateWaveFunction(y, currentTime, slit, tritOutcome) {
+                function calculateWaveFunction(y, currentTime, slit, tritOutcome) {
             const hBar = 1; // Placeholder for reduced Planck constant
             let V = 0; // Potential energy (placeholder)
             let k = Math.sqrt(2 * mass * (energy - V)) / hBar; // Wave number
@@ -140,15 +167,15 @@
         }
     }
 
-    function drawParticle(x, y, waveFunction, tritOutcome) {
-        ctx.beginPath();
-        let particleSize = canvas.width / 200;
-        let colorIntensity = Math.floor((waveFunction + 1) * 128);
-        ctx.fillStyle = `rgb(${colorIntensity}, ${150 - colorIntensity}, 255)`;
-        ctx.arc(x, y, particleSize, 0, 2 * Math.PI);
-        ctx.fill();
-    }
-</script>
 
+        function drawParticle(x, y, waveFunction, tritOutcome) {
+            ctx.beginPath();
+            let particleSize = canvas.width / 200;
+            let colorIntensity = Math.floor((waveFunction + 1) * 128);
+            ctx.fillStyle = `rgb(${colorIntensity}, ${150 - colorIntensity}, 255)`;
+            ctx.arc(x, y, particleSize, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+    </script>
 </body>
 </html>
