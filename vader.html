@@ -11,15 +11,23 @@
             padding: 0;
             background-color: #f0f0f0;
         }
+        #canvasContainer {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
         #canvas {
             border: 1px solid black;
-            border-radius: 50%;  /* Makes the canvas circular */
+            border-radius: 50%;
             margin-top: 20px;
-            width: 400px;  /* Adjust width and height for a circle */
-            height: 400px;
+            max-width: 400px;
+            max-height: 400px;
         }
         canvas {
-            border-radius: 50%;  /* Also round the actual drawing area */
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
         }
         button {
             margin-top: 20px;
@@ -30,17 +38,18 @@
 </head>
 <body>
     <h1>Virtual Double Slit Experiment</h1>
+    <div id="canvasContainer">
+        <canvas id="canvas" width="400" height="400"></canvas>
+    </div>
     <button onclick="rollQuantumDie()">Roll Quantum Die</button>
     <button onclick="startExperiment()">Start Experiment</button>
     <br/>
     <button onclick="setObserverType('self-interested')">Self-Interested Observer</button>
     <button onclick="setObserverType('neutral')">Neutral Observer</button>
     <button onclick="setObserverType('selfless')">Selfless Observer</button>
-    <canvas id="canvas"></canvas>
 
-    <!-- JavaScript remains the same as in the previous version -->
     <script>
-         const canvas = document.getElementById('canvas');
+             const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
 
         let quantumState = 0;
@@ -72,37 +81,21 @@
         }
 
         function simulateParticles() {
-            for (let y = 0; y < canvas.height; y += 4) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas for each update
+            for (let i = 0; i < 4000; i++) { // Generate 4000 particles
+                let y = Math.random() * canvas.height;
                 let waveFunction = calculateWaveFunction(y, currentTime);
-                let x = canvas.width / 2 + waveFunction * 50;
+                let x = canvas.width / 2 + waveFunction * (canvas.width / 10); // Adjust for canvas size
                 drawParticle(x, y, waveFunction);
-            }
-        }
-
-        function calculateWaveFunction(y, time) {
-            let baseWave = Math.sin((y + time * 10) / 20) + Math.sin((y - time * 10) / 15);
-            return modifyWaveFunction(baseWave, y, time);
-        }
-
-        function modifyWaveFunction(wave, y, time) {
-            switch(observerType) {
-                case "self-interested":
-                    return wave * (1.5 + Math.sin(time / 5));
-                case "neutral":
-                    return wave + (Math.random() - 0.5) * 0.2;
-                case "selfless":
-                    let dampeningFactor = 1 - Math.abs(Math.sin(y / 30));
-                    return wave * dampeningFactor;
-                default:
-                    return wave;
             }
         }
 
         function drawParticle(x, y, waveFunction) {
             ctx.beginPath();
+            let particleSize = canvas.width / 200; // Scaling particle size based on canvas width
             let colorIntensity = Math.floor((waveFunction + 1) * 128);
             ctx.fillStyle = `rgb(${colorIntensity}, ${150 - colorIntensity}, 255)`;
-            ctx.arc(x, y, 3, 0, 2 * Math.PI);
+            ctx.arc(x, y, particleSize, 0, 2 * Math.PI);
             ctx.fill();
         }
     </script>
