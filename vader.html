@@ -43,7 +43,7 @@
     <button onclick="setObserverType('neutral')">Neutral Observer</button>
     <button onclick="setObserverType('selfless')">Selfless Observer</button>
 
-      <script>
+    <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
 
@@ -54,17 +54,16 @@
         let energy = 0.5; // Default energy
         let mass = 1; // Default mass
 
-        function deutschJozsaEnhanced() {
-            const outcomes = ['constant', 'balanced', 'chaotic'];
-            const array = new Uint32Array(1);
-            window.crypto.getRandomValues(array);
-            return outcomes[array[0] % outcomes.length];
-        }
-
         function rollQuantumDie() {
-            const result = deutschJozsaEnhanced();
-            console.log("Quantum Die Result: " + result);
-            // You can add additional logic here based on the result of the quantum die
+            const tritStates = ['particle', 'wave', 'observer'];
+            let outcome = [];
+            for (let i = 0; i < 3; i++) {
+                const array = new Uint32Array(1);
+                window.crypto.getRandomValues(array);
+                outcome.push(tritStates[array[0] % tritStates.length]);
+            }
+            console.log("Quantum Die Outcome: " + outcome.join(', '));
+            return outcome;
         }
 
         function setObserverType(type) {
@@ -87,32 +86,69 @@
         }
 
         function simulateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas for each update
+            let tritOutcome = rollQuantumDie();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (let i = 0; i < 4000; i++) {
                 let y = Math.random() * canvas.height;
-                let waveFunction = calculateWaveFunction(y, currentTime);
+                let slit = chooseSlit(y, tritOutcome);
+                let waveFunction = calculateWaveFunction(y, currentTime, slit, tritOutcome);
                 let x = canvas.width / 2 + waveFunction * (canvas.width / 10);
-                drawParticle(x, y, waveFunction);
+                drawParticle(x, y, waveFunction, tritOutcome);
             }
         }
 
-        function calculateWaveFunction(y, currentTime) {
-            // Simplified Schrödinger Equation Implementation
-            const hBar = 1; // Reduced Planck constant (placeholder value)
+        function chooseSlit(y, tritOutcome) {
+            let slit1Range = [canvas.height * 0.2, canvas.height * 0.3];
+            let slit2Range = [canvas.height * 0.4, canvas.height * 0.5];
+            let slit3Range = [canvas.height * 0.6, canvas.height * 0.7];
+
+            if (y > slit1Range[0] && y < slit1Range[1]) {
+                return 1; // Through slit 1
+            } else if (y > slit2Range[0] && y < slit2Range[1]) {
+                return 2; // Through slit 2
+            } else if (y > slit3Range[0] && y < slit3Range[1]) {
+                return 3; // Through slit 3
+            } else {
+                return 0; // Doesn't go through any slit
+            }
+        }
+
+        function calculateWaveFunction(y, currentTime, slit, tritOutcome) {
+            const hBar = 1; // Placeholder for reduced Planck constant
             let V = 0; // Potential energy (placeholder)
             let k = Math.sqrt(2 * mass * (energy - V)) / hBar; // Wave number
 
-            return amplitude * Math.sin(k * y); // Simple wave function calculation
+        if (tritOutcome.includes('wave')) {
+            // Wave behavior
+            switch (slit) {
+                case 1:
+                    return amplitude * Math.sin(k * y + currentTime);
+                case 2:
+                    return amplitude * Math.sin(k * y + 2 * currentTime);
+                case 3:
+                    return amplitude * Math.sin(k * y + 3 * currentTime);
+                default:
+                    return 0; // No wave function if it doesn't go through a slit
+            }
+        } else if (tritOutcome.includes('particle')) {
+            // Particle behavior
+            return 0; // Particles do not exhibit wave-like interference
+        } else {
+            // Observer effect - potentially alters the behavior
+            // For simplicity, assume observer collapses wave function to zero
+            return 0;
         }
+    }
 
-        function drawParticle(x, y, waveFunction) {
-            ctx.beginPath();
-            let particleSize = canvas.width / 200;
-            let colorIntensity = Math.floor((waveFunction + 1) * 128);
-            ctx.fillStyle = `rgb(${colorIntensity}, ${150 - colorIntensity}, 255)`;
-            ctx.arc(x, y, particleSize, 0, 2 * Math.PI);
-            ctx.fill();
-        }e
+    function drawParticle(x, y, waveFunction, tritOutcome) {
+        ctx.beginPath();
+        let particleSize = canvas.width / 200;
+        let colorIntensity = Math.floor((waveFunction + 1) * 128);
+        ctx.fillStyle = `rgb(${colorIntensity}, ${150 - colorIntensity}, 255)`;
+        ctx.arc(x, y, particleSize, 0, 2 * Math.PI);
+        ctx.fill();
+    }
 </script>
-            </body>
+
+</body>
 </html>
