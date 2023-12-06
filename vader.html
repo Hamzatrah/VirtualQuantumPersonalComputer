@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Virtual Quantum 3 Slit Experiment</title>
+    <title>Virtual Quantum 3 Slit Experiment Orbit</title>
     <style>
-                body {
+        body {
             font-family: 'Times', sans-serif;
             text-align: center;
             margin: 0;
@@ -41,16 +41,9 @@
     </div>
     <div id="dieResult"></div>
     <button onclick="initiateExperiment()">Start Experiment</button>
-    <br/>
-        </div>
-    <button onclick="rollQuantumDie()">Roll Quantum Die</button>
-    <button onclick="startExperiment()">Start Experiment</button>
-    <br/>
     <button onclick="setObserverType('self-interested')">Self-Interested Observer</button>
     <button onclick="setObserverType('neutral')">Neutral Observer</button>
     <button onclick="setObserverType('selfless')">Selfless Observer</button>
->
-
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
