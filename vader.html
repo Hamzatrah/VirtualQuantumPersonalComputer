@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Virtual Quantum Double Slit Experiment</title>
+    <title>Virtual Double Slit Experiment</title>
     <style>
         body {
-            font-family: Times, sans-serif;
+            font-family: Arial, sans-serif;
             text-align: center;
             margin: 0;
             padding: 0;
@@ -13,7 +13,13 @@
         }
         #canvas {
             border: 1px solid black;
+            border-radius: 50%;  /* Makes the canvas circular */
             margin-top: 20px;
+            width: 400px;  /* Adjust width and height for a circle */
+            height: 400px;
+        }
+        canvas {
+            border-radius: 50%;  /* Also round the actual drawing area */
         }
         button {
             margin-top: 20px;
@@ -26,18 +32,29 @@
     <h1>Virtual Double Slit Experiment</h1>
     <button onclick="rollQuantumDie()">Roll Quantum Die</button>
     <button onclick="startExperiment()">Start Experiment</button>
-    <canvas id="canvas" width="600" height="400"></canvas>
+    <br/>
+    <button onclick="setObserverType('self-interested')">Self-Interested Observer</button>
+    <button onclick="setObserverType('neutral')">Neutral Observer</button>
+    <button onclick="setObserverType('selfless')">Selfless Observer</button>
+    <canvas id="canvas"></canvas>
 
+    <!-- JavaScript remains the same as in the previous version -->
     <script>
-        const canvas = document.getElementById('canvas');
+         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
 
         let quantumState = 0;
+        let observerType = "neutral";
         let currentTime = 0;
 
         function rollQuantumDie() {
             quantumState = Math.floor(Math.random() * 3);
             console.log("Quantum State: " + quantumState);
+        }
+
+        function setObserverType(type) {
+            observerType = type;
+            console.log("Observer Type: " + observerType);
         }
 
         function startExperiment() {
@@ -63,9 +80,22 @@
         }
 
         function calculateWaveFunction(y, time) {
-            let wave1 = Math.sin((y + time * 10) / 20);
-            let wave2 = Math.sin((y - time * 10) / 15);
-            return (wave1 + wave2) / 2;
+            let baseWave = Math.sin((y + time * 10) / 20) + Math.sin((y - time * 10) / 15);
+            return modifyWaveFunction(baseWave, y, time);
+        }
+
+        function modifyWaveFunction(wave, y, time) {
+            switch(observerType) {
+                case "self-interested":
+                    return wave * (1.5 + Math.sin(time / 5));
+                case "neutral":
+                    return wave + (Math.random() - 0.5) * 0.2;
+                case "selfless":
+                    let dampeningFactor = 1 - Math.abs(Math.sin(y / 30));
+                    return wave * dampeningFactor;
+                default:
+                    return wave;
+            }
         }
 
         function drawParticle(x, y, waveFunction) {
