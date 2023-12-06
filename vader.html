@@ -19,7 +19,6 @@
         }
         #canvas {
             border: 1px solid black;
-            border-radius: 50%;
             margin-top: 20px;
             max-width: 400px;
             max-height: 400px;
@@ -50,10 +49,25 @@
         let quantumState = 0;
         let observerType = "neutral";
         let currentTime = 0;
+        let amplitude = 1; // Default amplitude
+        let energy = 0.5; // Default energy
+        let mass = 1; // Default mass
 
         function rollQuantumDie() {
             quantumState = Math.floor(Math.random() * 3);
             console.log("Quantum State: " + quantumState);
+
+            switch (quantumState) {
+                case 0: // Wave function amplitude
+                    amplitude = Math.random() * 2;
+                    break;
+                case 1: // Energy level
+                    energy = Math.random();
+                    break;
+                case 2: // Mass of the particle
+                    mass = Math.random() * 2;
+                    break;
+            }
         }
 
         function setObserverType(type) {
@@ -77,29 +91,26 @@
 
         function simulateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas for each update
-            for (let i = 0; i < 4000; i++) { // Generate 4000 particles
+            for (let i = 0; i < 4000; i++) {
                 let y = Math.random() * canvas.height;
                 let waveFunction = calculateWaveFunction(y, currentTime);
-                let x = canvas.width / 2 + waveFunction * (canvas.width / 10); // Adjust for canvas size
+                let x = canvas.width / 2 + waveFunction * (canvas.width / 10);
                 drawParticle(x, y, waveFunction);
             }
         }
 
         function calculateWaveFunction(y, currentTime) {
             // Simplified Schrödinger Equation Implementation
-            const mass = 1; // Placeholder value for mass
             const hBar = 1; // Reduced Planck constant (placeholder value)
             let V = 0; // Potential energy (placeholder)
-            let A = 1; // Amplitude (placeholder)
-            let E = 0.5; // Energy level (placeholder)
-            let k = Math.sqrt(2 * mass * (E - V)) / hBar; // Wave number
+            let k = Math.sqrt(2 * mass * (energy - V)) / hBar; // Wave number
 
-            return A * Math.sin(k * y); // Simple wave function calculation
+            return amplitude * Math.sin(k * y); // Simple wave function calculation
         }
 
         function drawParticle(x, y, waveFunction) {
             ctx.beginPath();
-            let particleSize = canvas.width / 200; // Scaling particle size based on canvas width
+            let particleSize = canvas.width / 200;
             let colorIntensity = Math.floor((waveFunction + 1) * 128);
             ctx.fillStyle = `rgb(${colorIntensity}, ${150 - colorIntensity}, 255)`;
             ctx.arc(x, y, particleSize, 0, 2 * Math.PI);
