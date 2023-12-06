@@ -19,6 +19,7 @@
         }
         #canvas {
             border: 1px solid black;
+            border-radius: 50%; /* Circular Canvas */
             margin-top: 20px;
             max-width: 400px;
             max-height: 400px;
@@ -42,7 +43,7 @@
     <button onclick="setObserverType('neutral')">Neutral Observer</button>
     <button onclick="setObserverType('selfless')">Selfless Observer</button>
 
-    <script>
+      <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
 
@@ -111,7 +112,6 @@
             ctx.fillStyle = `rgb(${colorIntensity}, ${150 - colorIntensity}, 255)`;
             ctx.arc(x, y, particleSize, 0, 2 * Math.PI);
             ctx.fill();
-        }
-    </script>
+        }e -->
 </body>
 </html>
