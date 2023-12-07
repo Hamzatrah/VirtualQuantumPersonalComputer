@@ -47,178 +47,163 @@
     <button onclick="setObserverType('self-interested')">Self-Interested Observer</button>
     <button onclick="setObserverType('neutral')">Neutral Observer</button>
     <button onclick="setObserverType('selfless')">Selfless Observer</button>
-    <script>
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
 
-        let quantumState = 0;
-        let observerType = "neutral";
-        let currentTime = 0;
-        let amplitude = 1; // Default amplitude
-        let energy = 0.5; // Default energy
-        let mass = 1; // Default mass
+    let observerType = "neutral";
+    let currentTime = 0;
+    let amplitude = 1; // Default amplitude
+    let energy = 0.5; // Default energy
+    const electronMass = 1; // Placeholder value for electron mass
+    const protonMass = 1836; // Placeholder value for proton mass (about 1836 times electron mass)
+    const neutronMass = 1839; // Placeholder value for neutron mass (slightly more than proton)
 
-        function rollQuantumDie() {
-            const tritStates = ['particle', 'wave', 'observer'];
-            let outcome = [];
-            for (let i = 0; i < 3; i++) {
-                const array = new Uint32Array(1);
-                window.crypto.getRandomValues(array);
-                outcome.push(tritStates[array[0] % tritStates.length]);
-            }
-            console.log("Quantum Die Outcome: " + outcome.join(', '));
-            return outcome;
+    function rollQuantumDie() {
+        const tritStates = ['electron', 'proton', 'neutron'];
+        let outcome = [];
+        for (let i = 0; i < 3; i++) {
+            const array = new Uint32Array(1);
+            window.crypto.getRandomValues(array);
+            outcome.push(tritStates[array[0] % tritStates.length]);
         }
-
-        function setObserverType(type) {
-            observerType = type;
-            console.log("Observer Type: " + observerType);
-        }
-
-        function initiateExperiment() {
-            const dieResult = rollQuantumDie();
-            displayDieResult(dieResult);
-            setTimeout(() => {
-                assembleTrits(dieResult);
-                setTimeout(startExperiment, 2000); // Delay to show trits assembling
-            }, 2000); // Delay to display die result
-        }
-
-        function displayDieResult(dieResult) {
-            document.getElementById('dieResult').innerText = "Quantum Die Rolled: " + dieResult.join(', ');
-        }
-
-        function assembleTrits(dieResult) {
-    let assemblyProgress = 0;
-    let assemblyInterval = setInterval(() => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawParticleBeams(assemblyProgress);
-        assemblyProgress += 2; // Adjust this value to change the speed of assembly
-
-        if (assemblyProgress >= canvas.width) {
-            clearInterval(assemblyInterval);
-        }
-    }, 20); // Time in milliseconds between updates
-}
-
-function drawParticleBeams(progress) {
-    const numberOfBeams = 10; // Number of particle beams
-    const particleSize = 5; // Size of each particle in the beam
-    const spread = 50; // Spread of particles in the beam
-
-    for (let i = 0; i < numberOfBeams; i++) {
-        let x = canvas.width / 2 + progress - spread / 2 + Math.random() * spread;
-        let y = canvas.height / 2 - progress - spread / 2 + Math.random() * spread;
-
-        ctx.beginPath();
-        ctx.arc(x, y, particleSize, 0, 2 * Math.PI);
-        ctx.fillStyle = `rgba(0, 150, 255, ${0.5 + Math.random() * 0.5})`; // Randomize color intensity for dynamic effect
-        ctx.fill();
+        console.log("Quantum Die Outcome: " + outcome.join(', '));
+        return outcome;
     }
-}
 
-function drawAssemblyLine(progress) {
-    ctx.beginPath();
-    ctx.moveTo(canvas.width / 2 - progress / 2, canvas.height / 2);
-    ctx.lineTo(canvas.width / 2 + progress / 2, canvas.height / 2);
-    ctx.strokeStyle = 'blue';
-    ctx.lineWidth = 3;
-    ctx.stroke();
-}
+    function setObserverType(type) {
+        observerType = type;
+        console.log("Observer Type: " + observerType);
+    }
 
-        function startExperiment() {
+    function initiateExperiment() {
+        const dieResult = rollQuantumDie();
+        displayDieResult(dieResult);
+        setTimeout(() => {
+            assembleTrits(dieResult);
+            setTimeout(startExperiment, 2000); // Delay to show trits assembling
+        }, 2000); // Delay to display die result
+    }
+
+    function displayDieResult(dieResult) {
+        document.getElementById('dieResult').innerText = "Quantum Die Rolled: " + dieResult.join(', ');
+    }
+
+    function assembleTrits(dieResult) {
+        let assemblyProgress = 0;
+        let assemblyInterval = setInterval(() => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            currentTime = 0;
+            drawParticleBeams(assemblyProgress);
+            assemblyProgress += 2; // Adjust this value to change the speed of assembly
+
+            if (assemblyProgress >= canvas.width) {
+                clearInterval(assemblyInterval);
+            }
+        }, 20); // Time in milliseconds between updates
+    }
+
+    function drawParticleBeams(progress) {
+        const numberOfBeams = 10;
+        const particleSize = 5;
+        const spread = 50;
+
+        for (let i = 0; i < numberOfBeams; i++) {
+            let x = canvas.width / 2 + progress - spread / 2 + Math.random() * spread;
+            let y = canvas.height / 2 - progress - spread / 2 + Math.random() * spread;
+
+            ctx.beginPath();
+            ctx.arc(x, y, particleSize, 0, 2 * Math.PI);
+            ctx.fillStyle = `rgba(0, 150, 255, ${0.5 + Math.random() * 0.5})`;
+            ctx.fill();
+        }
+    }
+
+    function startExperiment() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        currentTime = 0;
+        requestAnimationFrame(updateExperiment);
+    }
+
+    function updateExperiment() {
+        currentTime += 0.05;
+        simulateParticles();
+        if (currentTime < 20) {
             requestAnimationFrame(updateExperiment);
         }
+    }
 
-        function updateExperiment() {
-            currentTime += 0.05;
-            simulateParticles();
-            if (currentTime < 20) {
-                requestAnimationFrame(updateExperiment);
-            }
+    function simulateParticles() {
+        let tritOutcome = rollQuantumDie();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawSlits();
+
+        for (let i = 0; i < 4000; i++) {
+            let particleState = tritOutcome[i % tritOutcome.length];
+            let { x, y } = getOrbitingPosition(particleState, i);
+
+            let slit = chooseSlit(x, y, tritOutcome);
+            let waveFunction = calculateWaveFunction(x, y, currentTime, slit, particleState);
+            drawParticle(x, y, waveFunction, particleState);
         }
-
-        function simulateParticles() {
-    let tritOutcome = rollQuantumDie();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawSlits(); // Draw the slits each time before simulating particles
-
-    for (let i = 0; i < 4000; i++) {
-        // Assign a state to each particle
-        let particleState = tritOutcome[i % tritOutcome.length];
-        let { x, y } = getOrbitingPosition(particleState, i);
-
-        let slit = chooseSlit(x, y, tritOutcome);
-        let waveFunction = calculateWaveFunction(x, y, currentTime, slit, tritOutcome);
-        drawParticle(x, y, waveFunction, tritOutcome);
     }
+
+    function getOrbitingPosition(state, index) {
+        let angle = (index / 4000) * 2 * Math.PI;
+        let distance;
+        switch (state) {
+            case 'electron':
+                distance = 50 + 10 * Math.sin(5 * angle);
+                break;
+            case 'proton':
+                distance = 70 + 10 * Math.cos(5 * angle);
+                break;
+            case 'neutron':
+                distance = 90 + 10 * Math.sin(10 * angle);
+                break;
+            default:
+                distance = 50;
+        }
+        let x = canvas.width /2 + distance * Math.cos(angle);
+let y = canvas.height / 2 + distance * Math.sin(angle);
+return { x, y };
 }
 
-function getOrbitingPosition(state, index) {
-    let angle = (index / 4000) * 2 * Math.PI;
-    let distance;
-    switch (state) {
-        case 'particle': // State 0
-            distance = 50 + 10 * Math.sin(5 * angle); // Example orbit pattern
-            break;
-        case 'wave': // State 1
-            distance = 70 + 10 * Math.cos(5 * angle); // Different orbit pattern
-            break;
-        case 'observer': // State 2
-            distance = 90 + 10 * Math.sin(10 * angle); // Another orbit pattern
-            break;
-        default:
-            distance = 50; // Default
-    }
-    let x = canvas.width / 2 + distance * Math.cos(angle);
-    let y = canvas.height / 2 + distance * Math.sin(angle);
-    return { x, y };
-}
+function calculateWaveFunction(x, y, currentTime, slit, particleState) {
+    const hBar = 1;
+    let V = 0;
+    let k;
+    let waveFunction = 0;
 
-function lerp(start, end, amt) {
-    return (1 - amt) * start + amt * end;
-}
-
-function getSlitCenter(slitNumber) {
-    switch (slitNumber) {
-        case 1: return { x: canvas.width / 4, y: canvas.height / 2 };
-        case 2: return { x: canvas.width / 2, y: canvas.height / 2 };
-        case 3: return { x: 3 * canvas.width / 4, y: canvas.height / 2 };
-        default: return { x: canvas.width / 2, y: canvas.height / 2 };
+    switch (particleState) {
+        case 'electron':
+            k = Math.sqrt(2 * electronMass * (energy - V)) / hBar;
+            break;
+        case 'proton':
+            k = Math.sqrt(2 * protonMass * (energy - V)) / hBar;
+            break;
+        case 'neutron':
+            k = Math.sqrt(2 * neutronMass * (energy - V)) / hBar;
+            break;
     }
+    waveFunction = amplitude * Math.sin(k * y + currentTime);
+    return waveFunction;
 }
 
 function drawSlits() {
     for (let i = 1; i <= 3; i++) {
-        let center = getSlitCenter(i);
-        draw3DSlit(center.x, center.y, 10);
+        ctx.beginPath();
+        ctx.arc(canvas.width * i / 4, canvas.height / 2, 10, 0, 2 * Math.PI);
+        ctx.fillStyle = 'black';
+        ctx.fill();
     }
 }
 
-function draw3DSlit(x, y, radius) {
-    // Draw outer circle
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, 2 * Math.PI);
-    ctx.fillStyle = 'black';
-    ctx.fill();
-
-    // Add gradient for 3D effect
-    let gradient = ctx.createRadialGradient(x, y, radius, x, y, radius / 2);
-    gradient.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
-    gradient.addColorStop(1, 'black');
-    ctx.fillStyle = gradient;
-    ctx.fill();
-}
-
-                function chooseSlit(x, y, tritOutcome) {
-    const slitRadius = 10; // Radius of the circular slits
+function chooseSlit(x, y, tritOutcome) {
+    const slitRadius = 10;
     const slit1Center = { x: canvas.width / 4, y: canvas.height / 2 };
     const slit2Center = { x: canvas.width / 2, y: canvas.height / 2 };
     const slit3Center = { x: 3 * canvas.width / 4, y: canvas.height / 2 };
 
-    // Check if the particle is within the radius of any slit
     if (isInsideCircle(x, y, slit1Center, slitRadius)) {
         return 1;
     } else if (isInsideCircle(x, y, slit2Center, slitRadius)) {
@@ -226,7 +211,7 @@ function draw3DSlit(x, y, radius) {
     } else if (isInsideCircle(x, y, slit3Center, slitRadius)) {
         return 3;
     } else {
-        return 0; // Doesn't go through any slit
+        return 0;
     }
 }
 
@@ -234,59 +219,29 @@ function isInsideCircle(x, y, center, radius) {
     const distance = Math.sqrt((x - center.x) ** 2 + (y - center.y) ** 2);
     return distance < radius;
 }
-                function calculateWaveFunction(x, y, currentTime, slit, tritOutcome) {
-    const hBar = 1;
-    let V = 0;
-    let k = Math.sqrt(2 * mass * (energy - V)) / hBar;
-    let waveFunction = 0;
 
-    if (tritOutcome.includes('wave')) {
-        let slitCenter = getSlitCenter(slit);
-        let distanceToSlit = Math.sqrt((x - slitCenter.x) ** 2 + (y - slitCenter.y) ** 2);
-        let phaseShift = (distanceToSlit / canvas.width) * Math.PI;
-        waveFunction = amplitude * Math.sin(k * distanceToSlit + phaseShift);
-    } else if (tritOutcome.includes('particle')) {
-        // Particle behavior: more localized and less affected by wave properties
-        waveFunction = amplitude * (Math.random() - 0.5) * 2; // Random small fluctuations
-    } else if (tritOutcome.includes('observer')) {
-        // Observer effect: collapses the wave function or alters it significantly
-        waveFunction = 0; // Simplified model of wave function collapse
-    }
-    
-    return waveFunction;
-}
-
-
-       function drawParticle(x, y, waveFunction, tritOutcome) {
+function drawParticle(x, y, waveFunction, particleState) {
     ctx.beginPath();
-    let particleSize = getParticleSize(waveFunction, tritOutcome);
-    let color = getColorByState(tritOutcome);
+    let particleSize = getParticleSize(waveFunction, particleState);
+    let color = getColorByState(particleState);
     ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, 1)`;
     ctx.arc(x, y, particleSize, 0, 2 * Math.PI);
     ctx.fill();
-
-    // Add a highlight to the particle for a 3D effect
-    ctx.beginPath();
-    ctx.arc(x, y, particleSize, 0, Math.PI, false);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-    ctx.fill();
 }
 
-function getParticleSize(waveFunction, tritOutcome) {
-    if (tritOutcome.includes('particle')) {
-        return canvas.width / 150; // Fixed size for 'particle' state
-    }
-    // Variable size for other states
+function getParticleSize(waveFunction, particleState) {
     return canvas.width / 200 + Math.abs(waveFunction) * 5;
 }
 
-function getOpacity(waveFunction, tritOutcome) {
-    if (tritOutcome.includes('observer')) {
-        return 1; // Full opacity for 'observer' state
+function getColorByState(particleState) {
+    switch (particleState) {
+        case 'electron': return { r: 255, g: 0, b: 0 }; // Red for electrons
+        case 'proton': return { r: 0, g: 255, b: 0 }; // Green for protons
+        case 'neutron': return { r: 0, g: 0, b: 255 }; // Blue for neutrons
+        default: return { r: 128, g: 128, b: 128 }; // Default color
     }
-    // Opacity varies with wave function for other states
-    return Math.abs(waveFunction);
 }
-    </script>
+
+</script>
 </body>
 </html>
