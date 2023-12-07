@@ -4,34 +4,37 @@
     <meta charset="UTF-8">
     <title>Virtual Quantum 3 Slit Experiment Orbit</title>
     <style>
-        body {
-            font-family: 'Times', sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
-        #canvasContainer {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #canvas {
-            border: 1px solid black;
-            border-radius: 50%; /* Circular Canvas */
-            margin-top: 20px;
-            max-width: 400px;
-            max-height: 400px;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px;
-            font-size: 16px;
-        }
-        #dieResult {
-            margin-top: 10px;
-        }
+         body {
+        font-family: 'Times', sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+    }
+    #canvasContainer {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        perspective: 800px; /* Adds a sense of depth to the canvas */
+    }
+    #canvas {
+        border: 1px solid black;
+        border-radius: 50%; /* Circular Canvas */
+        margin-top: 20px;
+        max-width: 400px;
+        max-height: 400px;
+        box-shadow: 10px 10px 30px rgba(0,0,0,0.5); /* Shadow for 3D effect */
+        transform: rotateX(45deg) rotateY(0deg); /* Tilt the canvas for 3D perspective */
+    }
+    button {
+        margin-top: 20px;
+        padding: 10px;
+        font-size: 16px;
+    }
+    #dieResult {
+        margin-top: 10px;
+    }
     </style>
 </head>
 <body>
@@ -172,13 +175,25 @@ function getSlitCenter(slitNumber) {
 }
 
 function drawSlits() {
-    // Draw three circular slits with black hole-like properties
     for (let i = 1; i <= 3; i++) {
-        ctx.beginPath();
-        ctx.arc(canvas.width * i / 4, canvas.height / 2, 10, 0, 2 * Math.PI);
-        ctx.fillStyle = 'black';
-        ctx.fill();
+        let center = getSlitCenter(i);
+        draw3DSlit(center.x, center.y, 10);
     }
+}
+
+function draw3DSlit(x, y, radius) {
+    // Draw outer circle
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, 2 * Math.PI);
+    ctx.fillStyle = 'black';
+    ctx.fill();
+
+    // Add gradient for 3D effect
+    let gradient = ctx.createRadialGradient(x, y, radius, x, y, radius / 2);
+    gradient.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+    gradient.addColorStop(1, 'black');
+    ctx.fillStyle = gradient;
+    ctx.fill();
 }
 
                 function chooseSlit(x, y, tritOutcome) {
@@ -230,9 +245,14 @@ function isInsideCircle(x, y, center, radius) {
     ctx.beginPath();
     let particleSize = getParticleSize(waveFunction, tritOutcome);
     let color = getColorByState(tritOutcome);
-    let opacity = getOpacity(waveFunction, tritOutcome);
-    ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+    ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, 1)`;
     ctx.arc(x, y, particleSize, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // Add a highlight to the particle for a 3D effect
+    ctx.beginPath();
+    ctx.arc(x, y, particleSize, 0, Math.PI, false);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
     ctx.fill();
 }
 
