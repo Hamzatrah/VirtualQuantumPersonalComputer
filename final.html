@@ -61,7 +61,6 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
     </style>
 </head>
 <body>
@@ -81,54 +80,7 @@
         const rollQuantumDie = () => ['0', '1', '2'][Math.floor(Math.random() * 3)];
         const virtualSchrodingersCat = () => Math.random() < 0.5 ? 'A' : 'D';
         const virtualHamzatsCat = () => ['H', 'X', '+'][Math.floor(Math.random() * 3)];
-function getResponse() {
-    let quantumDieField = '';
-    let schrodingersCatField = '';
-    let hamzatsCatField = '';
-    let i = 0;
-    const container = document.getElementById('quantumFieldContainer');
-    const innerSphere = document.getElementById('innerSphere');
 
-    // Function to generate Fibonacci numbers
-    function fib(n) {
-        let a = 0, b = 1, sum;
-        for (let j = 0; j < n; j++) {
-            sum = a + b;
-            a = b;
-            b = sum;
-        }
-        return a;
-    }
-
-    const interval = setInterval(() => {
-        if (i >= 4000) {
-            clearInterval(interval);
-            generateMelody(quantumDieField + schrodingersCatField + hamzatsCatField);
-        } else {
-            const quantumBit = rollQuantumDie();
-            const schrodingersCat = virtualSchrodingersCat();
-            const hamzatsCat = virtualHamzatsCat();
-            quantumDieField += quantumBit;
-            schrodingersCatField += schrodingersCat;
-            hamzatsCatField += hamzatsCat;
-
-            const fibValue = fib(i % 16); // Modulo to repeat the pattern
-            const angle = (i / 4000) * 360;
-            const radius = fibValue * 2; // Multiply to scale up the spiral size
-            const x = radius * Math.cos(angle * Math.PI / 180);
-            const y = radius * Math.sin(angle * Math.PI / 180);
-            const div = document.createElement('div');
-            div.className = 'quantumBit';
-            div.style.left = `${100 + x}px`;
-            div.style.top = `${100 + y}px`;
-            div.style.backgroundColor = quantumBit === '0' ? '#000' : quantumBit === '1' ? '#555' : '#aaa';
-            container.appendChild(div);
-            innerSphere.style.backgroundColor = hamzatsCat === 'H' ? '#000' : hamzatsCat === 'X' ? '#555' : '#aaa';
-        }
-        i++;
-    }, 50);
-}
-    
         function generateMelody(quantumField) {
             [...quantumField].forEach((char, i) => playNote(charToNote[char], i * 0.5));
         }
@@ -149,6 +101,18 @@ function getResponse() {
             let i = 0;
             const container = document.getElementById('quantumFieldContainer');
             const innerSphere = document.getElementById('innerSphere');
+
+            // Function to generate Fibonacci numbers
+            function fib(n) {
+                let a = 0, b = 1, sum;
+                for (let j = 0; j < n; j++) {
+                    sum = a + b;
+                    a = b;
+                    b = sum;
+                }
+                return a;
+            }
+
             const interval = setInterval(() => {
                 if (i >= 4000) {
                     clearInterval(interval);
@@ -160,10 +124,16 @@ function getResponse() {
                     quantumDieField += quantumBit;
                     schrodingersCatField += schrodingersCat;
                     hamzatsCatField += hamzatsCat;
+
+                    const fibValue = fib(i % 16); // Modulo to repeat the pattern
                     const angle = (i / 4000) * 360;
+                    const radius = fibValue * 2; // Multiply to scale up the spiral size
+                    const x = radius * Math.cos(angle * Math.PI / 180);
+                    const y = radius * Math.sin(angle * Math.PI / 180);
                     const div = document.createElement('div');
                     div.className = 'quantumBit';
-                    div.style.transform = `rotate(${angle}deg)`;
+                    div.style.left = `${100 + x}px`;
+                    div.style.top = `${100 + y}px`;
                     div.style.backgroundColor = quantumBit === '0' ? '#000' : quantumBit === '1' ? '#555' : '#aaa';
                     container.appendChild(div);
                     innerSphere.style.backgroundColor = hamzatsCat === 'H' ? '#000' : hamzatsCat === 'X' ? '#555' : '#aaa';
@@ -181,3 +151,4 @@ function getResponse() {
     </script>
 </body>
 </html>
+
