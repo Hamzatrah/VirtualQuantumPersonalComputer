@@ -203,42 +203,54 @@ function isInsideCircle(x, y, center, radius) {
     const distance = Math.sqrt((x - center.x) ** 2 + (y - center.y) ** 2);
     return distance < radius;
 }
-                function calculateWaveFunction(y, currentTime, slit, tritOutcome) {
-            const hBar = 1; // Placeholder for reduced Planck constant
-            let V = 0; // Potential energy (placeholder)
-            let k = Math.sqrt(2 * mass * (energy - V)) / hBar; // Wave number
+                function calculateWaveFunction(x, y, currentTime, slit, tritOutcome) {
+    const hBar = 1;
+    let V = 0;
+    let k = Math.sqrt(2 * mass * (energy - V)) / hBar;
+    let waveFunction = 0;
 
-        if (tritOutcome.includes('wave')) {
-            // Wave behavior
-            switch (slit) {
-                case 1:
-                    return amplitude * Math.sin(k * y + currentTime);
-                case 2:
-                    return amplitude * Math.sin(k * y + 2 * currentTime);
-                case 3:
-                    return amplitude * Math.sin(k * y + 3 * currentTime);
-                default:
-                    return 0; // No wave function if it doesn't go through a slit
-            }
-        } else if (tritOutcome.includes('particle')) {
-            // Particle behavior
-            return 0; // Particles do not exhibit wave-like interference
-        } else {
-            // Observer effect - potentially alters the behavior
-            // For simplicity, assume observer collapses wave function to zero
-            return 0;
-        }
+    if (tritOutcome.includes('wave')) {
+        let slitCenter = getSlitCenter(slit);
+        let distanceToSlit = Math.sqrt((x - slitCenter.x) ** 2 + (y - slitCenter.y) ** 2);
+        let phaseShift = (distanceToSlit / canvas.width) * Math.PI;
+        waveFunction = amplitude * Math.sin(k * distanceToSlit + phaseShift);
+    } else if (tritOutcome.includes('particle')) {
+        // Particle behavior: more localized and less affected by wave properties
+        waveFunction = amplitude * (Math.random() - 0.5) * 2; // Random small fluctuations
+    } else if (tritOutcome.includes('observer')) {
+        // Observer effect: collapses the wave function or alters it significantly
+        waveFunction = 0; // Simplified model of wave function collapse
     }
+    
+    return waveFunction;
+}
 
 
-        function drawParticle(x, y, waveFunction, tritOutcome) {
-            ctx.beginPath();
-            let particleSize = canvas.width / 200;
-            let colorIntensity = Math.floor((waveFunction + 1) * 128);
-            ctx.fillStyle = `rgb(${colorIntensity}, ${150 - colorIntensity}, 255)`;
-            ctx.arc(x, y, particleSize, 0, 2 * Math.PI);
-            ctx.fill();
-        }
+       function drawParticle(x, y, waveFunction, tritOutcome) {
+    ctx.beginPath();
+    let particleSize = getParticleSize(waveFunction, tritOutcome);
+    let color = getColorByState(tritOutcome);
+    let opacity = getOpacity(waveFunction, tritOutcome);
+    ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+    ctx.arc(x, y, particleSize, 0, 2 * Math.PI);
+    ctx.fill();
+}
+
+function getParticleSize(waveFunction, tritOutcome) {
+    if (tritOutcome.includes('particle')) {
+        return canvas.width / 150; // Fixed size for 'particle' state
+    }
+    // Variable size for other states
+    return canvas.width / 200 + Math.abs(waveFunction) * 5;
+}
+
+function getOpacity(waveFunction, tritOutcome) {
+    if (tritOutcome.includes('observer')) {
+        return 1; // Full opacity for 'observer' state
+    }
+    // Opacity varies with wave function for other states
+    return Math.abs(waveFunction);
+}
     </script>
 </body>
 </html>
