@@ -92,13 +92,29 @@
     let assemblyProgress = 0;
     let assemblyInterval = setInterval(() => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawAssemblyLine(assemblyProgress);
+        drawParticleBeams(assemblyProgress);
         assemblyProgress += 2; // Adjust this value to change the speed of assembly
 
         if (assemblyProgress >= canvas.width) {
             clearInterval(assemblyInterval);
         }
     }, 20); // Time in milliseconds between updates
+}
+
+function drawParticleBeams(progress) {
+    const numberOfBeams = 10; // Number of particle beams
+    const particleSize = 5; // Size of each particle in the beam
+    const spread = 50; // Spread of particles in the beam
+
+    for (let i = 0; i < numberOfBeams; i++) {
+        let x = canvas.width / 2 + progress - spread / 2 + Math.random() * spread;
+        let y = canvas.height / 2 - progress - spread / 2 + Math.random() * spread;
+
+        ctx.beginPath();
+        ctx.arc(x, y, particleSize, 0, 2 * Math.PI);
+        ctx.fillStyle = `rgba(0, 150, 255, ${0.5 + Math.random() * 0.5})`; // Randomize color intensity for dynamic effect
+        ctx.fill();
+    }
 }
 
 function drawAssemblyLine(progress) {
