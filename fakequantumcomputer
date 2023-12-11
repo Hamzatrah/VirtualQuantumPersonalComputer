@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hamzat Incorporated</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            text-align: justify;
+            margin: 0;
+            padding: 0;
+            background-color: white; /* Background set to white */
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        p {
+            font-size: 18px;
+            color: #666;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>I Made a Fake Quantum Computer</h1>
+        <p>
+            <strong>Hamzat Incorporated: From Artist to Billionaire</strong><br>
+            Berlin, Germany – The journey of Hamzat Incorporated from a visionary sculptor named Hamzat Raheem to a pioneering figure in the quantum field is extraordinary. Known for his ambitious project to collect 1,000 faces, culminating in an immersive sculpture inside a cave, Hamzat has consistently pushed the boundaries of art and technology.
+        </p>
+        <p>
+            Hamzat Incorporated, once known as Hamzat Raheem, masterfully weaves together the distinct roles of a private citizen, public figure, and corporate entity, creating a unique tapestry of identity in the modern era. As a private citizen, he delves into the depths of artistic expression, exploring the nuances of human identity through his innovative sculptures. In the public eye, he emerges as a visionary, challenging conventional boundaries and inspiring a broader audience with his groundbreaking work in quantum technology. As a corporate entity, Hamzat Incorporated transcends traditional artist archetypes, embodying the fusion of creativity and business acumen. This multifaceted persona not only reflects the complexity of his art but also symbolizes a new paradigm where art, personal identity, and corporate innovation coalesce, redefining what it means to be an artist in the 21st century.
+        </p>
+        <p>
+            His latest foray into the quantum world with the development of a “fake quantum computer” stands as a testament to his relentless curiosity and innovative spirit. This piece, more a conceptual technology sculpture than a scientific tool, resides at the intersection of art and quantum mechanics, challenging our perceptions of reality. Hamzat’s work probes deep into the philosophical questions of existence and the nature of reality, drawing parallels between the layered realities of art and the intricate dimensions of quantum physics.
+        </p>
+        <p>
+            Hamzat has established a significant online presence, providing a platform where enthusiasts and learners can engage with his work and explore the realms of quantum physics. His website, <a href="http://hamzat.xyz">hamzat.xyz</a>, serves as a portal to his innovative projects, showcasing the unique blend of art and technology that characterizes his work. Interactive pages like <a href="http://hamzat.xyz/5.html">hamzat.xyz/5.html</a> and <a href="http://hamzat.xyz/vader.html">hamzat.xyz/vader.html</a> offer immersive experiences, allowing users to explore quantum physics concepts hands-on. These platforms extend the reach of his quantum computer emulation, making complex quantum mechanics accessible and understandable to a broader audience.
+        </p>
+        <p>
+            Additionally, his GitHub repository, VirtualQuantumPersonalComputer, is a resource hub for those interested in the technical aspects of his projects. It provides insight into the code and algorithms behind his virtual quantum creations, offering a deeper understanding of the backend of his groundbreaking work.
+        </p>
+        <p>
+            Hamzat’s commitment to democratizing quantum learning is evident through these platforms. He not only exemplifies bridging the gap between complex scientific concepts and public understanding but also fosters a community of learners and enthusiasts passionate about the intersection of quantum mechanics and art.
+        </p>
+        <p>
+        A cornerstone of Hamzat’s work is bridging the gap between classical computing and quantum computing. Utilizing his deep understanding of both realms, he is pioneering a new era in computational art and science. His concept of a “virtual quantum computer” demonstrates this fusion, employing HTML code and advanced ChatGPT4+ algorithms to create an environment where classical and quantum computing coexist. This approach enables the emulation of quantum behaviors within a classical computing framework, offering a novel way to visualize and understand quantum mechanics.
+</p>
+<p>
+Through his online platforms, Hamzat showcases the harmonization of these computing paradigms and invites the global community to explore these concepts. His work serves as a beacon for researchers, students, and enthusiasts, guiding them through quantum computing complexities while remaining grounded in classical computing systems. Hamzat’s is not only advancing computational science but also redefining artistic expression boundaries, standing at the forefront of a new interdisciplinary landscape where art, science, and technology converge.
+  </p>
+  <p>
+  In a series of bold, unexpected turns, Hamzat has made significant strides both in academia and the quantum realm. Achieving an impressive feat, he became a resident scholar at Technische Universität Berlin within just two weeks of arriving in Germany, under the New Practices program led by the renowned Albert Lang. This position serves as a "preseason" for his planned pursuit of a PhD at Stanford, merging his artistic flair with technological innovation. Simultaneously, Raheem ventured into uncharted territory by claiming to have created a "fake quantum computer." This intriguing development, shrouded in mystery and brilliance, places him at the forefront of technological innovation and artistic exploration. His creation, more a conceptual technology sculpture than a scientific tool, blurs the boundaries between reality and possibility, challenging traditional perceptions and cementing his role as a pioneer at the confluence of art and science.
+  </p>
+  <p>
+  “It’s about questioning the unknown, exploring the known, and mastering the unknown” he muses. “In art, as in quantum mechanics, there are layers of reality yet to be uncovered.”
+  </p>
+  <p>
+  Hamzat’s contributions to the Virtual Quantum Operating System (VQOS) and the 3 Sided Die mark significant advancements in educational and research tools. VQOS, a platform for simulating quantum environments, and the Virtual Quantum Die, a tool for understanding quantum probability, hold immense potential in both educational and research domains. These innovations offer unique approaches to learning and exploring quantum mechanics, making complex concepts more accessible and engaging.
+  </p>
+  <p>
+  
+  
+    </div>
+</body>
+</html>
