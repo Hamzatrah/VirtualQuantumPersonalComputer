@@ -92,19 +92,11 @@
             }
         };
 
-           function rollQuantumDie() {
+              function rollQuantumDie() {
             let dieGrid = document.getElementById('dieGrid');
             dieGrid.innerHTML = '';
 
-            for (let i = 0; i < 4000; i++) {
-                let outcome = quantumDieOutcome();
-                let resultSpan = document.createElement('span');
-                resultSpan.classList.add('dieResult');
-                resultSpan.textContent = outcome;
-                dieGrid.appendChild(resultSpan);
-            }
-        }
-
+            // Fibonacci sequence logic here
             let fibSequence = [1, 1];
             while (fibSequence.length < 4000) {
                 let nextFibNum = fibSequence[fibSequence.length - 1] + fibSequence[fibSequence.length - 2];
