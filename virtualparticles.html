@@ -56,7 +56,7 @@
 <body>
     <div class="content">
         <h1>Understanding Virtual Qutrits in String Theory</h1>
-        <h1>Looped Strings in Quantum Mechanics</h1>
+        <h1> Looped Strings in Quantum Mechanics</h1>
         <p>
             In the realm of string theory, particles are envisioned not as points, but as one-dimensional strings. These strings vibrate and loop, creating the diverse tapestry of the universe. This visualization takes inspiration from the core concepts of string theory, integrating the idea of looped strings with quantum randomness. Each dot, representing a qutrit state, is a visual metaphor for a vibrating string in multiple quantum states.
         </p>
@@ -71,13 +71,16 @@
     <script>
         const quantum = {
             getRandom: function(min, mid, max) {
+                if (typeof min !== "number" || typeof mid !== "number" || typeof max !== "number") {
+                    throw new Error("min, mid, and max must be numbers");
+                }
                 if (min >= mid || mid >= max) {
                     throw new Error("Values must be in order: min < mid < max");
                 }
 
                 const buffer = new Uint32Array(1);
                 window.crypto.getRandomValues(buffer);
-                const normalizedRandom = buffer[0] / (0xFFFFFFFF + 1); 
+                const normalizedRandom = buffer[0] / (0xFFFFFFFF + 1);
 
                 if (normalizedRandom < 0.33) {
                     return this.cryptoRandom(min, mid);
@@ -105,13 +108,20 @@
                 resultSpan.classList.add('dieResult');
                 resultSpan.style.animationDelay = `${i * 0.005}s`;
                 resultSpan.textContent = outcome;
-                dieGrid.appendChild(resultSpan);
-            }
-        }
-
-        function quantumDieOutcome() {
-            return ['H', '𝕏', '+'][Math.floor(quantum.getRandom(0, 1, 2))];
+dieGrid.appendChild(resultSpan);
 }
+}
+
+    function quantumDieOutcome() {
+        const result = quantum.getRandom(0, 1, 2);
+        if (result < 1) {
+            return 'H';
+        } else if (result < 2) {
+            return '𝕏';
+        } else {
+            return '+';
+        }
+    }
 
     rollQuantumDie();
 </script>
