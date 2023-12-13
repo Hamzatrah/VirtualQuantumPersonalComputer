@@ -112,11 +112,16 @@
             let dieGrid = document.getElementById('dieGrid');
             dieGrid.innerHTML = '';
 
-            for (let i = 0; i < 4000; i++) {
+            let fibSequence = [1, 1];
+            while (fibSequence.length < 4000) {
+                let nextFibNum = fibSequence[fibSequence.length - 1] + fibSequence[fibSequence.length - 2];
+                fibSequence.push(nextFibNum);
+            }
+
+            for (let i = 0; i < fibSequence.length; i++) {
                 let outcome = quantumDieOutcome();
                 let resultSpan = document.createElement('span');
-                resultSpan.classList.add('dieResult', outcome);
-                resultSpan.style.setProperty('--i', i);
+                resultSpan.classList.add('dieResult');
                 resultSpan.textContent = outcome;
                 dieGrid.appendChild(resultSpan);
             }
