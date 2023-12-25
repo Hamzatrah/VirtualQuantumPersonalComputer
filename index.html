@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Quantum Die</title>
@@ -55,6 +54,7 @@
             height: 100%;
             object-fit: cover;
         }
+
         /* Responsive Design Modifications */
         @media (max-width: 768px) {
             #cube-container, #image-container {
@@ -72,6 +72,7 @@
                 height: auto;
             }
         }
+
         @media (max-width: 480px) {
             body {
                 font-size: 14px;
@@ -101,6 +102,7 @@
                 height: auto;
             }
         }
+
         /* Responsive Design Modifications for Mobile Phones */
         @media (max-width: 480px) {
             body {
@@ -160,12 +162,14 @@
     <script>
            let audioContext, gainNode, canvas, ctx, quantumLoop, modulationFactor = 1, quantumStates = [];
         let scene, camera, renderer, cube;
+
         function initAudioContext() {
             window.AudioContext = window.AudioContext || window.webkitAudioContext;
             audioContext = new AudioContext();
             gainNode = audioContext.createGain();
             gainNode.connect(audioContext.destination);
         }
+
         function runQuantumDie() {
             if (quantumStates.length >= 4000) quantumStates.shift();
             const array = new Uint8Array(1);
@@ -177,6 +181,7 @@
             drawCanvas();
             updateCubeRotation(outcome);
         }
+
         function displayQuantumOutput(outcome) {
             const outputElement = document.getElementById('die-output');
             const className = ['state-H', 'state-𝕏', 'state-plus'];
@@ -187,17 +192,21 @@
             outputElement.appendChild(newSpan);
             outputElement.scrollTop = outputElement.scrollHeight;
         }
+
         function playQuantumSound(state) {
     const oscillator1 = audioContext.createOscillator();
     const oscillator2 = audioContext.createOscillator();
     oscillator1.type = 'sine'; // Base oscillator
     oscillator2.type = ['sine', 'triangle', 'square'][state]; // Timbre modulating oscillator
+
     // Adjust frequencies to modify timbre
     oscillator1.frequency.setValueAtTime((440 + state * 110) * modulationFactor, audioContext.currentTime);
     oscillator2.frequency.setValueAtTime((220 + state * 55) * modulationFactor, audioContext.currentTime);
+
     // Create a gain node for the second oscillator to control its volume
     const gainNode2 = audioContext.createGain();
     gainNode2.gain.value = 0.5; // Adjust to blend the timbre
+
     // Connect and start the oscillators
     oscillator1.connect(gainNode);
     oscillator2.connect(gainNode2);
@@ -213,6 +222,7 @@
             const maxHeight = 100;
             canvas.width = canvasWidth;
             const midPoint = canvas.height / 2;
+
             ctx.clearRect(0, 0, canvasWidth, canvas.height);
             quantumStates.forEach((state, index) => {
                 const lineLength = Math.random() * maxHeight;
@@ -220,10 +230,12 @@
                 ctx.fillRect(index * stateWidth, midPoint - lineLength / 2, stateWidth, lineLength);
             });
         }
+
         function updateModulation(value) {
             modulationFactor = value;
             gainNode.gain.value = Math.exp(value - 1);
         }
+
         function initCube() {
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
@@ -232,12 +244,14 @@
             renderer.setSize(300, 300);
             renderer.setClearColor(0xAAAAAA);
             document.getElementById('cube-container').appendChild(renderer.domElement);
+
             const geometry = new THREE.BoxGeometry();
             const material = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
             cube = new THREE.Mesh(geometry, material);
             scene.add(cube);
             loadCubeSymbols();
         }
+
         function loadCubeSymbols() {
             const loader = new THREE.FontLoader();
             loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', font => {
@@ -246,6 +260,7 @@
                 addTextToCube(font, '+', 0, 0.5, 0.5, -Math.PI / 2, 0, 0);
             });
         }
+
         function addTextToCube(font, text, x, y, z, rotationX, rotationY, rotationZ) {
             const textGeometry = new THREE.TextGeometry(text, { font: font, size: 0.4, height: 0.1 });
             textGeometry.computeBoundingBox();
@@ -256,14 +271,17 @@
             textMesh.rotation.set(rotationX, rotationY, rotationZ);
             cube.add(textMesh);
         }
+
         function animateCube() {
             requestAnimationFrame(animateCube);
             renderer.render(scene, camera);
         }
+
         function updateCubeRotation(outcome) {
             cube.rotation.x += outcome * 0.05;
             cube.rotation.y += outcome * 0.05;
         }
+
         window.startQuantumDie = function() {
             if (audioContext.state === 'suspended') {
                 audioContext.resume();
@@ -273,10 +291,12 @@
             quantumLoop = setInterval(runQuantumDie, 200);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         };
+
         window.updateModulation = function(value) {
             modulationFactor = value;
             gainNode.gain.value = Math.exp(value - 1);
         };
+
         document.addEventListener('DOMContentLoaded', () => {
             canvas = document.getElementById('waveform');
             ctx = canvas.getContext('2d');
@@ -285,6 +305,7 @@
             animateCube();
         });
     </script>
+
     <!-- Quantum Physics and Observer Influence Section -->
     <section class="content-section" id="quantumPhysicsSection">
         <h2>Quantum Physics and Observer Influence</h2>
@@ -307,29 +328,34 @@
         </ul>
         <p>These proofs illustrate how each state of the observer uniquely modifies their interaction with spacetime.</p>
     </section>
+
     <section class="content-section" id="conceptualInterpretation">
         <h2>Conceptual Interpretation and Quantum Gravity Context</h2>
-        <p>Expanding the Observer Influence Tensor O<sub>Î¼Î½</sub> to incorporate concepts like superposition, parallelism, and entanglement requires blending elements of classical and quantum physics.</p>
+        <p>Expanding the Observer Influence Tensor O<sub>&mu;&nu;</sub> to incorporate concepts like superposition, parallelism, and entanglement requires blending elements of classical and quantum physics.</p>
     
         <h2>Incorporating Superposition:</h2>
         <ul>
-            <li>Superposition refers to a system being in multiple states simultaneously. Introduce a superposition operator Å that modifies the tensor to account for the probability amplitudes of different states.</li>
-            <li>The tensor under superposition is represented as O<sub>Î¼Î½</sub><sup>S</sup> = Å(O<sub>Î¼Î½</sub>).</li>
+            <li>Superposition refers to a system being in multiple states simultaneously. Introduce a superposition operator = &#x2C8 that modifies the tensor to account for the probability amplitudes of different states.</li>
+            <li>The tensor under superposition is represented as O<sub>&mu;&nu;</sub><sup>S</sup> = &#x2C8;&Scaron;(O<sub>&mu;&nu;</sub>)</li>
         </ul>
+
         <h2>Integrating Parallelism:</h2>
         <ul>
             <li>Parallelism, often discussed in the context of parallel universes, suggests that multiple, non-interacting universes exist simultaneously. Introduce a parallelism factor P for this purpose.</li>
-            <li>The equation with parallelism is O<sub>Î¼Î½</sub><sup>P</sup> = P &middot; O<sub>Î¼Î½</sub><sup>S</sup>, indicating the observer's influence across parallel realities.</li>
+            <li>The equation with parallelism is O<sub>&mu;&nu;</sub><sup>P</sup> = P &middot; O<sub>&mu;&nu;</sub><sup>S</sup> indicating the observer's influence across parallel realities.</li>
         </ul>
+
         <h2>Entanglement Consideration:</h2>
         <ul>
-            <li>Quantum entanglement is a phenomenon where particles become correlated in such a way that the state of one particle directly relates to the state of another. Introduce an entanglement operator Ã.</li>
-            <li>The observer influence tensor under entanglement is O<sub>Î¼Î½</sub><sup>E</sup> = Ã(O<sub>Î¼Î½</sub><sup>P</sup>), reflecting interconnectedness of particles.</li>
+            <li>Quantum entanglement is a phenomenon where particles become correlated in such a way that the state of one particle directly relates to the state of another. Introduce an entanglement operator &Escr;</li>
+            <li>The observer influence tensor under entanglement is O<sub>&mu;&nu;</sub><sup>E</sup> = &Escr;(O<sub>&mu;&nu;</sub><sup>P</sup>) reflecting interconnectedness of particles.</li>
         </ul>
+
         <h2>Final Expanded Equation:</h2>
         <ul>
             <li>Combining these elements, the expanded observer influence equation becomes O<sub>Î¼Î½</sub><sup>Expanded</sup> = Ã(P &middot; Å(O<sub>Î¼Î½</sub>)).</li>
         </ul>
+
         <h2>Theoretical Implications and Considerations:</h2>
         <ul>
             <li>This expanded equation ventures into highly theoretical territory, blending quantum theory with speculative concepts.</li>
