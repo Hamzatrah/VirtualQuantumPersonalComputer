@@ -20,15 +20,12 @@
     <meta property="og:image" content="https://hamzat.xyz/IMG_5162.jpeg">
     <meta property="og:url" content="https://hamzat.xyz/5.html">
     <meta property="og:type" content="website">
-
     <!-- Twitter -->
     <meta name="twitter:card" content="https://hamzat.xyz/IMG_5162.jpeg">
     <meta name="twitter:title" content="Quantum Gravity Exploration: Merging Physics, Nightlife, and Web 3.0">
     <meta name="twitter:description" content="Explore the fusion of quantum physics and Berlin's iconic nightlife, integrated with Web 3.0. Join our interactive platform and be part of the future.">
     <meta name="twitter:image" content="https://hamzat.xyz/5.html">
-
     <!-- Add additional tags as needed for other social media platforms -->
-
     <link rel="icon" href="URL_to_your_favicon" type="image/x-icon">
 <head>
     <meta charset="UTF-8">
@@ -116,7 +113,7 @@
 <body>
     <h1>Expanding the Observer Influence Tensor</h1>
     <p>Expanding the Observer Influence Tensor O<sub>μν</sub> to incorporate concepts like superposition, parallelism, and entanglement requires blending elements of classical and quantum physics.</p>
-    
+
     <h2>Incorporating Superposition:</h2>
     <ul>
         <li>Superposition refers to a system being in multiple states simultaneously. Introduce a superposition operator Ŝ that modifies the tensor to account for the probability amplitudes of different states.</li>
@@ -137,374 +134,7 @@
 
     <h2>Final Expanded Equation:</h2>
     <ul>
-        <li>Combining these elements, the expanded observer influence equation becomes <!DOCTYPE html>
-<html lang="en">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Virtual Quantum Die</title>
-    <style>
-        body {
-            font-family: 'Times New Roman', serif;
-            background-color: #ffffff;
-            color: #000000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            padding: 10px;
-        }
-        #cube-container, #image-container {
-            width: 300px;
-            height: 300px;
-            margin-bottom: 20px;
-        }
-        #die-output, #waveform-container {
-            margin-top: 20px;
-            border: 1px solid #000000;
-            max-width: 90%;
-            overflow-x: auto;
-        }
-        #die-output {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
-            gap: 2px;
-            font-family: monospace;
-            font-size: 14px;
-            max-height: 80vh;
-            overflow: auto;
-        }
-        .state-H { color: blue; }
-        .state-ð { color: green; }
-        .state-plus { color: red; }
-        #controls input[type="range"] {
-            width: 50%;
-        }
-        #waveform-container {
-            max-height: 80vh;
-        }
-        #waveform {
-            width: 4000px;
-            height: 300px;
-        }
-        #image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Responsive Design Modifications */
-        @media (max-width: 768px) {
-            #cube-container, #image-container {
-                width: 200px;
-                height: 200px;
-            }
-            #die-output, #waveform-container {
-                max-width: 100%;
-            }
-            #controls input[type="range"] {
-                width: 80%;
-            }
-            #waveform {
-                width: 2000px;
-                height: auto;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                font-size: 14px;
-            }
-            #cube-container, #image-container {
-                width: 150px;
-                height: 150px;
-            }
-            #controls input[type="range"] {
-                width: 100%;
-            }
-        }
-        /* Responsive Design Modifications for Tablets */
-        @media (max-width: 768px) {
-            #cube-container, #image-container {
-                width: 200px;
-                height: 200px;
-            }
-            #die-output, #waveform-container {
-                max-width: 100%;
-            }
-            #controls input[type="range"] {
-                width: 80%;
-            }
-            #waveform {
-                width: 2000px;
-                height: auto;
-            }
-        }
-
-        /* Responsive Design Modifications for Mobile Phones */
-        @media (max-width: 480px) {
-            body {
-                font-size: 14px;
-            }
-            #cube-container, #image-container {
-                width: 150px; /* Smaller size for mobile */
-                height: 150px;
-            }
-            #controls {
-                flex-direction: column; /* Stack button and slider */
-                align-items: center;
-            }
-            #controls input[type="range"], #controls button {
-                width: 90%; /* Full width for better accessibility */
-                margin-bottom: 10px;
-            }
-            #waveform {
-                width: 100%; /* Full width on mobile */
-                height: 150px; /* Adjusted height */
-            }
-            #die-output {
-                font-size: 12px; /* Smaller font size for better readability */
-            }
-        }
-                /* Responsive text size adjustments */
-        body {
-            font-size: 16px; /* Default text size for larger screens */
-        }
-
-        @media (max-width: 768px) {
-            body {
-                font-size: 14px; /* Slightly smaller text for tablets */
-            }
-            /* Other responsive styles for tablets... */
-        }
-
-        @media (max-width: 480px) {
-            body {
-                font-size: 12px; /* Even smaller text for mobile phones */
-            }
-    </style>
-</head>
-<body>
-    <div id="image-container">
-        <img src="https://hamzat.xyz/IMG_5162.jpeg" alt="3 Sided Coin, Marble, 2015">
-    </div> 
-    <div id="controls">
-        <button onclick="startQuantumDie()">Roll Quantum Die</button>
-        <input type="range" min="0.5" max="1.5" step="0.01" value="1" oninput="updateModulation(this.value)" role="slider" aria-label="Modulation Factor" />
-    </div>
-    <div id="die-output"></div>
-    <div id="waveform-container">
-        <canvas id="waveform"></canvas>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script>
-           let audioContext, gainNode, canvas, ctx, quantumLoop, modulationFactor = 1, quantumStates = [];
-        let scene, camera, renderer, cube;
-
-        function initAudioContext() {
-            window.AudioContext = window.AudioContext || window.webkitAudioContext;
-            audioContext = new AudioContext();
-            gainNode = audioContext.createGain();
-            gainNode.connect(audioContext.destination);
-        }
-
-        function runQuantumDie() {
-            if (quantumStates.length >= 4000) quantumStates.shift();
-            const array = new Uint8Array(1);
-            window.crypto.getRandomValues(array);
-            const outcome = array[0] % 3;
-            quantumStates.push(outcome);
-            displayQuantumOutput(outcome);
-            playQuantumSound(outcome);
-            drawCanvas();
-            updateCubeRotation(outcome);
-        }
-
-        function displayQuantumOutput(outcome) {
-            const outputElement = document.getElementById('die-output');
-            const className = ['state-H', 'state-𝕏', 'state-plus'];
-            const displayChar = ['H', '𝕏', '+'];
-            const newSpan = document.createElement('span');
-            newSpan.className = className[outcome];
-            newSpan.textContent = displayChar[outcome];
-            outputElement.appendChild(newSpan);
-            outputElement.scrollTop = outputElement.scrollHeight;
-        }
-
-        function playQuantumSound(state) {
-    const oscillator1 = audioContext.createOscillator();
-    const oscillator2 = audioContext.createOscillator();
-    oscillator1.type = 'sine'; // Base oscillator
-    oscillator2.type = ['sine', 'triangle', 'square'][state]; // Timbre modulating oscillator
-
-    // Adjust frequencies to modify timbre
-    oscillator1.frequency.setValueAtTime((440 + state * 110) * modulationFactor, audioContext.currentTime);
-    oscillator2.frequency.setValueAtTime((220 + state * 55) * modulationFactor, audioContext.currentTime);
-
-    // Create a gain node for the second oscillator to control its volume
-    const gainNode2 = audioContext.createGain();
-    gainNode2.gain.value = 0.5; // Adjust to blend the timbre
-
-    // Connect and start the oscillators
-    oscillator1.connect(gainNode);
-    oscillator2.connect(gainNode2);
-    gainNode2.connect(gainNode);
-    oscillator1.start();
-    oscillator2.start();
-    oscillator1.stop(audioContext.currentTime + 0.2);
-    oscillator2.stop(audioContext.currentTime + 0.2);
-}
-        function drawCanvas() {
-            const stateWidth = 1;
-            const canvasWidth = Math.max(4000, stateWidth * quantumStates.length);
-            const maxHeight = 100;
-            canvas.width = canvasWidth;
-            const midPoint = canvas.height / 2;
-
-            ctx.clearRect(0, 0, canvasWidth, canvas.height);
-            quantumStates.forEach((state, index) => {
-                const lineLength = Math.random() * maxHeight;
-                ctx.fillStyle = ['blue', 'green', 'red'][state];
-                ctx.fillRect(index * stateWidth, midPoint - lineLength / 2, stateWidth, lineLength);
-            });
-        }
-
-        function updateModulation(value) {
-            modulationFactor = value;
-            gainNode.gain.value = Math.exp(value - 1);
-        }
-
-        function initCube() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-            camera.position.z = 5;
-            renderer = new THREE.WebGLRenderer();
-            renderer.setSize(300, 300);
-            renderer.setClearColor(0xAAAAAA);
-            document.getElementById('cube-container').appendChild(renderer.domElement);
-
-            const geometry = new THREE.BoxGeometry();
-            const material = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
-            cube = new THREE.Mesh(geometry, material);
-            scene.add(cube);
-            loadCubeSymbols();
-        }
-
-        function loadCubeSymbols() {
-            const loader = new THREE.FontLoader();
-            loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', font => {
-                addTextToCube(font, 'H', -0.5, 0, 0.5, 0, Math.PI / 2, 0);
-                addTextToCube(font, '𝕏', 0.5, 0, 0.5, 0, -Math.PI / 2, 0);
-                addTextToCube(font, '+', 0, 0.5, 0.5, -Math.PI / 2, 0, 0);
-            });
-        }
-
-        function addTextToCube(font, text, x, y, z, rotationX, rotationY, rotationZ) {
-            const textGeometry = new THREE.TextGeometry(text, { font: font, size: 0.4, height: 0.1 });
-            textGeometry.computeBoundingBox();
-            const textWidth = textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x;
-            const textHeight = textGeometry.boundingBox.max.y - textGeometry.boundingBox.min.y;
-            const textMesh = new THREE.Mesh(textGeometry, new THREE.MeshBasicMaterial({ color: 0x000000 }));
-            textMesh.position.set(x - textWidth / 2, y - textHeight / 2, z);
-            textMesh.rotation.set(rotationX, rotationY, rotationZ);
-            cube.add(textMesh);
-        }
-
-        function animateCube() {
-            requestAnimationFrame(animateCube);
-            renderer.render(scene, camera);
-        }
-
-        function updateCubeRotation(outcome) {
-            cube.rotation.x += outcome * 0.05;
-            cube.rotation.y += outcome * 0.05;
-        }
-
-        window.startQuantumDie = function() {
-            if (audioContext.state === 'suspended') {
-                audioContext.resume();
-            }
-            clearInterval(quantumLoop);
-            quantumStates = [];
-            quantumLoop = setInterval(runQuantumDie, 200);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        };
-
-        window.updateModulation = function(value) {
-            modulationFactor = value;
-            gainNode.gain.value = Math.exp(value - 1);
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            canvas = document.getElementById('waveform');
-            ctx = canvas.getContext('2d');
-            initAudioContext();
-            initCube();
-            animateCube();
-        });
-    </script>
-
-    <!-- Quantum Physics and Observer Influence Section -->
-    <section class="content-section" id="quantumPhysicsSection">
-        <h2>Quantum Physics and Observer Influence</h2>
-        <p>
-            At the core of our exploration is the equation: <strong>O<sub>&mu;&nu;</sub> = 1/2(g<sub>&mu;&nu;</sub> + u<sub>&mu;</sub>u<sub>&nu;</sub>)</strong>. This equation represents the Observer Influence Tensor, O<sub>&mu;&nu;</sub>, a concept that integrates the observer's influence into the fabric of spacetime.
-        </p>
-        <p>
-            The Observer Influence Tensor, represented by O<sub>&mu;&nu;</sub> = 1/2(g<sub>&mu;&nu;</sub> + u<sub>&mu;</sub>u<sub>&nu;</sub>), is a pivotal concept in quantum mechanics and general relativity. It merges spacetime's inherent structure, defined by the metric tensor g<sub>&mu;&nu;</sub>, with the dynamic influence of an observer, characterized by the four-velocity u<sub>&mu;</sub>. This equation symbolizes how observers are not mere bystanders but active participants in the universe, influencing the very fabric of spacetime through their presence and motion.
-        </p>
-    </section>
-    <section class="content-section" id="observerProofs">
-        <h2>Proofs for Different Observer States in Quantum Gravity</h2>
-        <p>
-            The Observer Influence Tensor <strong>O<sub>&mu;&nu;</sub> = 1/2(g<sub>&mu;&nu;</sub> + u<sub>&mu;</sub>u<sub>&nu;</sub>)</strong> varies significantly with the state of the observer. Here are proofs for different observer states:
-        </p>
-        <ul>
-            <li><strong>High-Speed Observer:</strong> For an observer moving at relativistic speeds, u<sub>&mu;</sub>u<sub>&nu;</sub> heavily influences O<sub>&mu;&nu;</sub>, indicating substantial effects on spacetime perception due to high velocity.</li>
-            <li><strong>Passive Observer:</strong> With minimal or average u<sub>&mu;</sub>, the impact on O<sub>&mu;&nu;</sub> is less pronounced, reflecting a standard interaction with spacetime.</li>
-            <li><strong>Neutral Observer:</strong> For a stationary observer (u<sub>&mu;</sub> = 0), O<sub>&mu;&nu;</sub> simplifies to 1/2 g<sub>&mu;&nu;</sub>, representing spacetime unaffected by the observer's motion.</li>
-        </ul>
-        <p>These proofs illustrate how each state of the observer uniquely modifies their interaction with spacetime.</p>
-    </section>
-
-    <section class="content-section" id="conceptualInterpretation">
-        <h2>Conceptual Interpretation and Quantum Gravity Context</h2>
-        <p>Expanding the Observer Influence Tensor O<sub>&mu;&nu;</sub> to incorporate concepts like superposition, parallelism, and entanglement requires blending elements of classical and quantum physics.</p>
-    
-        <h2>Incorporating Superposition:</h2>
-        <ul>
-            <li>Superposition refers to a system being in multiple states simultaneously. Introduce a superposition operator &#x2C8 that modifies the tensor to account for the probability amplitudes of different states.</li>
-            <li>The tensor under superposition is represented as O<sub>&mu;&nu;</sub><sup>S</sup> = &#x2C8;&Scaron;(O<sub>&mu;&nu;</sub>)</li>
-        </ul>
-
-        <h2>Integrating Parallelism:</h2>
-        <ul>
-            <li>Parallelism, often discussed in the context of parallel universes, suggests that multiple, non-interacting universes exist simultaneously. Introduce a parallelism factor P for this purpose.</li>
-            <li>The equation with parallelism is O<sub>&mu;&nu;</sub><sup>P</sup> = P &middot; O<sub>&mu;&nu;</sub><sup>S</sup> indicating the observer's influence across parallel realities.</li>
-        </ul>
-
-        <h2>Entanglement Consideration:</h2>
-        <ul>
-            <li>Quantum entanglement is a phenomenon where particles become correlated in such a way that the state of one particle directly relates to the state of another. Introduce an entanglement operator &Escr;</li>
-            <li>The observer influence tensor under entanglement is O<sub>&mu;&nu;</sub><sup>E</sup> = &Escr;(O<sub>&mu;&nu;</sub><sup>P</sup>) reflecting interconnectedness of particles.</li>
-        </ul>
-
-        <h2>Final Expanded Equation:</h2>
-        <ul>
-            <li>Combining these elements, the expanded observer influence equation becomes O<sub>&mu;&nu;</sub><sup>Expanded</sup> = Ã(P &middot; Å(O<sub>&mu;&nu;</sub>)).</li>
-        </ul>
-
-        <h2>Theoretical Implications and Considerations:</h2>
-        <ul>
-            <li>This expanded equation ventures into highly theoretical territory, blending quantum theory with speculative concepts.</li>
-            <li>It must be interpreted with caution, as it stretches beyond current empirical validations.</li>
-            <li>Such a framework could be useful for developing new hypotheses or models in theoretical physics.</li>
-        </ul>
-    </section>
-</body>
-</html>
-</li>
+        <li>Combining these elements, the expanded observer influence equation becomes O<sub>μν</sub><sup>Expanded</sup> = Ê(P &middot; Ŝ(O<sub>μν</sub>)).</li>
     </ul>
 
     <h2>Theoretical Implications and Considerations:</h2>
@@ -525,7 +155,6 @@
        <button onclick="rollQuantumDie()">Roll Quantum Die</button>
        <div id="dieGrid"></div>
    </section>
-
    <!-- Berghain Door Policy Simulation Section -->
    <section class="content-section" id="berghainPolicySimulation">
        <h2>Berghain Gate Simulation</h2>
@@ -540,7 +169,6 @@
        <button onclick="simulateEntryDecision()">Simulate Entry Decision</button>
        <div id="simulationResult"></div>
    </section>
-
    <script>
     const quantum = {
         getRandom: function(min, mid, max) {
@@ -550,11 +178,9 @@
             if (min >= mid || mid >= max) {
                 throw new Error("Values must be in order: min < mid < max");
             }
-
             const buffer = new Uint32Array(1);
             window.crypto.getRandomValues(buffer);
             const normalizedRandom = buffer[0] / (0xFFFFFFFF + 1); // Normalized random number between 0 and 1
-
             if (normalizedRandom < 0.33) {
                 return this.cryptoRandom(min, mid);
             } else if (normalizedRandom < 0.67) {
@@ -570,11 +196,9 @@
             return (buffer[0] / (0xFFFFFFFF + 1)) * range + min;
         }
     };
-
         function rollQuantumDie() {
         let dieGrid = document.getElementById('dieGrid');
         dieGrid.innerHTML = '';
-
         for (let i = 0; i < 4000; i++) {
             let outcome = quantumDieOutcome();
             let resultSpan = document.createElement('span');
@@ -583,7 +207,6 @@
             dieGrid.appendChild(resultSpan);
         }
     }
-
     function quantumDieOutcome() {
         const result = quantum.getRandom(0, 1, 2);
         if (result < 1) {
@@ -594,22 +217,18 @@
             return '+';
         }
     }
-
     function simulateEntryDecision() {
         let appearance = document.getElementById('appearance').value;
         let knowledge = document.getElementById('knowledge').value;
         let age = document.getElementById('age').value;
         let bodyTemp = document.getElementById('bodyTemp').value;
-
         let results = { "Entry Denied": 0, "Maybe": 0, "Entry Granted": 0 };
-
         for (let i = 0; i < 4000; i++) {
             let decisionValue = quantum.getRandom(0, 1, 2);
             let decisionIndex = Math.floor(decisionValue);
             let decision = ["Entry Denied", "Maybe", "Entry Granted"][decisionIndex];
             results[decision]++;
         }
-
         let currentTime = new Date();
         document.getElementById('simulationResult').textContent = `Simulation Results (Current Time: ${currentTime.toLocaleTimeString()}): 
             Entry Granted: ${results["Entry Granted"]}, 
