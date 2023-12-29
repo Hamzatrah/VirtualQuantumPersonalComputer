@@ -902,25 +902,39 @@ Website Section for the Enhanced Triple Gun Experiment:
     <h3>Conclusion: Implications and Prospects</h3>
     <p>This methodology offers a groundbreaking perspective in cryptographic analysis, potentially transforming our approach to the ECDLP. By bridging classical geometry and fractal mathematics, it lays the groundwork for innovative cryptographic solutions and a deeper comprehension of elliptic curves.</p>
 </section>
-<section id="ecdlpGeometricProof">
+<section class="content-section" id="ecdlpGeometricProof">
     <h2>Geometric Proof in ECDLP Resolution</h2>
-
-    <p>An integral part of solving the ECDLP through geometry involves understanding fundamental properties of elliptic curves. Below is a simple proof demonstrating a key geometric aspect of these curves.</p>
-
+    <p>
+        An integral part of solving the ECDLP through geometry involves understanding fundamental properties of elliptic curves. Below is a simple proof demonstrating a key geometric aspect of these curves.
+    </p>
     <h3>Basic Geometric Property of Elliptic Curves</h3>
-    <p>The proof focuses on the property that the sum of the x-coordinates of three collinear points on an elliptic curve is zero.</p>
-
+    <p>
+        The proof focuses on the property that the sum of the x-coordinates of three collinear points on an elliptic curve is zero.
+    </p>
     <div class="proof">
         <h4>Proof:</h4>
-        <p>Let the elliptic curve be defined by the equation \( y^2 = x^3 + ax + b \). Consider three points \( P_1(x_1, y_1) \), \( P_2(x_2, y_2) \), and \( P_3(x_3, y_3) \) on this curve such that they are collinear.</p>
-        <p>The slope of the line connecting \( P_1 \) and \( P_2 \) is given by \( m = \frac{y_2 - y_1}{x_2 - x_1} \).</p>
-        <p>Using the point-slope form, the equation of the line is \( y - y_1 = m(x - x_1) \).</p>
-        <p>Substituting the value of \( y \) from the curve's equation, we get a cubic equation in \( x \). The roots of this cubic equation are \( x_1 \), \( x_2 \), and \( x_3 \).</p>
-        <p>By Vieta's formulas, the sum of the roots of a cubic equation \( ax^3 + bx^2 + cx + d = 0 \) is \( -\frac{b}{a} \). In our case, this sum is \( x_1 + x_2 + x_3 = 0 \).</p>
-        <p>This demonstrates that for any three collinear points on an elliptic curve, the sum of their x-coordinates is zero.</p>
+        <p>
+            Let the elliptic curve be defined by the equation: <h3> y<sup>2</sup> = x<sup>3</sup> + ax + b </h3> Consider three points <b> P<sub>1</sub>(x<sub>1</sub>, y<sub>1</sub>) </b>, <b> P<sub>2</sub>(x<sub>2</sub>, y<sub>2</sub>) </b>, and <b> P<sub>3</sub>(x<sub>3</sub>, y<sub>3</sub>) </b> on this curve such that they are collinear.
+        </p>
+        <p>
+            The slope of the line connecting <b> P<sub>1</sub> </b> and <b> P<sub>2</sub> </b> is given by: <h3> m = (y<sub>2</sub> - y<sub>1</sub>) / (x<sub>2</sub> - x<sub>1</sub>) </h3>
+        </p>
+        <p>
+            Using the point-slope form, the equation of the line is: <h3> y - y<sub>1</sub> = m(x - x<sub>1</sub>) </h3>
+        </p>
+        <p>
+            Substituting the value of <b> y </b> from the curve's equation, we get a cubic equation in <b> x </b>. The roots of this cubic equation are <b> x<sub>1</sub> </b>, <b> x<sub>2</sub> </b>, and <b> x<sub>3</sub> </b>.
+        </p>
+        <p>
+            By Vieta's formulas, the sum of the roots of a cubic equation <h3> ax<sup>3</sup> + bx<sup>2</sup> + cx + d = 0 </h3> is: <h3> -(b/a) </h3> In our case, this sum is: <h3> x<sub>1</sub> + x<sub>2</sub> + x<sub>3</sub> = 0 </h3>
+        </p>
+        <p>
+            This demonstrates that for any three collinear points on an elliptic curve, the sum of their x-coordinates is zero.
+        </p>
     </div>
-
-    <p>This fundamental property is a cornerstone in the geometric approach to the ECDLP, as it allows for the construction of operations that are crucial in elliptic curve cryptography.</p>
+    <p>
+        This fundamental property is a cornerstone in the geometric approach to the ECDLP, as it allows for the construction of operations that are crucial in elliptic curve cryptography.
+    </p>
 </section>
           <script>
         const asciiArt = document.addEventListener('DOMContentLoaded', (event) => {
@@ -960,8 +974,6 @@ Website Section for the Enhanced Triple Gun Experiment:
     });
 });
         // Implement UI controls to call zoomIn and zoomOut
-  </script> 
-<script> src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_HTML">
     </script>
 </body>
 </html>
