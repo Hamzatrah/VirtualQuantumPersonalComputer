@@ -918,18 +918,42 @@ Website Section for the Enhanced Triple Gun Experiment:
     <p>This fundamental property is a cornerstone in the geometric approach to the ECDLP, as it allows for the construction of operations that are crucial in elliptic curve cryptography.</p>
 </section>
           <script>
-        const asciiArt = document.getElementById('tiresult');
+        const asciiArt = document.addEventListener('DOMContentLoaded', (event) => {
+    const asciiArt = document.getElementById('tiresult');
+    let startDistance = null;
+    let startFontSize = 9;
 
-        function zoomIn() {
-            const currentSize = parseFloat(window.getComputedStyle(asciiArt).getPropertyValue('--fs'));
-            asciiArt.style.setProperty('--fs', `${currentSize * 1.1}px`);
+    function getDistance(touches) {
+        const touch1 = touches[0];
+        const touch2 = touches[1];
+        const distanceX = touch1.pageX - touch2.pageX;
+        const distanceY = touch1.pageY - touch2.pageY;
+        return Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+    }
+
+    asciiArt.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
+            startDistance = getDistance(e.touches);
+            startFontSize = parseFloat(window.getComputedStyle(asciiArt).fontSize);
         }
+    }, { passive: true });
 
-        function zoomOut() {
-            const currentSize = parseFloat(window.getComputedStyle(asciiArt).getPropertyValue('--fs'));
-            asciiArt.style.setProperty('--fs', `${currentSize * 0.9}px`);
+    asciiArt.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2) {
+            e.preventDefault();
+            const currentDistance = getDistance(e.touches);
+            const scale = currentDistance / startDistance;
+            const newFontSize = startFontSize * scale;
+            asciiArt.style.fontSize = `${newFontSize}px`;
         }
+    }, { passive: false });
 
+    asciiArt.addEventListener('touchend', (e) => {
+        if (e.touches.length < 2) {
+            startDistance = null;
+        }
+    });
+});
         // Implement UI controls to call zoomIn and zoomOut
     </script>
 </body>
