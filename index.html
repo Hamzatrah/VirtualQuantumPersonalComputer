@@ -904,37 +904,23 @@ Website Section for the Enhanced Triple Gun Experiment:
 </section>
 <section class="content-section" id="ecdlpGeometricProof">
     <h2>Geometric Proof in ECDLP Resolution</h2>
-    <p>
-        An integral part of solving the ECDLP through geometry involves understanding fundamental properties of elliptic curves. Below is a simple proof demonstrating a key geometric aspect of these curves.
-    </p>
+
+    <p>An integral part of solving the ECDLP through geometry involves understanding fundamental properties of elliptic curves. Below is a simple proof demonstrating a key geometric aspect of these curves.</p>
+
     <h3>Basic Geometric Property of Elliptic Curves</h3>
-    <p>
-        The proof focuses on the property that the sum of the x-coordinates of three collinear points on an elliptic curve is zero.
-    </p>
+    <p>The proof focuses on the property that the sum of the x-coordinates of three collinear points on an elliptic curve is zero.</p>
+
     <div class="proof">
         <h4>Proof:</h4>
-        <p>
-            Let the elliptic curve be defined by the equation: <h3> y<sup>2</sup> = x<sup>3</sup> + ax + b </h3> Consider three points <b> P<sub>1</sub>(x<sub>1</sub>, y<sub>1</sub>) </b>, <b> P<sub>2</sub>(x<sub>2</sub>, y<sub>2</sub>) </b>, and <b> P<sub>3</sub>(x<sub>3</sub>, y<sub>3</sub>) </b> on this curve such that they are collinear.
-        </p>
-        <p>
-            The slope of the line connecting <b> P<sub>1</sub> </b> and <b> P<sub>2</sub> </b> is given by: <h3> m = (y<sub>2</sub> - y<sub>1</sub>) / (x<sub>2</sub> - x<sub>1</sub>) </h3>
-        </p>
-        <p>
-            Using the point-slope form, the equation of the line is: <h3> y - y<sub>1</sub> = m(x - x<sub>1</sub>) </h3>
-        </p>
-        <p>
-            Substituting the value of <b> y </b> from the curve's equation, we get a cubic equation in <b> x </b>. The roots of this cubic equation are <b> x<sub>1</sub> </b>, <b> x<sub>2</sub> </b>, and <b> x<sub>3</sub> </b>.
-        </p>
-        <p>
-            By Vieta's formulas, the sum of the roots of a cubic equation <h3> ax<sup>3</sup> + bx<sup>2</sup> + cx + d = 0 </h3> is: <h3> -(b/a) </h3> In our case, this sum is: <h3> x<sub>1</sub> + x<sub>2</sub> + x<sub>3</sub> = 0 </h3>
-        </p>
-        <p>
-            This demonstrates that for any three collinear points on an elliptic curve, the sum of their x-coordinates is zero.
-        </p>
+        <p>Let the elliptic curve be defined by the equation <h3> y<sup>2</sup> = x<sup>3</sup> + ax + b </h3>. Consider three points <h3> P<sub>1</sub>(x<sub>1</sub>, y<sub>1</sub>) </h3>, <h3> P<sub>2</sub>(x<sub>2</sub>, y<sub>2</sub>) </h3>, and <h3> P<sub>3</sub>(x<sub>3</sub>, y<sub>3</sub>) </h3> on this curve such that they are collinear.</p>
+        <p>The slope of the line connecting <h3> P<sub>1</sub> </h3> and <h3> P<sub>2</sub> </h3> is given by <h3> m = (y<sub>2</sub> - y<sub>1</sub>) / (x<sub>2</sub> - x<sub>1</sub>) </h3>.</p>
+        <p>Using the point-slope form, the equation of the line is <h3> y - y<sub>1</sub> = m(x - x<sub>1</sub>) </h3>.</p>
+        <p>Substituting the value of <h3> y </h3> from the curve's equation, we get a cubic equation in <h3> x </h3>. The roots of this cubic equation are <h3> x<sub>1</sub> </h3>, <h3> x<sub>2</sub> </h3>, and <h3> x<sub>3</sub> </h3>.</p>
+        <p>By Vieta's formulas, the sum of the roots of a cubic equation <h3> ax<sup>3</sup> + bx<sup>2</sup> + cx + d = 0 </h3> is <h3> -b / a </h3>. In our case, this sum is <h3> x<sub>1</sub> + x<sub>2</sub> + x<sub>3</sub> = 0 </h3>.</p>
+        <p>This demonstrates that for any three collinear points on an elliptic curve, the sum of their x-coordinates is zero.</p>
     </div>
-    <p>
-        This fundamental property is a cornerstone in the geometric approach to the ECDLP, as it allows for the construction of operations that are crucial in elliptic curve cryptography.
-    </p>
+
+    <p>This fundamental property is a cornerstone in the geometric approach to the ECDLP, as it allows for the construction of operations that are crucial in elliptic curve cryptography.</p>
 </section>
           <script>
         const asciiArt = document.addEventListener('DOMContentLoaded', (event) => {
