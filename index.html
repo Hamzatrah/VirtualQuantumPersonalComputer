@@ -158,6 +158,53 @@
             body {
                 font-size: 12px; /* Even smaller text for mobile phones */
             }
+            .elliptic-curve {
+            width: 300px;
+            height: 150px;
+            border-radius: 50%;
+            border: 2px solid blue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .square {
+            width: 100px;
+            height: 100px;
+            border: 2px solid red;
+            position: relative;
+        }
+
+        .circle {
+            border: 1px solid green;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .circle:nth-child(1) {
+            width: 70px;
+            height: 70px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .circle:nth-child(2) {
+            width: 90px;
+            height: 90px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .circle:nth-child(3) {
+            width: 110px;
+            height: 110px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        } 
     </style>
 </head>
 <body>
@@ -882,7 +929,12 @@
     <h2>Advanced Solution to ECDLP: Geometric and Fractal Approach</h2>
 
     <p>This section outlines a novel approach to solving the Elliptic Curve Discrete Logarithm Problem (ECDLP), integrating geometric methods with Bridge Scale Theory and fractal geometry.</p>
-
+    <div class="elliptic-curve">
+        <div class="square">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
     <h3>Geometric Analysis of Elliptic Curves</h3>
     <p>Initial phase focused on detailed geometric exploration:</p>
     <ul>
