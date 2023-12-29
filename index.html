@@ -56,6 +56,11 @@
             object-fit: cover;
         }
        #tiresult {
+              max-height: 66vh; /* 2/3rds of the viewport height */
+    overflow: auto; /* Adds scrollbars if content overflows */
+    width: 100%; /* Take full width of the container */
+    display: block;
+    font-size: calc(1vw + 1vh);
             font-size: var(--fs, 9px);
             background-color: #ffffff;
             color: #000000;
