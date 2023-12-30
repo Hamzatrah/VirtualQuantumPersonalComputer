@@ -21,23 +21,29 @@
         margin-bottom: 20px;
         padding: 10px;
     }
+    /* Improved grid layout */
+#dieGrid, #simulationResult {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(30px, 1fr)); /* Adjusted minmax values for better spacing */
+    gap: 10px; /* Increased gap for clearer separation */
+    margin-top: 10px;
+    align-items: center;
+    justify-items: center; /* Center align grid items horizontally */
+}
+
+.dieResult, .entryDecision {
+    text-align: center;
+    padding: 10px; /* Increased padding for better visibility */
+    border: 2px solid #ddd; /* Enhanced border for clarity */
+    background-color: #f9f9f9; /* Light background for the grid items */
+    border-radius: 5px; /* Rounded corners for a modern look */
+}
+
+@media screen and (max-width: 600px) {
     #dieGrid, #simulationResult {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
-        gap: 5px;
-        margin-top: 10px;
-        align-items: center; /* Center align grid items */
+        grid-template-columns: repeat(auto-fill, minmax(15px, 1fr)); /* Adjust for smaller screens */
     }
-    .dieResult, .entryDecision {
-        text-align: center;
-        padding: 5px;
-        border: 1px solid #ddd;
-    }
-    @media screen and (max-width: 600px) {
-        #dieGrid, #simulationResult {
-            grid-template-columns: repeat(auto-fill, minmax(10px, 1fr));
-        }
-    }
+}
     /* Add styles for hyperlinks */
     a {
         color: blue;
