@@ -116,10 +116,12 @@
             return (buffer[0] / (0xFFFFFFFF + 1)) * range + min;
         }
     };
-        function rollQuantumDie() {
+     function rollQuantumDie() {
     let dieGrid = document.getElementById('dieGrid');
     dieGrid.innerHTML = '';
-    for (let i = 0; i < 4000; i++) {
+    let iterations = 546; // Number of iterations for a 3-minute duration
+
+    for (let i = 0; i < iterations; i++) {
         setTimeout(function() {
             let outcome = quantumDieOutcome();
             let resultSpan = document.createElement('span');
@@ -153,9 +155,7 @@
         }
         let currentTime = new Date();
         document.getElementById('simulationResult').textContent = `Simulation Results (Current Time: ${currentTime.toLocaleTimeString()}): 
-            H: ${results["H"]}, 
-            𝕏: ${results["𝕏"]}, 
-            +: ${results["+"]}`;
+            H: ${results["H"]}, 𝕏: ${results["𝕏"]}, +: ${results["+"]}`;
     }
 </script>
 </body>
