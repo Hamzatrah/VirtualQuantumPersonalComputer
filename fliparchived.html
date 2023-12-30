@@ -120,16 +120,18 @@
         }
     };
         function rollQuantumDie() {
-        let dieGrid = document.getElementById('dieGrid');
-        dieGrid.innerHTML = '';
-        for (let i = 0; i < 4000; i++) {
+    let dieGrid = document.getElementById('dieGrid');
+    dieGrid.innerHTML = '';
+    for (let i = 0; i < 4000; i++) {
+        setTimeout(function() {
             let outcome = quantumDieOutcome();
             let resultSpan = document.createElement('span');
             resultSpan.classList.add('dieResult');
             resultSpan.textContent = outcome;
             dieGrid.appendChild(resultSpan);
-        }
+        }, 330 * i); // Delay of 0.33 seconds
     }
+}
     function quantumDieOutcome() {
         const result = quantum.getRandom(0, 1, 2);
         if (result < 1) {
