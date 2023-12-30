@@ -130,18 +130,18 @@
         let knowledge = document.getElementById('knowledge').value;
         let age = document.getElementById('age').value;
         let bodyTemp = document.getElementById('bodyTemp').value;
-        let results = { "Entry Denied": 0, "Maybe": 0, "Entry Granted": 0 };
+        let results = { "H": 0, "𝕏": 0, "+": 0 };
         for (let i = 0; i < 4000; i++) {
             let decisionValue = quantum.getRandom(0, 1, 2);
             let decisionIndex = Math.floor(decisionValue);
-            let decision = ["Entry Denied", "Maybe", "Entry Granted"][decisionIndex];
+            let decision = ["H", "𝕏", "+"][decisionIndex];
             results[decision]++;
         }
         let currentTime = new Date();
         document.getElementById('simulationResult').textContent = `Simulation Results (Current Time: ${currentTime.toLocaleTimeString()}): 
-            Entry Granted: ${results["H"]}, 
-            Maybe: ${results["𝕏"]}, 
-            Entry Denied: ${results["+"]}`;
+            H: ${results["H"]}, 
+            𝕏: ${results["𝕏"]}, 
+            +: ${results["+"]}`;
     }
 </script>
 </body>
