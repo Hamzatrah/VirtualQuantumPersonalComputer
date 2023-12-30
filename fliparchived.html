@@ -5,44 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quantum Gravity Exploration</title>
   <style>
-      body {
-          font-family: 'Times New Roman', serif;
-          background-color: white;
-          color: #333;
-          padding: 20px;
-          line-height: 1.6;
-          text-align: justify;
-      }
-      h1, h2 {
-          color: #000;
-      }
-      .content-section {
-          margin-bottom: 20px;
-      }
-      #dieGrid, #simulationResult {
-        max-width:90%
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
-          gap: 5px;
-          margin-top: 10px;
-      }
-      }
-        #image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-      }
-      .dieResult, .entryDecision {
-          text-align: center;
-          padding: 5px;
-          border: 1px solid #ddd;
-      }
-      @media screen and (max-width: 600px) {
-          #dieGrid, #simulationResult {
-              grid-template-columns: repeat(auto-fill, minmax(10px, 1fr));
-          }
-      }
-  </style>
+    body {
+        font-family: 'Times New Roman', serif;
+        background-color: white;
+        color: #333;
+        padding: 20px;
+        line-height: 1.6;
+        text-align: justify;
+    }
+    h1, h2 {
+        color: #000;
+        text-align: center; /* Center align headings */
+    }
+    .content-section {
+        margin-bottom: 20px;
+        padding: 10px;
+    }
+    #dieGrid, #simulationResult {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+        gap: 5px;
+        margin-top: 10px;
+        align-items: center; /* Center align grid items */
+    }
+    .dieResult, .entryDecision {
+        text-align: center;
+        padding: 5px;
+        border: 1px solid #ddd;
+    }
+    @media screen and (max-width: 600px) {
+        #dieGrid, #simulationResult {
+            grid-template-columns: repeat(auto-fill, minmax(10px, 1fr));
+        }
+    }
+    /* Add styles for hyperlinks */
+    a {
+        color: blue;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }    
+   #image-container img {
+        max-width: 100%;
+        height: auto;
+        display: block; /* Ensures the image is block-level for better control */
+        margin: 0 auto; /* Centers the image */
+    }
+</style>
 </head>
 <body>
   <h1>Quantum Gravity Physics and Observer Influence  </h1>
