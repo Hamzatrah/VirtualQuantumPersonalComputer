@@ -97,6 +97,10 @@
             overflow: auto;
             white-space: pre-wrap;
             word-break: break-word;
+           #tiresult .ascii-art {
+        width: 100%; /* Start with full width */
+        max-width: none; /* Allow scaling beyond parent's width */
+        transition: width 0.2s ease; /* Smooth transition for width changes */
         }
         @media (max-width: 768px) {
             #cube-container, #image-container {
@@ -1567,25 +1571,22 @@ n¿›o¿o¦¦¿o¦ noo¦¦oo¿›¿o¿¦¦¦¿¦›¿¦¦›¦¿¿¦¦¦o¦ ¿�
 </section>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Select only .tiresult elements within <pre> tags
-    const asciiArts = document.querySelectorAll('pre .tiresult');
+    const asciiArts = document.querySelectorAll('#tiresult .ascii-art');
+    const viewportWidth = window.innerWidth;
 
     function getDistance(touches) {
-        const [touch1, touch2] = touches;
-        const distanceX = touch1.pageX - touch2.pageX;
-        const distanceY = touch1.pageY - touch2.pageY;
-        return Math.sqrt(distanceX ** 2 + distanceY ** 2);
+        return Math.hypot(touches[1].pageX - touches[0].pageX, touches[1].pageY - touches[0].pageY);
     }
 
     asciiArts.forEach(asciiArt => {
         let startDistance = null;
-        let startWidth = asciiArt.offsetWidth;
-        const viewportWidth = window.innerWidth;
+        let scale = 1;
+        let startWidth = asciiArt.clientWidth;
 
         asciiArt.addEventListener('touchstart', (e) => {
             if (e.touches.length === 2) {
                 startDistance = getDistance(e.touches);
-                startWidth = asciiArt.offsetWidth;
+                startWidth = asciiArt.clientWidth; // Update the starting width on touch
             }
         }, { passive: true });
 
@@ -1593,21 +1594,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.touches.length === 2) {
                 e.preventDefault();
                 const currentDistance = getDistance(e.touches);
-                const scale = currentDistance / startDistance;
+                scale = currentDistance / startDistance;
                 const newWidth = startWidth * scale;
-                const newWidthVW = (newWidth / viewportWidth) * 100;
-                asciiArt.style.width = `${newWidthVW}vw`;
+                requestAnimationFrame(() => {
+                    asciiArt.style.width = `${newWidth}px`;
+                });
             }
         }, { passive: false });
-
-        asciiArt.addEventListener('touchend', (e) => {
-            if (e.touches.length < 2) {
-                startDistance = null;
-            }
-        });
     });
 });
-</script>
 </script>
 </body>
 </html>
