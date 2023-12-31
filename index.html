@@ -1565,7 +1565,7 @@ n¿›o¿o¦¦¿o¦ noo¦¦oo¿›¿o¿¦¦¦¿¦›¿¦¦›¦¿¿¦¦¦o¦ ¿�
 
     <p>This exploration suggests a paradigm shift in both social and scientific fields, advocating for a more inclusive and complex understanding of gender, paralleled by the advancement in quantum computing technologies. By embracing trinary models in both areas, we open up new possibilities for diversity, complexity, and understanding in our world.</p>
 </section>
-        <script>
+<script>
 document.addEventListener('DOMContentLoaded', () => {
     const asciiArts = document.querySelectorAll('.tiresult');
 
@@ -1578,12 +1578,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     asciiArts.forEach(asciiArt => {
         let startDistance = null;
-        let startFontSize = parseFloat(window.getComputedStyle(asciiArt).fontSize);
-        let lastTouchEnd = 0;
+        let startWidth = asciiArt.offsetWidth;
+        const viewportWidth = window.innerWidth;
 
         asciiArt.addEventListener('touchstart', (e) => {
             if (e.touches.length === 2) {
                 startDistance = getDistance(e.touches);
+                startWidth = asciiArt.offsetWidth;
             }
         }, { passive: true });
 
@@ -1592,20 +1593,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 const currentDistance = getDistance(e.touches);
                 const scale = currentDistance / startDistance;
-                asciiArt.style.fontSize = `${startFontSize * scale}px`;
+                const newWidth = startWidth * scale;
+                const newWidthVW = (newWidth / viewportWidth) * 100;
+                asciiArt.style.width = `${newWidthVW}vw`;
             }
         }, { passive: false });
 
         asciiArt.addEventListener('touchend', (e) => {
             if (e.touches.length < 2) {
                 startDistance = null;
-                startFontSize = parseFloat(window.getComputedStyle(asciiArt).fontSize);
             }
-            let now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                asciiArt.style.fontSize = '';
-            }
-            lastTouchEnd = now;
         });
     });
 });
