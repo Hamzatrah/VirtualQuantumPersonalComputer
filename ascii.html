@@ -214,7 +214,7 @@ BGGBBBGBBGGBBBGGBGGB#BB#BBBBB#GGGBBBBBG#GGGGGGBGBBGGBGGGBGGGBGBGBGGBBBBBBGBGBGBG
         </pre>
     </div>
 
-    <script>
+      <script>
         document.addEventListener('DOMContentLoaded', () => {
             const asciiArt = document.getElementById('asciiArt');
             let startDistance = null;
@@ -230,7 +230,7 @@ BGGBBBGBBGGBBBGGBGGB#BB#BBBBB#GGGBBBBBG#GGGGGGBGBBGGBGGGBGGGBGBGBGGBBBBBBGBGBGBG
             asciiArt.addEventListener('touchstart', (e) => {
                 if (e.touches.length === 2) {
                     startDistance = getDistance(e.touches);
-                    initialScale = scale;
+                    initialScale = scale; // Capture the initial scale at the start of the pinch
                 }
             }, { passive: true });
 
@@ -239,7 +239,7 @@ BGGBBBGBBGGBBBGGBGGB#BB#BBBBB#GGGBBBBBG#GGGGGGBGBBGGBGGGBGGGBGBGBGGBBBBBBGBGBGBG
                     e.preventDefault();
                     const currentDistance = getDistance(e.touches);
                     const newScale = initialScale * (currentDistance / startDistance);
-                    scale = Math.max(newScale, 0);
+                    scale = Math.max(newScale, 0); // Ensure scale doesn't go negative
                     asciiArt.style.transform = `scale(${scale})`;
                 }
             }, { passive: false });
@@ -250,6 +250,6 @@ BGGBBBGBBGGBBBGGBGGB#BB#BBBBB#GGGBBBBBG#GGGGGGBGBBGGBGGGBGGGBGBGBGGBBBBBBGBGBGBG
                 }
             });
         });
-    </script>
+      </script>
 </body>
 </html>
