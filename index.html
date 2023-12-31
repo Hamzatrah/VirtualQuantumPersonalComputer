@@ -1567,7 +1567,8 @@ n¿›o¿o¦¦¿o¦ noo¦¦oo¿›¿o¿¦¦¦¿¦›¿¦¦›¦¿¿¦¦¦o¦ ¿�
 </section>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const asciiArts = document.querySelectorAll('.tiresult');
+    // Select only .tiresult elements within <pre> tags
+    const asciiArts = document.querySelectorAll('pre .tiresult');
 
     function getDistance(touches) {
         const [touch1, touch2] = touches;
@@ -1606,6 +1607,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+</script>
 </script>
 </body>
 </html>
