@@ -84,7 +84,8 @@
             object-fit: cover;
         }
        #tiresult {
-              max-height: 66vh; /* 2/3rds of the viewport height */
+             max-width: 10vw 
+           max-height: 66vh; /* 2/3rds of the viewport height */
     overflow: auto; /* Adds scrollbars if content overflows */
     width: 100%; /* Take full width of the container */
     display: block;
@@ -1569,7 +1570,7 @@ n¿›o¿o¦¦¿o¦ noo¦¦oo¿›¿o¿¦¦¦¿¦›¿¦¦›¦¿¿¦¦¦o¦ ¿�
 
     <p>This exploration suggests a paradigm shift in both social and scientific fields, advocating for a more inclusive and complex understanding of gender, paralleled by the advancement in quantum computing technologies. By embracing trinary models in both areas, we open up new possibilities for diversity, complexity, and understanding in our world.</p>
 </section>
-<script>
+    <script>
 document.addEventListener('DOMContentLoaded', () => {
     const asciiArts = document.querySelectorAll('#tiresult .ascii-art');
     const viewportWidth = window.innerWidth;
@@ -1581,7 +1582,7 @@ document.addEventListener('DOMContentLoaded', () => {
     asciiArts.forEach(asciiArt => {
         let startDistance = null;
         let scale = 1;
-        let startWidth = asciiArt.clientWidth;
+        let startWidth = viewportWidth; // Set initial width based on viewport width
 
         asciiArt.addEventListener('touchstart', (e) => {
             if (e.touches.length === 2) {
