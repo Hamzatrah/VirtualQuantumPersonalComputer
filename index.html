@@ -83,10 +83,10 @@
             display: flex;
             object-fit: cover;
         }
-       #tiresult {
-             max-width: 10vw 
+       #tiresult pre {
+             max-width: 100vw 
            max-height: 66vh; /* 2/3rds of the viewport height */
-    overflow: auto; /* Adds scrollbars if content overflows */
+    overflow-x: auto; /* Adds scrollbars if content overflows */
     width: 100%; /* Take full width of the container */
     display: block;
     font-size: calc(1vw + 1vh);
@@ -99,8 +99,8 @@
             white-space: pre-wrap;
             word-break: break-word;
            #tiresult .ascii-art {
-        width: 100%; /* Start with full width */
-        max-width: none; /* Allow scaling beyond parent's width */
+        width: 100vw
+        max-width: 100vw; /* Allow scaling beyond parent's width */
         transition: width 0.2s ease; /* Smooth transition for width changes */
         }
         @media (max-width: 768px) {
@@ -1570,43 +1570,40 @@ n¿›o¿o¦¦¿o¦ noo¦¦oo¿›¿o¿¦¦¦¿¦›¿¦¦›¦¿¿¦¦¦o¦ ¿�
 
     <p>This exploration suggests a paradigm shift in both social and scientific fields, advocating for a more inclusive and complex understanding of gender, paralleled by the advancement in quantum computing technologies. By embracing trinary models in both areas, we open up new possibilities for diversity, complexity, and understanding in our world.</p>
 </section>
-    <script>
+ <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const asciiArts = document.querySelectorAll('#tiresult .ascii-art');
+    const preElements = document.querySelectorAll('#tiresult pre');
     const viewportWidth = window.innerWidth;
 
     function getDistance(touches) {
         return Math.hypot(touches[1].pageX - touches[0].pageX, touches[1].pageY - touches[0].pageY);
     }
 
-    asciiArts.forEach(asciiArt => {
+    preElements.forEach(preElement => {
         let startDistance = null;
         let scale = 1;
         let startWidth = viewportWidth; // Set initial width based on viewport width
 
-        asciiArt.addEventListener('touchstart', (e) => {
+        preElement.addEventListener('touchstart', (e) => {
             if (e.touches.length === 2) {
                 startDistance = getDistance(e.touches);
-                startWidth = asciiArt.clientWidth; // Update the starting width on touch
+                startWidth = preElement.clientWidth; // Update the starting width on touch
             }
         }, { passive: true });
 
-        asciiArt.addEventListener('touchmove', (e) => {
+        preElement.addEventListener('touchmove', (e) => {
             if (e.touches.length === 2) {
                 e.preventDefault();
                 const currentDistance = getDistance(e.touches);
                 scale = currentDistance / startDistance;
                 const newWidth = startWidth * scale;
                 requestAnimationFrame(() => {
-                    asciiArt.style.width = `${newWidth}px`;
+                    preElement.style.width = `${newWidth}px`;
                 });
             }
         }, { passive: false });
     });
 });
-</script>
-        <script type="text/javascript" async
-    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"
 </script>
             </body>
 </html>
