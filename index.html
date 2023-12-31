@@ -225,6 +225,23 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+        <style>
+    /* ... existing styles ... */
+
+    /* Justify headers on larger screens */
+    @media (min-width: 768px) {
+        h1, h2, p {
+            text-align: justify;
+        }
+    }
+
+    /* Center align headers on smaller screens */
+    @media (max-width: 767px) {
+        h1, h2, p {
+            text-align: center;
+        }
+    }
+</style>
     </style>
 </head>
 <body>
