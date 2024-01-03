@@ -177,7 +177,14 @@ p {
         }
     }
 </style>
-	<script>setInterval(() => window.scrollBy(0, 1), 10);</script>
+<!here for zoom>
+	<script>setInterval(() => window.scrollBy(0, 1), 10);
+       function stopScrolling() {
+            clearInterval(scrollInterval);
+            }
+            document.addEventListener('click', stopScrolling);
+        document.addEventListener('touchstart', stopScrolling);
+    </script>
      </script>
         <script type="text/javascript" async
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
