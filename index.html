@@ -178,14 +178,27 @@ p {
     }
 </style>
 <!here for zoom>
-	<script>setInterval(() => window.scrollBy(0, 1), 10);
-       function stopScrolling() {
+    <script>
+        let scrollInterval;
+        const scrollSpeed = 10;  // Speed of the scroll (lower is faster)
+        const restartDelay = 15000;  // Time before the scroll restarts (in milliseconds)
+
+        function startScrolling() {
+            scrollInterval = setInterval(() => window.scrollBy(0, 1), scrollSpeed);
+        }
+
+        function stopScrolling() {
             clearInterval(scrollInterval);
-            }
-            document.addEventListener('click', stopScrolling);
+            setTimeout(startScrolling, restartDelay);
+        }
+
+        // Initial start
+        startScrolling();
+
+        // Event listeners to stop scrolling on click or touch
+        document.addEventListener('click', stopScrolling);
         document.addEventListener('touchstart', stopScrolling);
     </script>
-     </script>
         <script type="text/javascript" async
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
