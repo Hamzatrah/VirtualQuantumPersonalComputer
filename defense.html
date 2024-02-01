@@ -112,18 +112,24 @@ function rollQuantumDie() {
     const outcome = quantumDieOutcome();
     resultElement.innerHTML = `Result: ${outcome}`;
     
+    // Logic to display the story or ending based on currentLine and makingFinalDecision
     if (currentLine < storyLines.length) {
         document.querySelector('.game-story').innerHTML += `<p>${storyLines[currentLine]}</p>`;
         currentLine++;
-    } else {
-        // Assuming the final decision leads directly to one of the endings
+        // Check if we've reached the end of storyLines to consider the next roll for an ending
+        if (currentLine === storyLines.length) {
+            makingFinalDecision = true;
+        }
+    } else if (makingFinalDecision) {
+        // Display the ending based on the outcome
         document.querySelector('.game-story').innerHTML += `<p>${endings[outcome]}</p>`;
+        makingFinalDecision = false; // Reset or handle game end
     }
-}}
+}
 
 function quantumDieOutcome() {
     const result = quantum.getRandom(0, 1, 2);
-    console.log(`Random Result: ${result}`); // Debugging line to see the random result
+    console.log(`Random Result: ${result}`); // Debugging line
 
     let outcome;
     if (result < 1) {
@@ -134,7 +140,7 @@ function quantumDieOutcome() {
         outcome = '+';
     }
 
-    console.log(`Outcome: ${outcome}`); // Debugging line to see the outcome
+    console.log(`Outcome: ${outcome}`); // Debugging line
     return outcome;
 }
 </script>
