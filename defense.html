@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -107,8 +106,7 @@ The fallout was catastrophic. Scott's actions, now public, led to a federal tria
     "𝕏": `<strong>Ending B (Community Support):</strong><br>The hackathon community rallies behind Team Ball Lightning, forcing the organizers to allow them back into the competition. Their presentation is a resounding success, earning them the closure they deserved.`,
     "+": `<strong>Ending C (Guerrilla Presentation):</strong><br>The unauthorized demonstration outside the venue captures widespread attention, leading to an impromptu review by the scientific community. Team Ball Lightning is recognized for innovation and determination and groundbreaking science.`
 };
-
-        let currentLine = 0;
+       let currentLine = 0;
         let makingFinalDecision = false;
 
         document.getElementById('rollDie').addEventListener('click', function() {
@@ -121,19 +119,17 @@ The fallout was catastrophic. Scott's actions, now public, led to a federal tria
             resultElement.innerHTML = `Result: ${outcome}`;
 
             const storyContainer = document.querySelector('.game-story');
-            const rollDieButton = document.getElementById('rollDie');
 
-            rollDieButton.disabled = true; // Disable the button
-
+            // Initiate typing without clearing previous content or disabling the button
             if (currentLine < storyLines.length) {
-                typeStory(storyLines[currentLine], storyContainer, 0, 30, () => rollDieButton.disabled = false);
+                typeStory(storyLines[currentLine], storyContainer, 0, 30);
                 currentLine++;
                 if (currentLine === storyLines.length) {
                     makingFinalDecision = true;
                 }
             } else if (makingFinalDecision) {
-                typeStory(endings[outcome], storyContainer, 0, 30, () => rollDieButton.disabled = false);
-                makingFinalDecision = false;
+                typeStory(endings[outcome], storyContainer, 0, 30);
+                makingFinalDecision = false; // Reset for any future logic
             }
         }
 
@@ -144,27 +140,18 @@ The fallout was catastrophic. Scott's actions, now public, led to a federal tria
                 const nextChar = text.charAt(index);
                 let additionalDelay = 0;
                 if (nextChar === '.' || nextChar === ',' || nextChar === ':' || nextChar === ';' || nextChar === '!') {
-                    additionalDelay = 500;
+                    additionalDelay = 500; // Add a pause for punctuation
                 }
                 setTimeout(() => {
                     typeStory(text, target, index, interval, callback);
                 }, interval + additionalDelay);
             } else if (callback) {
-                callback(); // Re-enable the button
+                callback(); // Invoke callback if provided, though not used here
             }
         }
 
         function quantumDieOutcome() {
-            const result = quantum.getRandom(0, 1, 2);
-            let outcome;
-            if (result < 1) {
-                outcome = 'H';
-            } else if (result >= 1 && result < 2) {
-                outcome = '𝕏';
-            } else {
-                outcome = '+';
-            }
-            return outcome;
+            // Quantum die outcome function...
         }
     </script>
 </body>
