@@ -1,11 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Defense of Team Ball Lightning</title>
     <style>
         body {
-            font-family: 'Times',
+            font-family: 'Times', sans-serif;
             background-color: #f0f0f0;
             color: #333;
             padding: 20px;
@@ -19,28 +21,24 @@
         .game-header {
             text-align: center;
         }
-        .game-instructions, .game-story {
+        .game-story {
             margin-top: 20px;
+            white-space: pre-wrap; /* Ensures typewriter effect respects new lines */
         }
-        .qutrit-option {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px;
-            background-color: #ddd;
-            border-radius: 5px;
+        #rollDie {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 18px;
             cursor: pointer;
         }
-        .qutrit-option:hover {
-            background-color: #ccc;
-        }
-        /* Additional styling can be added here */
     </style>
 </head>
 <body>
     <div class="game-container">
-        <h1 class="game-header">DEFENSE OF TEAM BALL LIGHTNING</h1>
-            <img src="https://raw.githubusercontent.com/Hamzatrah/VirtualQuantumPersonalComputer/8c48901fa1f8aa904b04618a9b7f530aaa5abbe7/IMG_6893.png" alt="Team Ball Lightning" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
-        <button id="rollDie">Roll the Die</button>
+        <h1 class="game-header">Defense of Team Ball Lightning</h1>
+        <img src="https://raw.githubusercontent.com/Hamzatrah/VirtualQuantumPersonalComputer/8c48901fa1f8aa904b04618a9b7f530aaa5abbe7/IMG_6893.png" alt="Team Ball Lightning" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+        <button id="rollDie">Roll Qutrit Die</button>
         <p id="dieResult">Result: </p>
         <div class="game-story">
             <!-- Story and choices will be dynamically inserted here based on the player's interaction -->
@@ -48,34 +46,34 @@
     </div>
 
     <script>
-const quantum = {
-    getRandom: function(min, mid, max) {
-        if (typeof min !== "number" || typeof mid !== "number" || typeof max !== "number") {
-            throw new Error("min, mid, and max must be numbers");
-        }
-        if (min >= mid || mid >= max) {
-            throw new Error("Values must be in order: min < mid < max");
-        }
+        const quantum = {
+            getRandom: function(min, mid, max) {
+                if (typeof min !== "number" || typeof mid !== "number" || typeof max !== "number") {
+                    throw new Error("min, mid, and max must be numbers");
+                }
+                if (min >= mid || mid >= max) {
+                    throw new Error("Values must be in order: min < mid < max");
+                }
 
-        const buffer = new Uint32Array(1);
-        window.crypto.getRandomValues(buffer);
-        const normalizedRandom = buffer[0] / (0xFFFFFFFF + 1); // Normalized random number between 0 and 1
+                const buffer = new Uint32Array(1);
+                window.crypto.getRandomValues(buffer);
+                const normalizedRandom = buffer[0] / (0xFFFFFFFF + 1);
 
-        if (normalizedRandom < 0.33) {
-            return this.cryptoRandom(min, mid);
-        } else if (normalizedRandom < 0.67) {
-            return this.cryptoRandom(mid, max);
-        } else {
-            return this.cryptoRandom(max, max + (max - mid));
-        }
-    },
-    cryptoRandom: function(min, max) {
-        const range = max - min;
-        const buffer = new Uint32Array(1);
-        window.crypto.getRandomValues(buffer);
-        return (buffer[0] / (0xFFFFFFFF + 1)) * range + min;
-    }
-};
+                if (normalizedRandom < 0.33) {
+                    return this.cryptoRandom(min, mid);
+                } else if (normalizedRandom < 0.67) {
+                    return this.cryptoRandom(mid, max);
+                } else {
+                    return this.cryptoRandom(max, max + (max - mid));
+                }
+            },
+            cryptoRandom: function(min, max) {
+                const range = max - min;
+                const buffer = new Uint32Array(1);
+                window.crypto.getRandomValues(buffer);
+                return (buffer[0] / (0xFFFFFFFF + 1)) * range + min;
+            }
+        };
 
 const storyLines = [
     `<strong>Chapter 1: The Dismissal</strong><br>
@@ -110,83 +108,64 @@ The fallout was catastrophic. Scott's actions, now public, led to a federal tria
     "+": `<strong>Ending C (Guerrilla Presentation):</strong><br>The unauthorized demonstration outside the venue captures widespread attention, leading to an impromptu review by the scientific community. Team Ball Lightning is recognized for innovation and determination and groundbreaking science.`
 };
 
-let currentLine = 0;
-let makingFinalDecision = false; // New variable to track if the next roll decides the ending
+        let currentLine = 0;
+        let makingFinalDecision = false;
 
-document.getElementById('rollDie').addEventListener('click', function() {
-    rollQuantumDie();
-});
+        document.getElementById('rollDie').addEventListener('click', function() {
+            rollQuantumDie();
+        });
 
-document.getElementById('rollDie').addEventListener('click', function() {
-    rollQuantumDie();
-});
+        function rollQuantumDie() {
+            const resultElement = document.getElementById('dieResult');
+            const outcome = quantumDieOutcome();
+            resultElement.innerHTML = `Result: ${outcome}`;
 
-function rollQuantumDie() {
-    const resultElement = document.getElementById('dieResult');
-    const outcome = quantumDieOutcome();
-    resultElement.innerHTML = `Result: ${outcome}`;
+            const storyContainer = document.querySelector('.game-story');
+            const rollDieButton = document.getElementById('rollDie');
 
-    const storyContainer = document.querySelector('.game-story');
+            rollDieButton.disabled = true; // Disable the button
 
-    // Clear the previous story or ending text
-    storyContainer.innerHTML = '';
-
-    if (currentLine < storyLines.length) {
-        typeStory(storyLines[currentLine], storyContainer);
-        currentLine++;
-        if (currentLine === storyLines.length) {
-            makingFinalDecision = true;
+            if (currentLine < storyLines.length) {
+                typeStory(storyLines[currentLine], storyContainer, 0, 30, () => rollDieButton.disabled = false);
+                currentLine++;
+                if (currentLine === storyLines.length) {
+                    makingFinalDecision = true;
+                }
+            } else if (makingFinalDecision) {
+                typeStory(endings[outcome], storyContainer, 0, 30, () => rollDieButton.disabled = false);
+                makingFinalDecision = false;
+            }
         }
-    } else if (makingFinalDecision) {
-        typeStory(endings[outcome], storyContainer);
-        makingFinalDecision = false; // Reset for any future logic or disabling the button etc.
-    }
-}
 
-function typeStory(text, target, index = 0, interval = 30) {
-    if (index < text.length) {
-        target.innerHTML += text.charAt(index);
-        index++;
-        // Simulate a typing pause for punctuation marks
-        const nextChar = text.charAt(index);
-        let additionalDelay = 0;
-        if (nextChar === '.' || nextChar === ',' || nextChar === ':' || nextChar === ';' || nextChar === '!') {
-            additionalDelay = 500; // Add a half-second pause for punctuation
+        function typeStory(text, target, index = 0, interval = 30, callback) {
+            if (index < text.length) {
+                target.innerHTML += text.charAt(index);
+                index++;
+                const nextChar = text.charAt(index);
+                let additionalDelay = 0;
+                if (nextChar === '.' || nextChar === ',' || nextChar === ':' || nextChar === ';' || nextChar === '!') {
+                    additionalDelay = 500;
+                }
+                setTimeout(() => {
+                    typeStory(text, target, index, interval, callback);
+                }, interval + additionalDelay);
+            } else if (callback) {
+                callback(); // Re-enable the button
+            }
         }
-        setTimeout(function() {
-            typeStory(text, target, index, interval);
-        }, interval + additionalDelay);
-    }
-}
 
-function quantumDieOutcome() {
-    const result = quantum.getRandom(0, 1, 2);
-    let outcome;
-    if (result < 1) {
-        outcome = 'H';
-    } else if (result >= 1 && result < 2) {
-        outcome = '𝕏';
-    } else {
-        outcome = '+';
-    }
-    return outcome;
-}
-function quantumDieOutcome() {
-    const result = quantum.getRandom(0, 1, 2);
-    console.log(`Random Result: ${result}`); // Debugging line
-
-    let outcome;
-    if (result < 1) {
-        outcome = 'H';
-    } else if (result >= 1 && result < 2) {
-        outcome = '𝕏';
-    } else {
-        outcome = '+';
-    }
-
-    console.log(`Outcome: ${outcome}`); // Debugging line
-    return outcome;
-}
-</script>
+        function quantumDieOutcome() {
+            const result = quantum.getRandom(0, 1, 2);
+            let outcome;
+            if (result < 1) {
+                outcome = 'H';
+            } else if (result >= 1 && result < 2) {
+                outcome = '𝕏';
+            } else {
+                outcome = '+';
+            }
+            return outcome;
+        }
+    </script>
 </body>
 </html>
