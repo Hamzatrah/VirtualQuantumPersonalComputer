@@ -117,26 +117,60 @@ document.getElementById('rollDie').addEventListener('click', function() {
     rollQuantumDie();
 });
 
+document.getElementById('rollDie').addEventListener('click', function() {
+    rollQuantumDie();
+});
+
 function rollQuantumDie() {
     const resultElement = document.getElementById('dieResult');
     const outcome = quantumDieOutcome();
     resultElement.innerHTML = `Result: ${outcome}`;
-    
-    // Logic to display the story or ending based on currentLine and makingFinalDecision
+
+    const storyContainer = document.querySelector('.game-story');
+
+    // Clear the previous story or ending text
+    storyContainer.innerHTML = '';
+
     if (currentLine < storyLines.length) {
-        document.querySelector('.game-story').innerHTML += `<p>${storyLines[currentLine]}</p>`;
+        typeStory(storyLines[currentLine], storyContainer);
         currentLine++;
-        // Check if we've reached the end of storyLines to consider the next roll for an ending
         if (currentLine === storyLines.length) {
             makingFinalDecision = true;
         }
     } else if (makingFinalDecision) {
-        // Display the ending based on the outcome
-        document.querySelector('.game-story').innerHTML += `<p>${endings[outcome]}</p>`;
-        makingFinalDecision = false; // Reset or handle game end
+        typeStory(endings[outcome], storyContainer);
+        makingFinalDecision = false; // Reset for any future logic or disabling the button etc.
     }
 }
 
+function typeStory(text, target, index = 0, interval = 30) {
+    if (index < text.length) {
+        target.innerHTML += text.charAt(index);
+        index++;
+        // Simulate a typing pause for punctuation marks
+        const nextChar = text.charAt(index);
+        let additionalDelay = 0;
+        if (nextChar === '.' || nextChar === ',' || nextChar === ':' || nextChar === ';' || nextChar === '!') {
+            additionalDelay = 500; // Add a half-second pause for punctuation
+        }
+        setTimeout(function() {
+            typeStory(text, target, index, interval);
+        }, interval + additionalDelay);
+    }
+}
+
+function quantumDieOutcome() {
+    const result = quantum.getRandom(0, 1, 2);
+    let outcome;
+    if (result < 1) {
+        outcome = 'H';
+    } else if (result >= 1 && result < 2) {
+        outcome = '𝕏';
+    } else {
+        outcome = '+';
+    }
+    return outcome;
+}
 function quantumDieOutcome() {
     const result = quantum.getRandom(0, 1, 2);
     console.log(`Random Result: ${result}`); // Debugging line
