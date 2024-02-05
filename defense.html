@@ -107,47 +107,27 @@ The fallout was catastrophic. Scott's actions, now public, led to a federal tria
 };
 
         let currentLine = 0;
-        let makingFinalDecision = false;
-
-        document.getElementById('rollDie').addEventListener('click', function() {
-            rollQuantumDie();
-        });
 
         function rollQuantumDie() {
             const resultElement = document.getElementById('dieResult');
             const outcome = quantumDieOutcome();
             resultElement.innerHTML = `Result: ${outcome}`;
 
-            const storyContainer = document.querySelector('.game-story');
-
-            // Initiate typing without clearing previous content or disabling the button
             if (currentLine < storyLines.length) {
-                typeStory(storyLines[currentLine], storyContainer, 0, 30);
+                typeStory(storyLines[currentLine], document.querySelector('.game-story'));
                 currentLine++;
-                if (currentLine === storyLines.length) {
-                    makingFinalDecision = true;
-                }
-            } else if (makingFinalDecision) {
-                typeStory(endings[outcome], storyContainer, 0, 30);
-                makingFinalDecision = false; // Reset for any future logic
+            } else {
+                typeStory(endings[outcome], document.querySelector('.game-story'));
             }
         }
 
-        function typeStory(text, target, index = 0, interval = 30, callback) {
-            if (index < text.length) {
-                target.innerHTML += text.charAt(index);
-                index++;
-                const nextChar = text.charAt(index);
-                let additionalDelay = 0;
-                if (nextChar === '.' || nextChar === ',' || nextChar === ':' || nextChar === ';' || nextChar === '!') {
-                    additionalDelay = 500; // Add a pause for punctuation
-                }
-                setTimeout(() => {
-                    typeStory(text, target, index, interval, callback);
-                }, interval + additionalDelay);
-            } else if (callback) {
-                callback(); // Invoke callback if provided, though not used here
-            }
+        function showSpecialEnding() {
+            const specialEnding = `<strong>Special Ending:</strong><br>Hamzat, moved by his mother's counsel, chose a path of compassion and mercy towards Scott Greenwald. Despite the betrayal, he saw wisdom in forgiveness, setting a precedent for humanity in the face of adversity.`;
+            document.querySelector('.game-story').innerHTML = specialEnding;
+        }
+
+        function typeStory(text, target) {
+            target.innerHTML = text; // Simplified for demonstration
         }
 
         function quantumDieOutcome() {
