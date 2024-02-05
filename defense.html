@@ -22,7 +22,7 @@
         }
         .game-story {
             margin-top: 20px;
-            white-space: pre-wrap; /* Ensures typewriter effect respects new lines */
+            white-space: pre-wrap;
         }
         #rollDie {
             display: block;
@@ -45,6 +45,9 @@
     </div>
 
     <script>
+        let timeoutId;
+        const longPressDuration = 1000; // Time in milliseconds to consider as a long press
+
         const quantum = {
             getRandom: function(min, mid, max) {
                 if (typeof min !== "number" || typeof mid !== "number" || typeof max !== "number") {
@@ -74,85 +77,54 @@
             }
         };
 
-const storyLines = [
-    `<strong>Chapter 1: The Dismissal</strong><br>
-    Moment before the final presentation, Hamzat Incorporated is unexpectedly confronted by Scott Greenwald, the executive chairman of <strong> Reality Hack 501c-3, </strong> this host of the Hackathon. Scott accuses Hamzat of being rude and without further explanation, expels him from the competition. Team Ball Lightning is left leaderless and disqualified, their groundbreaking project now in jeopardy.`,
-    
-    `<strong>Chapter 2: The Search for Truth</strong><br>
-    Refusing to accept defeat, Hamzat starts a guerrilla internet activism campaign, gathering signatures for a petition to investigate Reality Hack 501c-3, the organization behind the hackathon. The investigation uncovers three main allegations against Scott: withholding Hamzat's passport, identity-based discrimination, and cheating to eliminate Team Ball Lightning's competitive advantage.`,
-    
-    `<strong>Chapter 3: The Qutrit Die Rolls</strong><br>
-    Now, Hamzat must navigate through a series of challenges to clear his name and restore Team Ball Lightning's honor. Each decision you make will influence the outcome of this story. Will you confront Scott directly, seek support from the hackathon community, or find a way to present your project despite the disqualification?`,
-    
-    `<strong>Chapter 4: The Revelation</strong><br>
-    Depending on your decisions, the story unfolds towards one of several endings. Can Hamzat uncover Scott's motives in trying to hack his hackathon and reveal the truth behind the disqualification? Will Team Ball Lightning's project see the light of day, bringing virtual ball lightning into our physical world?`
-];
+        const storyLines = [
+            `<strong>Chapter 1: The Dismissal</strong><br>
+            Just hours before the final presentation, Hamzat is unexpectedly confronted by Scott Greenwald, the executive chairman of <strong>Reality Hack 501c-3,</strong> the host of the Hackathon. Scott accuses Hamzat of being rude and without further explanation, expels him from the competition. Team Ball Lightning is left leaderless and disqualified, their groundbreaking project now in jeopardy.`,
+            
+            `<strong>Chapter 2: The Search for Truth</strong><br>
+            Refusing to accept defeat, Hamzat starts a guerrilla internet activism campaign, gathering signatures for a petition to investigate Reality Hack 501c-3, the organization behind the hackathon. The investigation uncovers three main allegations against Scott: withholding Hamzat's passport, identity-based discrimination, and cheating to eliminate Team Ball Lightning's competitive advantage.`,
+            
+            `<strong>Chapter 3: The Qutrit Die Rolls</strong><br>
+            Now, Hamzat must navigate through a series of challenges to clear his name and restore Team Ball Lightning's honor. Each decision you make will influence the outcome of this story. Will you confront Scott directly, seek support from the hackathon community, or find a way to present your project despite the disqualification?`,
+            
+            `<strong>Chapter 4: The Revelation</strong><br>
+            Depending on your decisions, the story unfolds towards one of several endings. Can Hamzat uncover Scott's motives in trying to hack his hackathon and reveal the truth behind the disqualification? Will Team Ball Lightning's project see the light of day, bringing virtual ball lightning into our physical world?`
+        ];
 
-const endings = {
-    "H": `<strong>Ending A (Confrontation):</strong><br>Scott admits to feeling threatened by the potential of Team Ball Lightning's project. He is arrested. <strong> A2 Betrayal
-The unraveling began quietly, insidiously. Scott, whose ambition had long since eclipsed his moral compass, embarked on a campaign of deceit that would unravel the fabric of trust within Team Ball Lightning. His first move was against Albert, the team's lead researcher. Using a combination of flattery and false promises, Scott extracted sensitive research data, promising Albert fame and recognition he never intended to deliver. 
+        const endings = {
+            "H": `<strong>Ending A (Confrontation):</strong><br>Scott admits to feeling threatened by the potential of Team Ball Lightning's project and resigns. The project receives a special commendation for innovation.`,
+            "𝕏": `<strong>Ending B (Community Support):</strong><br>The hackathon community rallies behind Team Ball Lightning, forcing the organizers to allow them back into the competition. Their presentation is a resounding success, earning them the grand prize.`,
+            "+": `<strong>Ending C (Guerrilla Presentation):</strong><br>The unauthorized demonstration outside the venue captures widespread attention, leading to an impromptu review by the judges. Team Ball Lightning is awarded a special commendation for innovation and determination.`
+        };
 
-Albert, blinded by the prospect of acclaim, failed to see the betrayal coming. By the time he realized his error, it was too late; his contributions had already been undermined, repurposed to serve Scott’s hidden agenda. The trust within the team began to erode, but Scott was far from finished.
+        const specialEnding = `<strong>Special Ending:</strong><br>Hamzat, moved by his mother's counsel, chose a path of compassion and mercy towards Scott Greenwald. Despite the betrayal and the pain it caused, he saw wisdom in her words. 'Mercy is the greatest virtue,' she had said. And in that moment, Hamzat knew it was not just about winning; it was about setting a precedent for forgiveness and humanity in the face of adversity.`;
 
-Bao, the team's engineer, was next. Scott preyed on Bao’s fears, convincing him that the project was at risk of being shut down due to lack of progress. In a desperate bid to save their work, Bao handed over control of the engineering prototypes to Scott. It was a move he would come to regret, as Scott used these prototypes to further his own position, leaving Bao's efforts uncredited and his reputation in jeopardy.
-
-Zoe, the team's communications lead, experienced a similar fate. Scott manipulated her trust to gain access to the team's media and public relations channels. Under the guise of protecting the team's image, he began to isolate them from their supporters and industry contacts, positioning himself as the sole face of the project.
-
-Richard, however, proved to be the linchpin that Scott couldn’t sway. Skeptical from the start, Richard had maintained a cautious distance from Scott's machinations. His suspicions, initially dismissed by the team as paranoia, became their saving grace when the full extent of Scott's betrayal came to light.
-
-The fallout was catastrophic. Scott's actions, now public, led to a federal trial that exposed numerous felonies, including fraud, theft of intellectual property, and obstruction of justice. The evidence was irrefutable, much of it provided by Richard, who had quietly documented Scott's actions.
-
-',
-    "𝕏": `<strong>Ending B (Community Support):</strong><br>The hackathon community rallies behind Team Ball Lightning, forcing the organizers to allow them back into the competition. Their presentation is a resounding success, earning them the closure they deserved.`,
-    "+": `<strong>Ending C (Guerrilla Presentation):</strong><br>The unauthorized demonstration outside the venue captures widespread attention, leading to an impromptu review by the scientific community. Team Ball Lightning is recognized for innovation and determination and groundbreaking science.`
-};
-       let currentLine = 0;
+        let currentLine = 0;
         let makingFinalDecision = false;
+
+        document.getElementById('rollDie').addEventListener('mousedown', function() {
+            timeoutId = setTimeout(function() {
+                document.querySelector('.game-story').innerHTML = specialEnding;
+                // Reset after showing the special ending to avoid repeating
+                clearTimeout(timeoutId);
+            }, longPressDuration);
+        });
+
+        document.getElementById('rollDie').addEventListener('mouseup', function() {
+            clearTimeout(timeoutId);
+        });
+
+        document.getElementById('rollDie').addEventListener('mouseleave', function() {
+            clearTimeout(timeoutId);
+        });
 
         document.getElementById('rollDie').addEventListener('click', function() {
             rollQuantumDie();
         });
 
         function rollQuantumDie() {
-            const resultElement = document.getElementById('dieResult');
-            const outcome = quantumDieOutcome();
-            resultElement.innerHTML = `Result: ${outcome}`;
-
-            const storyContainer = document.querySelector('.game-story');
-
-            // Initiate typing without clearing previous content or disabling the button
-            if (currentLine < storyLines.length) {
-                typeStory(storyLines[currentLine], storyContainer, 0, 30);
-                currentLine++;
-                if (currentLine === storyLines.length) {
-                    makingFinalDecision = true;
-                }
-            } else if (makingFinalDecision) {
-                typeStory(endings[outcome], storyContainer, 0, 30);
-                makingFinalDecision = false; // Reset for any future logic
+            if (makingFinalDecision) {
+                // Prevent further actions if the special ending was triggered
+                return;
             }
-        }
-
-        function typeStory(text, target, index = 0, interval = 30, callback) {
-            if (index < text.length) {
-                target.innerHTML += text.charAt(index);
-                index++;
-                const nextChar = text.charAt(index);
-                let additionalDelay = 0;
-                if (nextChar === '.' || nextChar === ',' || nextChar === ':' || nextChar === ';' || nextChar === '!') {
-                    additionalDelay = 500; // Add a pause for punctuation
-                }
-                setTimeout(() => {
-                    typeStory(text, target, index, interval, callback);
-                }, interval + additionalDelay);
-            } else if (callback) {
-                callback(); // Invoke callback if provided, though not used here
-            }
-        }
-
-        function quantumDieOutcome() {
-            // Quantum die outcome function...
-        }
-    </script>
-</body>
-</html>
+            const resultElement
