@@ -43,69 +43,77 @@
     </div>
 
     <script>
-        let timeoutId;
-        const longPressDuration = 1000;
-        document.getElementById('rollDie').addEventListener('mousedown', initiateLongPress);
-        document.getElementById('rollDie').addEventListener('touchstart', initiateLongPress);
-        document.addEventListener('mouseup', clearLongPress);
-        document.addEventListener('mouseleave', clearLongPress);
-        document.addEventListener('touchend', clearLongPress);
+    let timeoutId;
+    const longPressDuration = 1000; // 1000 milliseconds = 1 second
 
-        function initiateLongPress() {
-            timeoutId = setTimeout(showSpecialEnding, longPressDuration);
+    function initiateLongPress() {
+        timeoutId = setTimeout(showSpecialEnding, longPressDuration);
+    }
+
+    function clearLongPress() {
+        clearTimeout(timeoutId);
+    }
+
+    document.getElementById('rollDie').addEventListener('mousedown', initiateLongPress);
+    document.getElementById('rollDie').addEventListener('touchstart', initiateLongPress);
+    document.addEventListener('mouseup', clearLongPress);
+    document.addEventListener('touchend', clearLongPress);
+    document.addEventListener('mouseleave', clearLongPress);
+
+    const storyLines = [
+        `<strong>Chapter 1: The Dismissal</strong><br>
+        Just hours before the final presentation at the Mohammed Institute of Technology's annual hackathon, Hamzat, the leader of Team Ball Lightning, is unexpectedly confronted by Scott Greenwald, the executive chairman of the event. Accusing Hamzat of violating conduct with no further explanation, Scott expels him and disqualifies Team Ball Lightning, leaving their groundbreaking project on virtual ball lightning in jeopardy.`,
+        
+        `<strong>Chapter 2: The Search for Truth</strong><br>
+        Refusing to accept defeat, Hamzat starts a guerrilla internet activism campaign to gather support for investigating the hackathon's organizing body, Reality Hack 501c-3. The campaign uncovers allegations of Scott withholding Hamzat's passport, engaging in identity-based discrimination, and manipulating the competition to undermine Team Ball Lightning's innovative project.`,
+        
+        `<strong>Chapter 3: The Quantum Dice Rolls</strong><br>
+        Armed with public support and evidence of foul play, Hamzat navigates through legal challenges and public scrutiny to clear his name and restore Team Ball Lightning's honor. Each decision the audience makes influences the direction of this journey. Will they confront Scott directly, seek further community support, or find an alternate way to showcase their project despite the disqualification?`,
+        
+        `<strong>Chapter 4: The Revelation</strong><br>
+        The choices lead to a confrontation where the truth about Scott's motives is revealed. Faced with undeniable evidence and public outcry, Scott is forced to acknowledge his actions. Depending on the path chosen, Team Ball Lightning either gets reinstated in the hackathon, wins a special commendation for their perseverance, or garners global recognition through an unconventional presentation of their project.`
+    ];
+
+    const endings = {
+        "H": `<strong>Ending A (Confrontation):</strong><br>Following a direct confrontation, Scott admits to feeling threatened by the potential of Team Ball Lightning's project overshadowing his own interests. He apologizes, and Hamzat's magnanimity in victory garners widespread admiration.`,
+        "𝕏": `<strong>Ending B (Community Support):</strong><br>The hackathon community's overwhelming support forces the organizers to reconsider Team Ball Lightning's disqualification. Their project wins the grand prize, highlighting the importance of integrity and innovation.`,
+        "+": `<strong>Ending C (Guerrilla Presentation):</strong><br>An unauthorized demonstration of their project outside the hackathon venue captures the public's imagination, leading to an impromptu review by the judges and a special award for innovation and determination.`
+    };
+
+    let currentLine = 0;
+
+    document.getElementById('rollDie').addEventListener('click', rollQuantumDie);
+
+    function rollQuantumDie() {
+        if (currentLine < storyLines.length) {
+            typeStory(storyLines[currentLine], document.querySelector('.game-story'), 0);
+            currentLine++;
+        } else {
+            const outcome = quantumDieOutcome();
+            document.getElementById('dieResult').innerHTML = `Result: ${outcome}`;
+            typeStory(endings[outcome], document.querySelector('.game-story'), 0);
         }
+    }
 
-        function clearLongPress() {
-            clearTimeout(timeoutId);
+    function showSpecialEnding() {
+        const specialEnding = `<strong>Special Ending:</strong><br>Influenced by his mother's counsel, Hamzat finds the strength to forgive Scott. This act of mercy, inspired by the greatest idea yet, not only mends bridges but also sets a new standard for compassion and understanding within the competitive hackathon community.`;
+        document.querySelector('.game-story').innerHTML = '';
+        typeStory(specialEnding, document.querySelector('.game-story'), 0);
+    }
+
+    function typeStory(text, target, index) {
+        if (index < text.length) {
+            target.innerHTML += text.charAt(index);
+            setTimeout(function() {
+                typeStory(text, target, index + 1);
+            }, index % 2 == 0 ? 120 : 60); // Vary speed for a more natural feel
         }
+    }
 
-        const storyLines = [
-            "<strong>Chapter 1: The Dismissal</strong><br>Moments before the final presentation, Hamzat is unexpectedly confronted by Scott Greenwald...",
-            "<strong>Chapter 2: The Search for Truth</strong><br>Refusing to accept defeat, Hamzat starts a guerrilla internet activism campaign...",
-            "<strong>Chapter 3: The Quantum Dice Rolls</strong><br>Now, Hamzat must navigate through a series of challenges...",
-            "<strong>Chapter 4: The Revelation</strong><br>Depending on your decisions, the story unfolds towards one of several endings..."
-        ];
-
-        const endings = {
-            "H": "<strong>Ending A (Confrontation):</strong><br>Confronting Scott, Hamzat exposes the truth...",
-            "𝕏": "<strong>Ending B (Community Support):</strong><br>The community rallies behind Team Ball Lightning...",
-            "+": "<strong>Ending C (Guerrilla Presentation):</strong><br>An unauthorized demonstration garners widespread attention..."
-        };
-
-        let currentLine = 0;
-
-        document.getElementById('rollDie').addEventListener('click', rollQuantumDie);
-
-        function rollQuantumDie() {
-            if (currentLine < storyLines.length) {
-                typeStory(storyLines[currentLine], document.querySelector('.game-story'), 0);
-                currentLine++;
-            } else {
-                const outcome = quantumDieOutcome();
-                document.getElementById('dieResult').innerHTML = `Result: ${outcome}`;
-                typeStory(endings[outcome], document.querySelector('.game-story'), 0);
-            }
-        }
-
-        function showSpecialEnding() {
-            const specialEnding = "<strong>Special Ending:</strong><br>Hamzat, moved by his mother's counsel, chose a path of compassion and mercy towards Scott Greenwald...";
-            document.querySelector('.game-story').innerHTML = '';
-            typeStory(specialEnding, document.querySelector('.game-story'), 0);
-        }
-
-        function typeStory(text, target, index) {
-            if (index < text.length) {
-                target.innerHTML += text.charAt(index);
-                setTimeout(function() {
-                    typeStory(text, target, index + 1);
-                }, index % 2 == 0 ? 120 : 60); // Vary speed for a more natural feel
-            }
-        }
-
-        function quantumDieOutcome() {
-            const outcomes = ["H", "𝕏", "+"];
-            return outcomes[Math.floor(Math.random() * outcomes.length)];
-        }
-    </script>
+    function quantumDieOutcome() {
+        const outcomes = ["H", "𝕏", "+"];
+        return outcomes[Math.floor(Math.random() * outcomes.length)];
+    }
+</script>
 </body>
 </html>
