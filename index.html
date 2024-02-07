@@ -176,34 +176,53 @@ p {
             text-align: justify;
         }
     }
+	    #pageDown {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 </style>
 <!here for zoom>
         <script>
-        let scrollInterval;
-        let restartTimer;
-        const scrollSpeed = 40;  // Speed of the scroll (lower is faster)
-        const restartDelay = 240000;  // Time before the scroll restarts (in milliseconds)
+  // Function to scroll down by one screen height
+  function scrollToNextScreen() {
+    window.scrollBy(0, window.innerHeight);
+  }
 
-        function startScrolling() {
-            scrollInterval = setInterval(() => window.scrollBy(0, 1), scrollSpeed);
-        }
+  // Setup a handler for the 'pageDown' button click event
+  document.getElementById('pageDown').addEventListener('click', scrollToNextScreen);
 
-        function stopAndRestartScrolling() {
-            clearInterval(scrollInterval);   // Stop current scrolling
-            clearTimeout(restartTimer);      // Clear the existing timer
-            restartTimer = setTimeout(startScrolling, restartDelay);  // Set a new timer
-        }
+  let scrollInterval;
+  const scrollSpeed = 40; // Speed of the scroll (lower is faster)
+  const restartDelay = 240000; // Time before the scroll restarts (in milliseconds)
 
-        // Initial start
-        startScrolling();
+  // Function to start automatic scrolling
+  function startScrolling() {
+    scrollInterval = setInterval(() => window.scrollBy(0, 1), scrollSpeed);
+  }
 
-        // Event listeners to stop and restart scrolling on click or touch
-        document.addEventListener('click', stopAndRestartScrolling);
-        document.addEventListener('touchstart', stopAndRestartScrolling);
-    </script>
-        <script type="text/javascript" async
-    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+  // Function to stop automatic scrolling and restart after a delay
+  function stopAndRestartScrolling() {
+    clearInterval(scrollInterval); // Stop current scrolling
+    setTimeout(startScrolling, restartDelay); // Restart scrolling after a delay
+  }
+
+  // Start automatic scrolling initially
+  startScrolling();
+
+  // Event listeners to stop and restart scrolling on user interaction
+  document.addEventListener('click', stopAndRestartScrolling);
+  document.addEventListener('touchstart', stopAndRestartScrolling);
 </script>
+
+<!-- MathJax script for rendering math equations -->
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </head>
 <body>
     <div class="content-container">
@@ -212,193 +231,77 @@ p {
     </div> 
     <div id="controls">
         <button onclick="startQuantumDie()">Roll Quantum Die</button>
+	<button id="pageDown">Page Down</button>
         <input type="range" min="0.5" max="1.5" step="0.01" value="1" oninput="updateModulation(this.value)" role="slider" aria-label="Modulation Factor" />
     </div>
     <div id="die-output"></div>
     <div id="waveform-container">
         <canvas id="waveform"></canvas>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script>
-           let audioContext, gainNode, canvas, ctx, quantumLoop, modulationFactor = 1, quantumStates = [];
-        let scene, camera, renderer, cube;
+   <script>
+let audioContext, gainNode;
+const quantumStates = [];
+let modulationFactor = 1;
 
-        function initAudioContext() {
-            window.AudioContext = window.AudioContext || window.webkitAudioContext;
-            audioContext = new AudioContext();
-            gainNode = audioContext.createGain();
-            gainNode.connect(audioContext.destination);
-        }
+document.addEventListener('DOMContentLoaded', initialize);
 
-        function runQuantumDie() {
-            if (quantumStates.length >= 4000) quantumStates.shift();
-            const array = new Uint8Array(1);
-            window.crypto.getRandomValues(array);
-            const outcome = array[0] % 3;
-            quantumStates.push(outcome);
-            displayQuantumOutput(outcome);
-            playQuantumSound(outcome);
-            drawCanvas();
-            updateCubeRotation(outcome);
-        }
-
-        function displayQuantumOutput(outcome) {
-            const outputElement = document.getElementById('die-output');
-            const className = ['state-H', 'state-𝕏', 'state-plus'];
-            const displayChar = ['H', '𝕏', '+'];
-            const newSpan = document.createElement('span');
-            newSpan.className = className[outcome];
-            newSpan.textContent = displayChar[outcome];
-            outputElement.appendChild(newSpan);
-            outputElement.scrollTop = outputElement.scrollHeight;
-        }
-
-        function playQuantumSound(state) {
-    const oscillator1 = audioContext.createOscillator();
-    const oscillator2 = audioContext.createOscillator();
-    oscillator1.type = 'sine'; // Base oscillator
-    oscillator2.type = ['sine', 'triangle', 'square'][state]; // Timbre modulating oscillator
-
-    // Adjust frequencies to modify timbre
-    oscillator1.frequency.setValueAtTime((440 + state * 110) * modulationFactor, audioContext.currentTime);
-    oscillator2.frequency.setValueAtTime((220 + state * 55) * modulationFactor, audioContext.currentTime);
-
-    // Create a gain node for the second oscillator to control its volume
-    const gainNode2 = audioContext.createGain();
-    gainNode2.gain.value = 0.5; // Adjust to blend the timbre
-
-    // Connect and start the oscillators
-    oscillator1.connect(gainNode);
-    oscillator2.connect(gainNode2);
-    gainNode2.connect(gainNode);
-    oscillator1.start();
-    oscillator2.start();
-    oscillator1.stop(audioContext.currentTime + 0.2);
-    oscillator2.stop(audioContext.currentTime + 0.2);
+function initialize() {
+  initAudioContext();
 }
-        function drawCanvas() {
-            const stateWidth = 1;
-            const canvasWidth = Math.max(4000, stateWidth * quantumStates.length);
-            const maxHeight = 100;
-            canvas.width = canvasWidth;
-            const midPoint = canvas.height / 2;
 
-            ctx.clearRect(0, 0, canvasWidth, canvas.height);
-            quantumStates.forEach((state, index) => {
-                const lineLength = Math.random() * maxHeight;
-                ctx.fillStyle = ['blue', 'green', 'red'][state];
-                ctx.fillRect(index * stateWidth, midPoint - lineLength / 2, stateWidth, lineLength);
-            });
-        }
+function initAudioContext() {
+  window.AudioContext = window.AudioContext || window.webkitAudioContext;
+  audioContext = new AudioContext();
+  gainNode = audioContext.createGain();
+  gainNode.connect(audioContext.destination);
+}
 
-        function updateModulation(value) {
-            modulationFactor = value;
-            gainNode.gain.value = Math.exp(value - 1);
-        }
+function runQuantumDie() {
+  const outcome = window.crypto.getRandomValues(new Uint8Array(1))[0] % 3;
+  playQuantumSound(outcome);
+}
 
-        function initCube() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-            camera.position.z = 5;
-            renderer = new THREE.WebGLRenderer();
-            renderer.setSize(300, 300);
-            renderer.setClearColor(0xAAAAAA);
-            document.getElementById('cube-container').appendChild(renderer.domElement);
+function displayQuantumOutput(outcome) {
+    const outputElement = document.getElementById('quantum-output');
+    if (!outputElement) {
+        console.error('Quantum output element not found');
+        return;
+    }
+    outputElement.innerHTML = '';
+    const className = ['state-H', 'state-X', 'state-plus'];
+    const displayChar = ['H', '𝕏', '+'];
+    const newSpan = document.createElement('span');
+    newSpan.className = className[outcome];
+    newSpan.textContent = displayChar[outcome];
+    outputElement.appendChild(newSpan);
+    newSpan.style.fontSize = '24px';
+    newSpan.style.fontWeight = 'bold';
+}
 
-            const geometry = new THREE.BoxGeometry();
-            const material = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
-            cube = new THREE.Mesh(geometry, material);
-            scene.add(cube);
-            loadCubeSymbols();
-        }
-
-        function loadCubeSymbols() {
-            const loader = new THREE.FontLoader();
-            loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', font => {
-                addTextToCube(font, 'H', -0.5, 0, 0.5, 0, Math.PI / 2, 0);
-                addTextToCube(font, '𝕏', 0.5, 0, 0.5, 0, -Math.PI / 2, 0);
-                addTextToCube(font, '+', 0, 0.5, 0.5, -Math.PI / 2, 0, 0);
-            });
-        }
-
-        function addTextToCube(font, text, x, y, z, rotationX, rotationY, rotationZ) {
-            const textGeometry = new THREE.TextGeometry(text, { font: font, size: 0.4, height: 0.1 });
-            textGeometry.computeBoundingBox();
-            const textWidth = textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x;
-            const textHeight = textGeometry.boundingBox.max.y - textGeometry.boundingBox.min.y;
-            const textMesh = new THREE.Mesh(textGeometry, new THREE.MeshBasicMaterial({ color: 0x000000 }));
-            textMesh.position.set(x - textWidth / 2, y - textHeight / 2, z);
-            textMesh.rotation.set(rotationX, rotationY, rotationZ);
-            cube.add(textMesh);
-        }
-
-        function animateCube() {
-            requestAnimationFrame(animateCube);
-            renderer.render(scene, camera);
-        }
-
-        function updateCubeRotation(outcome) {
-            cube.rotation.x += outcome * 0.05;
-            cube.rotation.y += outcome * 0.05;
-        }
-
-        window.startQuantumDie = function() {
-            if (audioContext.state === 'suspended') {
-                audioContext.resume();
-            }
-            clearInterval(quantumLoop);
-            quantumStates = [];
-            quantumLoop = setInterval(runQuantumDie, 200);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        };
-
-        window.updateModulation = function(value) {
-            modulationFactor = value;
-            gainNode.gain.value = Math.exp(value - 1);
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            canvas = document.getElementById('waveform');
-            ctx = canvas.getContext('2d');
-            initAudioContext();
-            initCube();
-            animateCube();
-        });
-    </script>
-<script>
-	<script>setInterval(() => window.scrollBy(0, 1), 10);</script>
-    <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const asciiArtElements = document.querySelectorAll('#tiresult pre');
-
-    asciiArtElements.forEach(asciiArt => {
-        let startDistance = null;
-        let scale = 1;
-
-        function getDistance(touches) {
-            return Math.hypot(touches[1].pageX - touches[0].pageX, touches[1].pageY - touches[0].pageY);
-        }
-
-        asciiArt.addEventListener('touchstart', (e) => {
-            if (e.touches.length === 2) {
-                startDistance = getDistance(e.touches);
-            }
-        }, { passive: true });
-
-        asciiArt.addEventListener('touchmove', (e) => {
-            if (e.touches.length === 2) {
-                e.preventDefault();
-                const currentDistance = getDistance(e.touches);
-                const newScale = currentDistance / startDistance;
-                scale *= newScale;
-                requestAnimationFrame(() => {
-                    asciiArt.style.transform = `scale(${scale})`;
-                });
-                startDistance = currentDistance;
-            }
-        }, { passive: false });
+function playQuantumSound(state) {
+  if (audioContext.state === 'suspended') {
+    audioContext.resume().then(() => {
+      console.log('Playback resumed successfully');
     });
-});
+  }
+  const oscillator = audioContext.createOscillator();
+  oscillator.type = 'sine';
+  switch(state) {
+    case 0:
+      oscillator.frequency.setValueAtTime(220, audioContext.currentTime);
+      break;
+    case 1:
+      oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+      break;
+    case 2:
+      oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
+      break;
+  }
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  oscillator.start();
+  oscillator.stop(audioContext.currentTime + 0.5);
+}
 </script>
 	    <!-- Quantum Physics and Observer Influence Section -->
     <section class="content-section" id="quantumPhysicsSection">
