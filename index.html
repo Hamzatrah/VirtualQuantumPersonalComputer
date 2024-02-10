@@ -10734,12 +10734,21 @@ please hurry i am outside and it is very cold
     <p>Independent of an observer's personal astrological data, the qutrit die is metaphorically 'blown' to collapse their astrological potential into one of these states. This act of collapsing mimics the quantum decision-making process, providing insights and guidance aligned with one of the three overarching themes of the Zodiac's narrative arc. This framework not only simplifies the complexity of astrological interpretations but also introduces a playful, quantum-inspired element to personal growth and self-reflection.</p>
 </section>
 <script>
-function startReadingFromElement(element) {
-    if (window.speechSynthesis.speaking) {
-        // If already speaking, stop and do not start again
+let currentSpeakingElement = null; // To keep track of the currently speaking element
+
+function speakFromElementToEnd(element) {
+    // If speech is currently active and the clicked element is the same, stop speaking
+    if (window.speechSynthesis.speaking && currentSpeakingElement === element) {
         window.speechSynthesis.cancel();
+        currentSpeakingElement = null;
     } else {
-        // If not speaking, start reading from the clicked element to the end of the page
+        // If speech is active but a different element is clicked, stop the current speech
+        window.speechSynthesis.cancel();
+
+        // Update the tracking variable to the new element
+        currentSpeakingElement = element;
+
+        // Gather all text from the clicked element to the end of the document
         let textToRead = '';
         while (element) {
             textToRead += element.textContent + " ";
@@ -10749,13 +10758,17 @@ function startReadingFromElement(element) {
         // Start speaking the gathered text
         let utterance = new SpeechSynthesisUtterance(textToRead.trim());
         window.speechSynthesis.speak(utterance);
+
+        // When the speech ends, reset the tracking variable
+        utterance.onend = function() {
+            currentSpeakingElement = null;
+        };
     }
 }
 
-// Attach the click event listener to all <h> tags
 document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(element => {
     element.addEventListener('click', function() {
-        startReadingFromElement(this); // Toggle start/stop reading
+        speakFromElementToEnd(this); // Start/stop reading from the clicked element
     });
 });
 </script>
