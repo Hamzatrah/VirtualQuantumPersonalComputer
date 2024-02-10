@@ -10734,39 +10734,28 @@ please hurry i am outside and it is very cold
     <p>Independent of an observer's personal astrological data, the qutrit die is metaphorically 'blown' to collapse their astrological potential into one of these states. This act of collapsing mimics the quantum decision-making process, providing insights and guidance aligned with one of the three overarching themes of the Zodiac's narrative arc. This framework not only simplifies the complexity of astrological interpretations but also introduces a playful, quantum-inspired element to personal growth and self-reflection.</p>
 </section>
 <script>
-let currentSpeakingElement = null; // To keep track of the currently speaking element
-
-function speakText(element) {
-    const textToRead = getTextToRead(element); // Get text for the clicked heading and its content
-
-    // Check if we're already speaking this section
-    if (window.speechSynthesis.speaking && currentSpeakingElement === element) {
-        window.speechSynthesis.cancel(); // Stop speaking
-        currentSpeakingElement = null; // Reset the tracking variable
+function startReadingFromElement(element) {
+    if (window.speechSynthesis.speaking) {
+        // If already speaking, stop and do not start again
+        window.speechSynthesis.cancel();
     } else {
-        window.speechSynthesis.cancel(); // Stop any ongoing speech
-        let utterance = new SpeechSynthesisUtterance(textToRead);
+        // If not speaking, start reading from the clicked element to the end of the page
+        let textToRead = '';
+        while (element) {
+            textToRead += element.textContent + " ";
+            element = element.nextElementSibling;
+        }
+
+        // Start speaking the gathered text
+        let utterance = new SpeechSynthesisUtterance(textToRead.trim());
         window.speechSynthesis.speak(utterance);
-        currentSpeakingElement = element; // Update the tracking variable to the new element
     }
 }
 
-function getTextToRead(startElement) {
-    let textToRead = startElement.textContent; // Include the text of the clicked heading
-    let nextElement = startElement.nextElementSibling;
-
-    // Loop to get all text until the next heading
-    while(nextElement && !nextElement.tagName.match(/^H[1-6]$/)) {
-        textToRead += " " + nextElement.textContent; // Append text
-        nextElement = nextElement.nextElementSibling;
-    }
-
-    return textToRead;
-}
-
+// Attach the click event listener to all <h> tags
 document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(element => {
     element.addEventListener('click', function() {
-        speakText(this); // Handle start/stop for the clicked section
+        startReadingFromElement(this); // Toggle start/stop reading
     });
 });
 </script>
