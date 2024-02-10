@@ -10734,41 +10734,41 @@ please hurry i am outside and it is very cold
     <p>Independent of an observer's personal astrological data, the qutrit die is metaphorically 'blown' to collapse their astrological potential into one of these states. This act of collapsing mimics the quantum decision-making process, providing insights and guidance aligned with one of the three overarching themes of the Zodiac's narrative arc. This framework not only simplifies the complexity of astrological interpretations but also introduces a playful, quantum-inspired element to personal growth and self-reflection.</p>
 </section>
 <script>
-let currentSpeakingElement = null; // To keep track of the currently speaking element
-
-function speakFromElementToEnd(element) {
-    // If speech is currently active and the clicked element is the same, stop speaking
-    if (window.speechSynthesis.speaking && currentSpeakingElement === element) {
-        window.speechSynthesis.cancel();
-        currentSpeakingElement = null;
-    } else {
-        // If speech is active but a different element is clicked, stop the current speech
-        window.speechSynthesis.cancel();
-
-        // Update the tracking variable to the new element
-        currentSpeakingElement = element;
-
-        // Gather all text from the clicked element to the end of the document
-        let textToRead = '';
-        while (element) {
-            textToRead += element.textContent + " ";
-            element = element.nextElementSibling;
+function handleSpeech(element, isPause) {
+    if (isPause) {
+        // If speech synthesis is active, pause it
+        if (window.speechSynthesis.speaking) {
+            window.speechSynthesis.pause();
         }
-
-        // Start speaking the gathered text
-        let utterance = new SpeechSynthesisUtterance(textToRead.trim());
-        window.speechSynthesis.speak(utterance);
-
-        // When the speech ends, reset the tracking variable
-        utterance.onend = function() {
-            currentSpeakingElement = null;
-        };
+    } else {
+        // Resume or start reading from the clicked element to the end of the page
+        if (window.speechSynthesis.paused) {
+            window.speechSynthesis.resume();
+        } else {
+            window.speechSynthesis.cancel(); // Cancel any ongoing speech
+            let textToRead = '';
+            // Collect text from this element to the end of the document
+            while (element) {
+                textToRead += element.textContent + " ";
+                element = element.nextElementSibling;
+            }
+            let utterance = new SpeechSynthesisUtterance(textToRead.trim());
+            window.speechSynthesis.speak(utterance);
+        }
     }
 }
 
-document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(element => {
+// Attach click event listener to <p> tags for pausing
+document.querySelectorAll('p').forEach(p => {
+    p.addEventListener('click', function() {
+        handleSpeech(this, true); // Pass true to indicate pause
+    });
+});
+
+// Attach click event listener to <h> tags and bold text for starting/resuming
+document.querySelectorAll('h1, h2, h3, h4, h5, h6, b, strong').forEach(element => {
     element.addEventListener('click', function() {
-        speakFromElementToEnd(this); // Start/stop reading from the clicked element
+        handleSpeech(this, false); // Pass false to indicate start/resume
     });
 });
 </script>
