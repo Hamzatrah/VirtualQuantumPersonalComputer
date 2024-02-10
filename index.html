@@ -10734,41 +10734,41 @@ please hurry i am outside and it is very cold
     <p>Independent of an observer's personal astrological data, the qutrit die is metaphorically 'blown' to collapse their astrological potential into one of these states. This act of collapsing mimics the quantum decision-making process, providing insights and guidance aligned with one of the three overarching themes of the Zodiac's narrative arc. This framework not only simplifies the complexity of astrological interpretations but also introduces a playful, quantum-inspired element to personal growth and self-reflection.</p>
 </section>
 <script>
-function handleSpeech(element, isPause) {
-    if (isPause) {
-        // If speech synthesis is active, pause it
-        if (window.speechSynthesis.speaking) {
-            window.speechSynthesis.pause();
-        }
-    } else {
-        // Resume or start reading from the clicked element to the end of the page
-        if (window.speechSynthesis.paused) {
-            window.speechSynthesis.resume();
-        } else {
-            window.speechSynthesis.cancel(); // Cancel any ongoing speech
-            let textToRead = '';
-            // Collect text from this element to the end of the document
-            while (element) {
-                textToRead += element.textContent + " ";
-                element = element.nextElementSibling;
-            }
-            let utterance = new SpeechSynthesisUtterance(textToRead.trim());
-            window.speechSynthesis.speak(utterance);
-        }
+function startReadingFromElement(element) {
+    window.speechSynthesis.cancel(); // Stop any current speech synthesis
+
+    // Initialize the text to read as empty
+    let textToRead = '';
+
+    // Start collecting text from the clicked element and all subsequent elements
+    do {
+        textToRead += ' ' + element.textContent;
+        element = element.nextElementSibling || element.parentNode.nextElementSibling;
+    } while(element); // Continue until there are no more elements
+
+    // Create a new speech synthesis utterance and start speaking
+    let utterance = new SpeechSynthesisUtterance(textToRead.trim());
+    window.speechSynthesis.speak(utterance);
+}
+
+function pauseSpeech() {
+    if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.pause(); // Pause the speech synthesis
     }
 }
 
-// Attach click event listener to <p> tags for pausing
+// Attach the click event listener to <p> tags for pausing
 document.querySelectorAll('p').forEach(p => {
-    p.addEventListener('click', function() {
-        handleSpeech(this, true); // Pass true to indicate pause
+    p.addEventListener('click', function(event) {
+        event.stopPropagation(); // Prevent triggering pause when clicking on child elements of <p>
+        pauseSpeech(); // Pause speech when <p> is clicked
     });
 });
 
-// Attach click event listener to <h> tags and bold text for starting/resuming
+// Attach click event listener to <h> tags and bold text for starting reading
 document.querySelectorAll('h1, h2, h3, h4, h5, h6, b, strong').forEach(element => {
     element.addEventListener('click', function() {
-        handleSpeech(this, false); // Pass false to indicate start/resume
+        startReadingFromElement(this); // Start reading from the clicked element
     });
 });
 </script>
