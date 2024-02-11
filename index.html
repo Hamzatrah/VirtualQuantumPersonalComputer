@@ -10542,21 +10542,33 @@ please hurry i am outside and it is very cold
     <p>Through the lens of Bridge Scale Theory, a rubberband twisted into infinity becomes more than a symbol; it is a philosophical and scientific exploration of reality's fabric. It invites us to find infinity within the confines of the finite, to see the universe's vast complexities in its simplest elements, and to recognize that the potential for boundlessness exists within every loop of existence. In this way, we are encouraged to perceive the world and beyond as an interconnected continuum, where every end is a new beginning, and the journey between zero and infinity is but a twist away.</p>
 </section>
 <script>
+let currentIndex = 0; // Track the current index of elements being spoken
+let elementsToSpeak = []; // Array to hold elements to speak
+
+function speakNext() {
+    if (currentIndex < elementsToSpeak.length) {
+        let text = elementsToSpeak[currentIndex].textContent;
+        let utterance = new SpeechSynthesisUtterance(text);
+        utterance.onend = function() {
+            currentIndex++; // Move to the next element
+            speakNext(); // Speak the next chunk
+        };
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
 function startReadingFromElement(element) {
     window.speechSynthesis.cancel(); // Stop any current speech synthesis
+    elementsToSpeak = []; // Reset the array
+    currentIndex = 0; // Reset the current index
 
-    // Initialize the text to read as empty
-    let textToRead = '';
-
-    // Start collecting text from the clicked element and all subsequent elements
+    // Populate the elementsToSpeak array with all subsequent elements
     do {
-        textToRead += ' ' + element.textContent;
+        elementsToSpeak.push(element);
         element = element.nextElementSibling || element.parentNode.nextElementSibling;
     } while(element); // Continue until there are no more elements
 
-    // Create a new speech synthesis utterance and start speaking
-    let utterance = new SpeechSynthesisUtterance(textToRead.trim());
-    window.speechSynthesis.speak(utterance);
+    speakNext(); // Start speaking from the first element
 }
 
 function pauseSpeech() {
@@ -10565,7 +10577,6 @@ function pauseSpeech() {
     }
 }
 
-// Attach the click event listener to <p> tags for pausing
 document.querySelectorAll('p').forEach(p => {
     p.addEventListener('click', function(event) {
         event.stopPropagation(); // Prevent triggering pause when clicking on child elements of <p>
@@ -10573,13 +10584,12 @@ document.querySelectorAll('p').forEach(p => {
     });
 });
 
-// Attach click event listener to <h> tags and bold text for starting reading
 document.querySelectorAll('h1, h2, h3, h4, h5, h6, b, strong').forEach(element => {
     element.addEventListener('click', function() {
         startReadingFromElement(this); // Start reading from the clicked element
     });
 });
-</script> 
+</script>
     <script>
         let scrollInterval;
         let restartTimer;
