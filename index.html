@@ -180,6 +180,16 @@ p {
 <!here for zoom>
 </head>
 <body>
+    <button onclick="scrollToBottom()">Scroll to Bottom</button>
+
+<script>
+function scrollToBottom() {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth' // Change to 'instant' for non-smooth scrolling
+    });
+}
+</script>
     <div class="content-container">
     <div id="image-container">
         <img src="https://hamzat.xyz/IMG_5162.jpeg" alt="3 Sided Coin, Marble, 2015">
