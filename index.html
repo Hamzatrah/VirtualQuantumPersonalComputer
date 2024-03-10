@@ -11211,54 +11211,6 @@ please hurry i am outside and it is very cold
     <h3>Conclusion: A Bridge Scale Interpretation</h3>
     <p>Thus, stating that "one hundred is equal to infinity" or "any number is equal to infinity" within the Bridge Scale framework is not a literal numerical assertion but a conceptual one, aimed at highlighting the qualitative shift in perspective when transitioning from the finite to the infinite. It underscores the theory's foundational principle that at the grandest scale, all finite distinctions converge into the infinite.</p>
 </section>
-<script>
-let currentIndex = 0; // Track the current index of elements being spoken
-let elementsToSpeak = []; // Array to hold elements to speak
-
-function speakNext() {
-    if (currentIndex < elementsToSpeak.length) {
-        let text = elementsToSpeak[currentIndex].textContent;
-        let utterance = new SpeechSynthesisUtterance(text);
-        utterance.onend = function() {
-            currentIndex++; // Move to the next element
-            speakNext(); // Speak the next chunk
-        };
-        window.speechSynthesis.speak(utterance);
-    }
-}
-
-function startReadingFromElement(element) {
-    window.speechSynthesis.cancel(); // Stop any current speech synthesis
-    elementsToSpeak = []; // Reset the array
-    currentIndex = 0; // Reset the current index
-
-    // Populate the elementsToSpeak array with all subsequent elements
-    do {
-        elementsToSpeak.push(element);
-        element = element.nextElementSibling || element.parentNode.nextElementSibling;
-    } while(element); // Continue until there are no more elements
-
-    speakNext(); // Start speaking from the first element
-}
-
-function pauseSpeech() {
-    if (window.speechSynthesis.speaking) {
-        window.speechSynthesis.pause(); // Pause the speech synthesis
-    }
-}
-
-document.querySelectorAll('p').forEach(p => {
-    p.addEventListener('click', function(event) {
-        event.stopPropagation(); // Prevent triggering pause when clicking on child elements of <p>
-        pauseSpeech(); // Pause speech when <p> is clicked
-    });
-});
-
-document.querySelectorAll('h1, h2, h3, h4, h5, h6, b, strong').forEach(element => {
-    element.addEventListener('click', function() {
-        startReadingFromElement(this); // Start reading from the clicked element
-    });
-});
 <h3>Plant Wire: The Vascular System Expanded</h3>
 <ul>
     <li>Recent advancements in Bridge Scale Technologies have enabled the plant's vascular system to not only transport water and nutrients but also conduct electrical currents, opening new frontiers in plant-based energy systems.</li>
@@ -11816,8 +11768,54 @@ document.querySelectorAll('h1, h2, h3, h4, h5, h6, b, strong').forEach(element =
 
 😀
 
-</script>
-    <script>
+<script>
+let currentIndex = 0; // Track the current index of elements being spoken
+let elementsToSpeak = []; // Array to hold elements to speak
+
+function speakNext() {
+    if (currentIndex < elementsToSpeak.length) {
+        let text = elementsToSpeak[currentIndex].textContent;
+        let utterance = new SpeechSynthesisUtterance(text);
+        utterance.onend = function() {
+            currentIndex++; // Move to the next element
+            speakNext(); // Speak the next chunk
+        };
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
+function startReadingFromElement(element) {
+    window.speechSynthesis.cancel(); // Stop any current speech synthesis
+    elementsToSpeak = []; // Reset the array
+    currentIndex = 0; // Reset the current index
+
+    // Populate the elementsToSpeak array with all subsequent elements
+    do {
+        elementsToSpeak.push(element);
+        element = element.nextElementSibling || element.parentNode.nextElementSibling;
+    } while(element); // Continue until there are no more elements
+
+    speakNext(); // Start speaking from the first element
+}
+
+function pauseSpeech() {
+    if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.pause(); // Pause the speech synthesis
+    }
+}
+
+document.querySelectorAll('p').forEach(p => {
+    p.addEventListener('click', function(event) {
+        event.stopPropagation(); // Prevent triggering pause when clicking on child elements of <p>
+        pauseSpeech(); // Pause speech when <p> is clicked
+    });
+});
+
+document.querySelectorAll('h1, h2, h3, h4, h5, h6, b, strong').forEach(element => {
+    element.addEventListener('click', function() {
+        startReadingFromElement(this); // Start reading from the clicked element
+    });
+}); // Pasted here
         let scrollInterval;
         let restartTimer;
         const scrollSpeed = 40;  // Speed of the scroll (lower is faster)
