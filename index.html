@@ -13817,8 +13817,8 @@ document.querySelectorAll('h1, h2, h3, h4, h5, h6, b, strong').forEach(element =
 }); // Pasted here
         let scrollInterval;
         let restartTimer;
-        const scrollSpeed = 40;  // Speed of the scroll (lower is faster)
-        const restartDelay = 240000;  // Time before the scroll restarts (in milliseconds)
+        const scrollSpeed = 100;  // Speed of the scroll (lower is faster)
+        const restartDelay = 24000000000;  // Time before the scroll restarts (in milliseconds)
 
         function startScrolling() {
             scrollInterval = setInterval(() => window.scrollBy(0, 1), scrollSpeed);
@@ -13831,7 +13831,7 @@ document.querySelectorAll('h1, h2, h3, h4, h5, h6, b, strong').forEach(element =
         }
 
         // Initial start
-        startScrolling();
+// startScrolling();>
 
         // Event listeners to stop and restart scrolling on click or touch
         document.addEventListener('click', stopAndRestartScrolling);
